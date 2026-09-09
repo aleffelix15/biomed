@@ -1,14 +1,15 @@
 // Design tokens — cor, tipografia e espaçamento do BioStudy.
 // Alterar aqui reflete em todo o app: é a fonte única de verdade visual.
 export const theme = {
-  bg: "#071A1D",
-  surface: "#0E2A2F",
-  card: "#12343A",
-  primary: "#2DD4BF",
-  secondary: "#14B8A6",
-  text: "#F4FDFC",
-  textSecondary: "#9CC7C4",
-  line: "#12343A", // updated to match dark theme border subtle
+  bg: "#050807",
+  surface: "#0B1512",
+  card: "#0D1B17",
+  primary: "#00E676",
+  secondary: "#00C853",
+  accent: "#39FF88",
+  text: "#F2F7F4",
+  textSecondary: "#9AAEA5",
+  line: "#173229",
   danger: "#F43F5E",
 };
 

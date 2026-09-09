@@ -164,6 +164,150 @@ export async function fetchTopicsByDiscipline(discipline) {
   }));
 }
 
+// NOVO MOTOR DE CONTEÚDO
+export async function getOrCreateStudyPlan(userId, topicId) {
+  if (!supabase) return null;
+
+  // Tenta buscar o plano existente
+  let { data: plan } = await supabase
+    .from('study_plans')
+    .select('*')
+    .eq('user_id', userId)
+    .eq('topic_id', topicId)
+    .single();
+
+  if (!plan) {
+    // Cria um novo plano
+    const { data: newPlan, error } = await supabase
+      .from('study_plans')
+      .insert({
+        user_id: userId,
+        topic_id: topicId,
+        status: 'in_progress',
+        percent_complete: 0
+      })
+      .select()
+      .single();
+    
+    if (error) console.error("Error creating study plan:", error);
+    plan = newPlan;
+  }
+
+  return plan;
+}
+
+export async function fetchModulesAndLessons(topicId, userId) {
+  if (!supabase) return [];
+
+  // Puxar módulos
+  const { data: modulesData, error: modErr } = await supabase
+    .from('modules')
+    .select('*')
+    .eq('topic_id', topicId)
+    .order('order_index', { ascending: true });
+
+  if (modErr || !modulesData) return [];
+
+  // Puxar aulas desses módulos
+  const moduleIds = modulesData.map(m => m.id);
+  const { data: lessonsData, error: lessErr } = await supabase
+    .from('lessons')
+    .select('id, module_id, title, estimated_minutes, difficulty, order_index')
+    .in('module_id', moduleIds)
+    .order('order_index', { ascending: true });
+
+  if (lessErr || !lessonsData) return [];
+
+  // Puxar progresso do usuário para essas aulas
+  const { data: progressData } = await supabase
+    .from('lesson_progress')
+    .select('lesson_id, completed')
+    .eq('user_id', userId)
+    .in('lesson_id', lessonsData.map(l => l.id));
+
+  // Montar árvore
+  return modulesData.map(m => {
+    const mLessons = lessonsData.filter(l => l.module_id === m.id).map(l => {
+      const prog = progressData?.find(p => p.lesson_id === l.id);
+      return { ...l, completed: prog?.completed || false };
+    });
+    return { ...m, lessons: mLessons };
+  });
+}
+
+export async function fetchLesson(lessonId) {
+  if (!supabase) return null;
+  const { data, error } = await supabase
+    .from('lessons')
+    .select('*')
+    .eq('id', lessonId)
+    .single();
+
+  if (error) console.error("Error fetching lesson", error);
+  return data;
+}
+
+export async function completeLesson(userId, lessonId, topicId) {
+  if (!supabase) return;
+
+  // 1. Marca aula como concluída
+  await supabase
+    .from('lesson_progress')
+    .upsert({
+      user_id: userId,
+      lesson_id: lessonId,
+      completed: true,
+      completed_at: new Date().toISOString()
+    });
+
+  // 2. Atualiza plano de estudos (percentual)
+  // Busca todas as aulas do topicId para calcular porcentagem
+  const { data: modulesData } = await supabase.from('modules').select('id').eq('topic_id', topicId);
+  const moduleIds = modulesData?.map(m => m.id) || [];
+  
+  if (moduleIds.length > 0) {
+    const { count: totalLessons } = await supabase.from('lessons').select('*', { count: 'exact', head: true }).in('module_id', moduleIds);
+    
+    // Buscar quais dessas o usuário completou
+    const { data: allLessons } = await supabase.from('lessons').select('id').in('module_id', moduleIds);
+    const lessonIds = allLessons?.map(l => l.id) || [];
+    const { count: completedLessons } = await supabase.from('lesson_progress').select('*', { count: 'exact', head: true }).eq('user_id', userId).eq('completed', true).in('lesson_id', lessonIds);
+
+    const percent = totalLessons ? Math.round((completedLessons / totalLessons) * 100) : 0;
+
+    await supabase
+      .from('study_plans')
+      .update({ percent_complete: percent, last_lesson_id: lessonId, updated_at: new Date().toISOString() })
+      .eq('user_id', userId)
+      .eq('topic_id', topicId);
+  }
+}
+
+export async function fetchLessonQuiz(lessonId) {
+  if (!supabase) return [];
+  const { data, error } = await supabase
+    .from('questions')
+    .select('*')
+    .eq('lesson_id', lessonId);
+  
+  if (error) console.error("Error fetching lesson quiz", error);
+  return data || [];
+}
+
+export async function fetchTopicSimulado(topicId) {
+  if (!supabase) return [];
+  // Simulados são questões ligadas ao tópico mas NÃO a uma aula específica
+  const { data, error } = await supabase
+    .from('questions')
+    .select('*')
+    .eq('topic_id', topicId)
+    .is('lesson_id', null);
+  
+  if (error) console.error("Error fetching topic simulado", error);
+  return data || [];
+}
+
+
 export async function getUserProfile(userId) {
   if (!supabase) return null;
   const { data, error } = await supabase

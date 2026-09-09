@@ -13,6 +13,7 @@ import BookCard from "../../../components/domain/BookCard";
 import { ChevronLeft, Library, X, Play, CheckCircle, Circle } from "lucide-react";
 import { resolveIcon } from "../../../utils/iconResolver";
 import StudyTimer from "../../../components/domain/StudyTimer";
+import StudyPlanScreen from "../../StudyPlan/StudyPlanScreen";
 
 const STATUS_LABEL = { concluido: "Concluído", "em-andamento": "Em andamento", pendente: "Pendente" };
 const STATUS_TONE = { concluido: "teal", "em-andamento": "amber", pendente: "neutral" };
@@ -72,23 +73,7 @@ export default function DisciplineDetailScreen({ discipline, onBack }) {
   const Icon = resolveIcon(discipline.icon);
 
   if (selectedTopic) {
-    const rawContent = fetchTopicContent(discipline.id, selectedTopic.id);
-    const htmlContent = rawContent ? marked.parse(rawContent) : "<p>Conteúdo não encontrado.</p>";
-    return (
-      <div style={{ position: "absolute", inset: 0, background: theme.bg, zIndex: 30, overflowY: "auto" }} className="bs-scroll">
-        <div style={{ padding: "20px 16px 40px" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
-            <h1 className="bs-display" style={{ fontSize: 20, fontWeight: 700, color: theme.text, margin: 0, flex: 1 }}>{selectedTopic.title}</h1>
-            <button onClick={() => setSelectedTopic(null)} style={{ width: 34, height: 34, borderRadius: 10, border: `1px solid ${theme.line}`, background: theme.surface, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", flexShrink: 0, marginLeft: 12 }}>
-              <X size={16} color={theme.textSecondary} />
-            </button>
-          </div>
-          <Card padding={20} style={{ color: theme.text, fontSize: 15, lineHeight: 1.6 }}>
-            <div className="markdown-content" dangerouslySetInnerHTML={{ __html: htmlContent }} />
-          </Card>
-        </div>
-      </div>
-    );
+    return <StudyPlanScreen topic={selectedTopic} discipline={discipline} onBack={() => setSelectedTopic(null)} />;
   }
 
   return (
