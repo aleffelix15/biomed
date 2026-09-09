@@ -139,3 +139,4 @@ Campos usados para usuários Google:
 - `full_name` — vem de `user_metadata.full_name` ou `user_metadata.name`
 - `avatar_url` — vem de `user_metadata.avatar_url` ou `user_metadata.picture`
 - `email` — vem de `user.email`
+
