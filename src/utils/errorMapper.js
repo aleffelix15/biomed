@@ -29,6 +29,6 @@ export function mapAuthError(error) {
     return "Não foi possível entrar com o Google. Tente novamente.";
   }
 
-  return "Não foi possível realizar a operação. Tente novamente.";
+  return "Não foi possível realizar a operação. Erro: " + (error.message || JSON.stringify(error));
 }
 

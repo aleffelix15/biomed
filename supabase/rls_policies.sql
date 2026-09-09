@@ -40,6 +40,10 @@ CREATE POLICY "Questions are viewable by authenticated users" ON questions
 -- Profiles
 CREATE POLICY "Users can view own profile" ON profiles FOR SELECT TO authenticated USING (auth.uid() = id);
 CREATE POLICY "Users can update own profile" ON profiles FOR UPDATE TO authenticated USING (auth.uid() = id);
+-- Necessária como rede de segurança para o fallback manual em
+-- ensureUserProfile() (services/supabaseService.js), usado quando o
+-- trigger handle_new_user (migration_v1.sql) ainda não criou o profile.
+CREATE POLICY "Users can insert own profile" ON profiles FOR INSERT TO authenticated WITH CHECK (auth.uid() = id);
 
 -- User Progress
 CREATE POLICY "Users can view own progress" ON user_progress FOR SELECT TO authenticated USING (auth.uid() = user_id);

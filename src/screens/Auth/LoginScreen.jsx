@@ -24,6 +24,7 @@ export default function LoginScreen() {
   const [period, setPeriod] = useState('');
   const [isSignUp, setIsSignUp] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+  const [infoMsg, setInfoMsg] = useState('');
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
 
@@ -36,19 +37,40 @@ export default function LoginScreen() {
 
     setLoading(true);
     setErrorMsg('');
+    setInfoMsg('');
     try {
       if (isSignUp) {
         if (!name || !course || !period) {
           throw new Error('Por favor, preencha todos os campos.');
         }
-        const { data: authData, error: authError } = await supabase.auth.signUp({ email, password });
+        // Envia nome/curso/período como metadata do Auth: o trigger do banco
+        // (handle_new_user) usa isso para criar o profile automaticamente,
+        // mesmo que a confirmação de e-mail esteja pendente (sem sessão ativa).
+        const { data: authData, error: authError } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            data: { full_name: name, course, period },
+          },
+        });
         if (authError) throw authError;
 
+        if (!authData?.session) {
+          // Confirmação de e-mail está ativa no projeto Supabase: não há
+          // sessão ainda, então não dá (e não devemos tentar) gravar no
+          // banco agora - isso violaria a RLS (auth.uid() é nulo aqui).
+          setInfoMsg('Conta criada! Verifique seu e-mail para confirmar o cadastro antes de entrar.');
+          setLoading(false);
+          return;
+        }
+
         if (authData?.user) {
+          // Sessão já ativa (confirmação de e-mail desligada no projeto):
+          // o profile já existe (criado pelo trigger), então apenas
+          // atualizamos curso/período.
           await updateUserProfile(authData.user.id, {
-            full_name: name,
-            course: course,
-            period: period,
+            course,
+            period,
           });
         }
       } else {
@@ -196,6 +218,11 @@ export default function LoginScreen() {
             {errorMsg}
           </div>
         )}
+        {infoMsg && (
+          <div style={{ color: theme.primary, fontSize: 13, padding: '8px 12px', background: `${theme.primary}18`, borderRadius: 8 }}>
+            {infoMsg}
+          </div>
+        )}
 
         <button
           type="submit"
@@ -271,7 +298,7 @@ export default function LoginScreen() {
           {isSignUp ? 'Já possui uma conta?' : 'Não possui uma conta?'}{' '}
           <button
             type="button"
-            onClick={() => { setIsSignUp(!isSignUp); setErrorMsg(''); }}
+            onClick={() => { setIsSignUp(!isSignUp); setErrorMsg(''); setInfoMsg(''); }}
             style={{ background: 'none', border: 'none', color: theme.primary, cursor: 'pointer', fontWeight: 600, fontSize: 13, padding: 0 }}
           >
             {isSignUp ? 'Entrar' : 'Criar conta'}

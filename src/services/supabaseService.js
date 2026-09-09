@@ -32,14 +32,6 @@ export async function toggleTopicCompletion(userId, topicId, disciplineId) {
     .select('id')
     .eq('discipline_id', disciplineId);
 
-  const { data: completedTopics } = await supabase
-    .from('topic_progress')
-    .select('id')
-    .eq('user_id', userId)
-    .eq('topic_id', `some_filter_logic_here`) // wait, I should just filter the results
-    .eq('completed', true);
-
-  // Better way: just count
   const { count: totalCount } = await supabase
     .from('topics')
     .select('*', { count: 'exact', head: true })
@@ -171,9 +163,16 @@ export async function getUserProfile(userId) {
 
 export async function updateUserProfile(userId, profileData) {
   if (!supabase) return null;
+  // Usa update() e não upsert(): o profile já existe nesse ponto (criado
+  // pelo trigger handle_new_user no momento do signUp). upsert() dispara
+  // um INSERT com ON CONFLICT, que exige uma policy de INSERT na tabela
+  // profiles - policy que não existe em supabase/rls_policies.sql (só há
+  // policies de SELECT/UPDATE), então falhava com "new row violates
+  // row-level security policy".
   const { data, error } = await supabase
     .from('profiles')
-    .upsert({ id: userId, ...profileData })
+    .update(profileData)
+    .eq('id', userId)
     .select()
     .single();
 

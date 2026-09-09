@@ -183,12 +183,22 @@ CREATE TABLE IF NOT EXISTS study_streaks (
 
 -- 5. AUTOMATION (Triggers)
 
--- Automatically create a profile when a new user signs up
+-- Automatically create a profile when a new user signs up.
+-- Runs as SECURITY DEFINER (bypasses RLS), so it works even when the
+-- client has no active session yet (e.g. e-mail confirmation pending).
+-- Reads full_name/course/period from the signUp() options.data metadata.
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS trigger AS $$
 BEGIN
-  INSERT INTO public.profiles (id, full_name, email, avatar_url)
-  VALUES (new.id, new.raw_user_meta_data->>'full_name', new.email, new.raw_user_meta_data->>'avatar_url');
+  INSERT INTO public.profiles (id, full_name, email, avatar_url, course, period)
+  VALUES (
+    new.id,
+    new.raw_user_meta_data->>'full_name',
+    new.email,
+    new.raw_user_meta_data->>'avatar_url',
+    new.raw_user_meta_data->>'course',
+    new.raw_user_meta_data->>'period'
+  );
   RETURN new;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
