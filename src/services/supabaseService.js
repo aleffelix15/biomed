@@ -55,6 +55,36 @@ export async function fetchTopicsByDiscipline(discipline) {
   }));
 }
 
+export async function getUserProfile(userId) {
+  if (!supabase) return null;
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('*')
+    .eq('id', userId)
+    .single();
+
+  if (error) {
+    console.error('Error fetching user profile:', error);
+    return null;
+  }
+  return data;
+}
+
+export async function updateUserProfile(userId, profileData) {
+  if (!supabase) return null;
+  const { data, error } = await supabase
+    .from('profiles')
+    .upsert({ id: userId, ...profileData })
+    .select()
+    .single();
+
+  if (error) {
+    console.error('Error updating user profile:', error);
+    throw error;
+  }
+  return data;
+}
+
 export async function fetchUserProgress(disciplineId) {
   if (!supabase) return null;
   const { data: { session } } = await supabase.auth.getSession();

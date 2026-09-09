@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { theme } from "../../theme/tokens";
 import { fetchDisciplines } from "../../services/supabaseService";
 import { STUDY_MODES } from "../../data/mock/studyModes";
-import { USER, UPCOMING_EXAMS, REVIEWS } from "../../data/mock/progress";
+import { UPCOMING_EXAMS, REVIEWS } from "../../data/mock/progress";
+import { useAuth } from "../../state/AuthContext";
 import Card from "../../components/ui/Card";
 import ProgressBar from "../../components/ui/ProgressBar";
 import SectionHeader from "../../components/ui/SectionHeader";
@@ -12,6 +13,7 @@ import { resolveIcon } from "../../utils/iconResolver";
 
 export default function HomeScreen({ onOpenDiscipline, onOpenProgress, onGoTab }) {
   const [disciplines, setDisciplines] = useState([]);
+  const { user, profile } = useAuth();
 
   useEffect(() => {
     fetchDisciplines().then(setDisciplines);
@@ -21,12 +23,14 @@ export default function HomeScreen({ onOpenDiscipline, onOpenProgress, onGoTab }
   const next = disciplines.filter((d) => d.progress === 0).slice(0, 2);
   const overall = disciplines.length ? Math.round(disciplines.reduce((s, d) => s + d.progress, 0) / disciplines.length) : 0;
 
+  const userName = profile?.full_name || user?.email?.split('@')[0] || 'Estudante';
+
   return (
     <div style={{ padding: "20px 16px 90px" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
         <div>
-          <div style={{ fontSize: 13, color: theme.textSecondary }}>Boa noite,</div>
-          <h1 className="bs-display" style={{ fontSize: 24, fontWeight: 700, color: theme.text, margin: "2px 0 0" }}>{USER.name}</h1>
+          <div style={{ fontSize: 13, color: theme.textSecondary }}>Olá,</div>
+          <h1 className="bs-display" style={{ fontSize: 24, fontWeight: 700, color: theme.text, margin: "2px 0 0" }}>{userName}! 👋</h1>
         </div>
         <button onClick={onOpenProgress} style={{ width: 40, height: 40, borderRadius: 12, background: theme.surface, border: `1px solid ${theme.line}`, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
           <TrendingUp size={18} color={theme.primary} />
@@ -41,14 +45,14 @@ export default function HomeScreen({ onOpenDiscipline, onOpenProgress, onGoTab }
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 6, background: "rgba(255,255,255,0.05)", padding: "6px 10px", borderRadius: 999 }}>
             <Flame size={14} color="#F3C77A" />
-            <span style={{ color: theme.text, fontSize: 13, fontWeight: 600 }}>{USER.streak} dias</span>
+            <span style={{ color: theme.text, fontSize: 13, fontWeight: 600 }}>{profile?.streak || 0} dias</span>
           </div>
         </div>
         <div style={{ marginTop: 14 }}>
           <ProgressBar value={overall} tint="#F3C77A" track="rgba(255,255,255,0.15)" />
         </div>
         <div style={{ fontSize: 12, color: theme.textSecondary, marginTop: 8 }}>
-          Meta semanal: {USER.weeklyDone} de {USER.weeklyGoal} horas estudadas
+          Meta semanal: {profile?.weeklyDone || 0} de {profile?.weeklyGoal || 10} horas estudadas
         </div>
       </Card>
 

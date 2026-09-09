@@ -2,7 +2,7 @@ import React from "react";
 import GlobalStyles from "../theme/GlobalStyles";
 import { theme } from "../theme/tokens";
 import { useAppNavigation } from "../state/useAppNavigation";
-import { useAuth } from "../state/useAuth";
+import { AuthProvider, useAuth } from "../state/AuthContext";
 
 import BottomTabBar from "./navigation/BottomTabBar";
 import HomeScreen from "../screens/Home/HomeScreen";
@@ -15,8 +15,17 @@ import ProgressOverlay from "../screens/Progress/ProgressOverlay";
 import LoginScreen from "../screens/Auth/LoginScreen";
 
 export default function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
+  );
+}
+
+function AppContent() {
   const nav = useAppNavigation();
   const { user, loading, isOfflineMode } = useAuth();
+
 
   let content;
   if (nav.selectedDiscipline) {
@@ -39,12 +48,12 @@ export default function App() {
       <div style={{ position: "relative", width: 390, height: 780, background: theme.bg, borderRadius: 28, overflow: "hidden", boxShadow: "0 20px 50px rgba(0,0,0,0.5)", border: `1px solid ${theme.line}` }}>
         {loading ? (
            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", color: theme.textSecondary }}>Carregando...</div>
-        ) : !user && !isOfflineMode ? (
+        ) : !user ? (
            <LoginScreen />
         ) : (
           <>
             <div className="bs-scroll" style={{ height: "100%", overflowY: "auto" }}>
-              {isOfflineMode && !user && (
+              {isOfflineMode && (
                 <div style={{ background: theme.surface, color: theme.textSecondary, fontSize: 11, textAlign: "center", padding: "4px 0", borderBottom: `1px solid ${theme.line}` }}>Modo offline/demo</div>
               )}
               {content}
