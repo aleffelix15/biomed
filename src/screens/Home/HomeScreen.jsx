@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { theme } from "../../theme/tokens";
-import { fetchDisciplines } from "../../services/supabaseService";
+import { fetchDisciplinesWithProgress, fetchGlobalStats } from "../../services/supabaseService";
 import { STUDY_MODES } from "../../data/mock/studyModes";
 import { UPCOMING_EXAMS, REVIEWS } from "../../data/mock/progress";
 import { useAuth } from "../../state/AuthContext";
@@ -13,11 +13,15 @@ import { resolveIcon } from "../../utils/iconResolver";
 
 export default function HomeScreen({ onOpenDiscipline, onOpenProgress, onGoTab }) {
   const [disciplines, setDisciplines] = useState([]);
+  const [stats, setStats] = useState(null);
   const { user, profile } = useAuth();
 
   useEffect(() => {
-    fetchDisciplines().then(setDisciplines);
-  }, []);
+    if (user) {
+      fetchDisciplinesWithProgress(user.id).then(setDisciplines);
+      fetchGlobalStats(user.id).then(setStats);
+    }
+  }, [user]);
 
   const recent = [...disciplines].filter((d) => d.progress > 0).sort((a, b) => b.progress - a.progress).slice(0, 3);
   const next = disciplines.filter((d) => d.progress === 0).slice(0, 2);
@@ -45,7 +49,7 @@ export default function HomeScreen({ onOpenDiscipline, onOpenProgress, onGoTab }
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 6, background: "rgba(255,255,255,0.05)", padding: "6px 10px", borderRadius: 999 }}>
             <Flame size={14} color="#F3C77A" />
-            <span style={{ color: theme.text, fontSize: 13, fontWeight: 600 }}>{profile?.streak || 0} dias</span>
+            <span style={{ color: theme.text, fontSize: 13, fontWeight: 600 }}>{stats?.streak || 0} dias</span>
           </div>
         </div>
         <div style={{ marginTop: 14 }}>

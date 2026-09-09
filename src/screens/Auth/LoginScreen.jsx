@@ -4,6 +4,18 @@ import { supabase } from '../../services/supabaseClient';
 import { updateUserProfile } from '../../services/supabaseService';
 import { mapAuthError } from '../../utils/errorMapper';
 
+// Ícone SVG do Google (sem dependências externas)
+function GoogleIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z" fill="#4285F4"/>
+      <path d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 009 18z" fill="#34A853"/>
+      <path d="M3.964 10.71A5.41 5.41 0 013.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 000 9c0 1.452.348 2.827.957 4.042l3.007-2.332z" fill="#FBBC05"/>
+      <path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 00.957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z" fill="#EA4335"/>
+    </svg>
+  );
+}
+
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -13,6 +25,7 @@ export default function LoginScreen() {
   const [isSignUp, setIsSignUp] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -67,11 +80,70 @@ export default function LoginScreen() {
     }
   };
 
+  const handleGoogleLogin = async () => {
+    if (!supabase) {
+      setErrorMsg('O sistema está em modo demo. Por favor, configure as variáveis de ambiente do Supabase.');
+      return;
+    }
+
+    setGoogleLoading(true);
+    setErrorMsg('');
+    try {
+      // Determina o redirectTo baseado no ambiente
+      const siteUrl = import.meta.env.VITE_SITE_URL || window.location.origin;
+      const redirectTo = siteUrl.endsWith('/') ? siteUrl : `${siteUrl}/`;
+
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo,
+        },
+      });
+
+      if (error) throw error;
+      // O redirect acontece automaticamente; o loading permanece enquanto o usuário
+      // é redirecionado para o Google e depois de volta para o app.
+    } catch (err) {
+      setErrorMsg(mapAuthError(err));
+      setGoogleLoading(false);
+    }
+    // Não desativa googleLoading aqui pois ocorre um redirect de página
+  };
+
+  // Estilos reutilizados
+  const inputStyle = {
+    padding: 12,
+    borderRadius: 10,
+    border: `1px solid ${theme.line}`,
+    background: theme.surface,
+    color: theme.text,
+    fontSize: 14,
+    outline: 'none',
+    width: '100%',
+    boxSizing: 'border-box',
+  };
+
+  const dividerStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 10,
+    margin: '4px 0',
+    color: theme.textSecondary,
+    fontSize: 12,
+  };
+
   return (
-    <div style={{ padding: 24, minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: theme.bg }}>
-      <h1 style={{ color: theme.text, textAlign: 'center', marginBottom: 24 }}>BioStudy</h1>
-      
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+    <div style={{ padding: '32px 24px', minHeight: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: theme.bg }}>
+      {/* Cabeçalho */}
+      <div style={{ textAlign: 'center', marginBottom: 32 }}>
+        <h1 style={{ color: theme.primary, fontSize: 28, fontWeight: 800, margin: 0, letterSpacing: -0.5 }}>BioStudy</h1>
+        <p style={{ color: theme.textSecondary, fontSize: 13, margin: '8px 0 0' }}>
+          Seu futuro na Biomedicina começa aqui.
+        </p>
+      </div>
+
+      {/* Formulário e-mail/senha */}
+      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         {isSignUp && (
           <input
             type="text"
@@ -79,7 +151,7 @@ export default function LoginScreen() {
             value={name}
             onChange={e => setName(e.target.value)}
             required
-            style={{ padding: 12, borderRadius: 8, border: `1px solid ${theme.line}`, background: theme.surface, color: theme.text }}
+            style={inputStyle}
           />
         )}
         <input
@@ -88,7 +160,7 @@ export default function LoginScreen() {
           value={email}
           onChange={e => setEmail(e.target.value)}
           required
-          style={{ padding: 12, borderRadius: 8, border: `1px solid ${theme.line}`, background: theme.surface, color: theme.text }}
+          style={inputStyle}
         />
         <input
           type="password"
@@ -96,7 +168,7 @@ export default function LoginScreen() {
           value={password}
           onChange={e => setPassword(e.target.value)}
           required
-          style={{ padding: 12, borderRadius: 8, border: `1px solid ${theme.line}`, background: theme.surface, color: theme.text }}
+          style={inputStyle}
         />
         {isSignUp && (
           <>
@@ -106,7 +178,7 @@ export default function LoginScreen() {
               value={course}
               onChange={e => setCourse(e.target.value)}
               required
-              style={{ padding: 12, borderRadius: 8, border: `1px solid ${theme.line}`, background: theme.surface, color: theme.text }}
+              style={inputStyle}
             />
             <input
               type="text"
@@ -114,40 +186,97 @@ export default function LoginScreen() {
               value={period}
               onChange={e => setPeriod(e.target.value)}
               required
-              style={{ padding: 12, borderRadius: 8, border: `1px solid ${theme.line}`, background: theme.surface, color: theme.text }}
+              style={inputStyle}
             />
           </>
         )}
 
         {errorMsg && (
-          <div style={{ color: theme.danger, fontSize: 14 }}>{errorMsg}</div>
+          <div style={{ color: theme.danger, fontSize: 13, padding: '8px 12px', background: `${theme.danger}18`, borderRadius: 8 }}>
+            {errorMsg}
+          </div>
         )}
 
         <button
           type="submit"
-          disabled={loading}
-          style={{ padding: 14, borderRadius: 8, background: theme.primary, color: theme.bg, fontWeight: 'bold', border: 'none', cursor: 'pointer', opacity: loading ? 0.7 : 1 }}
+          disabled={loading || googleLoading}
+          style={{
+            padding: 14,
+            borderRadius: 10,
+            background: theme.primary,
+            color: theme.bg,
+            fontWeight: 700,
+            fontSize: 15,
+            border: 'none',
+            cursor: loading || googleLoading ? 'not-allowed' : 'pointer',
+            opacity: loading || googleLoading ? 0.7 : 1,
+            marginTop: 4,
+          }}
         >
           {loading ? 'Carregando...' : (isSignUp ? 'Criar Conta' : 'Entrar')}
         </button>
       </form>
 
-      <div style={{ marginTop: 16, display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'center' }}>
-        <button 
-          onClick={() => setIsSignUp(!isSignUp)}
-          style={{ background: 'none', border: 'none', color: theme.primary, cursor: 'pointer', textDecoration: 'underline' }}
-        >
-          {isSignUp ? 'Já tenho conta (Entrar)' : 'Criar conta'}
-        </button>
-        
+      {/* Divisor "OU" — só mostra na tela de login */}
+      {!isSignUp && (
+        <>
+          <div style={dividerStyle}>
+            <div style={{ flex: 1, height: 1, background: theme.line }} />
+            <span>OU</span>
+            <div style={{ flex: 1, height: 1, background: theme.line }} />
+          </div>
+
+          {/* Botão Google */}
+          <button
+            type="button"
+            onClick={handleGoogleLogin}
+            disabled={loading || googleLoading}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 10,
+              padding: 13,
+              borderRadius: 10,
+              background: theme.surface,
+              color: theme.text,
+              fontWeight: 600,
+              fontSize: 14,
+              border: `1px solid ${theme.line}`,
+              cursor: loading || googleLoading ? 'not-allowed' : 'pointer',
+              opacity: loading || googleLoading ? 0.7 : 1,
+              transition: 'opacity 0.2s',
+            }}
+          >
+            <GoogleIcon />
+            {googleLoading ? 'Conectando ao Google...' : 'Continuar com Google'}
+          </button>
+        </>
+      )}
+
+      {/* Links secundários */}
+      <div style={{ marginTop: 20, display: 'flex', flexDirection: 'column', gap: 10, alignItems: 'center' }}>
         {!isSignUp && (
-          <button 
+          <button
+            type="button"
             onClick={handleResetPassword}
-            style={{ background: 'none', border: 'none', color: theme.textSecondary, cursor: 'pointer' }}
+            disabled={loading || googleLoading}
+            style={{ background: 'none', border: 'none', color: theme.textSecondary, cursor: 'pointer', fontSize: 13 }}
           >
             Esqueci minha senha
           </button>
         )}
+
+        <div style={{ fontSize: 13, color: theme.textSecondary }}>
+          {isSignUp ? 'Já possui uma conta?' : 'Não possui uma conta?'}{' '}
+          <button
+            type="button"
+            onClick={() => { setIsSignUp(!isSignUp); setErrorMsg(''); }}
+            style={{ background: 'none', border: 'none', color: theme.primary, cursor: 'pointer', fontWeight: 600, fontSize: 13, padding: 0 }}
+          >
+            {isSignUp ? 'Entrar' : 'Criar conta'}
+          </button>
+        </div>
       </div>
     </div>
   );

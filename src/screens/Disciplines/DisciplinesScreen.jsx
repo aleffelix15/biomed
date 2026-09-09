@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useEffect } from "react";
 import { theme } from "../../theme/tokens";
-import { fetchDisciplines } from "../../services/supabaseService";
+import { fetchDisciplinesWithProgress } from "../../services/supabaseService";
+import { useAuth } from "../../state/AuthContext";
 import SectionHeader from "../../components/ui/SectionHeader";
 import EmptyState from "../../components/ui/EmptyState";
 import DisciplineCard from "../../components/domain/DisciplineCard";
@@ -9,10 +10,13 @@ import { Search } from "lucide-react";
 export default function DisciplinesScreen({ onOpenDiscipline }) {
   const [query, setQuery] = useState("");
   const [disciplines, setDisciplines] = useState([]);
+  const { user } = useAuth();
 
   useEffect(() => {
-    fetchDisciplines().then(setDisciplines);
-  }, []);
+    if (user) {
+      fetchDisciplinesWithProgress(user.id).then(setDisciplines);
+    }
+  }, [user]);
 
   const grouped = useMemo(() => {
     const filtered = disciplines.filter((d) => d.name.toLowerCase().includes(query.toLowerCase()));

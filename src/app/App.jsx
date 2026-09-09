@@ -11,6 +11,7 @@ import DisciplineDetailScreen from "../screens/Disciplines/DisciplineDetail/Disc
 import StudyScreen from "../screens/Study/StudyScreen";
 import LabScreen from "../screens/Lab/LabScreen";
 import LibraryScreen from "../screens/Library/LibraryScreen";
+import ProfileScreen from "../screens/Profile/ProfileScreen";
 import ProgressOverlay from "../screens/Progress/ProgressOverlay";
 import LoginScreen from "../screens/Auth/LoginScreen";
 
@@ -40,6 +41,8 @@ function AppContent() {
     content = <LabScreen />;
   } else if (nav.tab === "library") {
     content = <LibraryScreen />;
+  } else if (nav.tab === "profile") {
+    content = <ProfileScreen />;
   }
 
   return (
