@@ -45,6 +45,16 @@ CREATE TABLE IF NOT EXISTS disciplines (
     topics_count int
 );
 
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='disciplines' AND column_name='category') THEN
+        ALTER TABLE disciplines ADD COLUMN category text;
+    END IF;
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='disciplines' AND column_name='topics_count') THEN
+        ALTER TABLE disciplines ADD COLUMN topics_count int;
+    END IF;
+END $$;
+
 -- =============================================================
 -- Tópicos
 -- =============================================================
@@ -55,6 +65,16 @@ CREATE TABLE IF NOT EXISTS topics (
     status text,
     has_content boolean DEFAULT false
 );
+
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='topics' AND column_name='status') THEN
+        ALTER TABLE topics ADD COLUMN status text;
+    END IF;
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='topics' AND column_name='has_content') THEN
+        ALTER TABLE topics ADD COLUMN has_content boolean DEFAULT false;
+    END IF;
+END $$;
 
 -- =============================================================
 -- Livros
@@ -221,3 +241,21 @@ CREATE POLICY "Users can manage own attempts"
     ON question_attempts FOR ALL
     USING (auth.uid() = user_id);
 
+-- =============================================================
+-- Flashcards
+-- =============================================================
+CREATE TABLE IF NOT EXISTS flashcards (
+    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+    discipline_id text REFERENCES disciplines(id),
+    topic_id text REFERENCES topics(id),
+    question text NOT NULL,
+    answer text NOT NULL,
+    category text
+);
+
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='flashcards' AND column_name='category') THEN
+        ALTER TABLE flashcards ADD COLUMN category text;
+    END IF;
+END $$;
