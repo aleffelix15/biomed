@@ -22,14 +22,17 @@ CREATE TABLE IF NOT EXISTS profiles (
 -- Row Level Security: cada usuário só vê e edita o próprio perfil
 ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Users can view own profile" ON profiles;
 CREATE POLICY "Users can view own profile"
     ON profiles FOR SELECT
     USING (auth.uid() = id);
 
+DROP POLICY IF EXISTS "Users can insert own profile" ON profiles;
 CREATE POLICY "Users can insert own profile"
     ON profiles FOR INSERT
     WITH CHECK (auth.uid() = id);
 
+DROP POLICY IF EXISTS "Users can update own profile" ON profiles;
 CREATE POLICY "Users can update own profile"
     ON profiles FOR UPDATE
     USING (auth.uid() = id);
@@ -105,6 +108,7 @@ CREATE TABLE IF NOT EXISTS user_progress (
 
 ALTER TABLE user_progress ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Users can manage own progress" ON user_progress;
 CREATE POLICY "Users can manage own progress"
     ON user_progress FOR ALL
     USING (auth.uid() = user_id);
@@ -123,6 +127,7 @@ CREATE TABLE IF NOT EXISTS topic_progress (
 
 ALTER TABLE topic_progress ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Users can manage own topic progress" ON topic_progress;
 CREATE POLICY "Users can manage own topic progress"
     ON topic_progress FOR ALL
     USING (auth.uid() = user_id);
@@ -169,6 +174,7 @@ CREATE TABLE IF NOT EXISTS lesson_progress (
 
 ALTER TABLE lesson_progress ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Users can manage own lesson progress" ON lesson_progress;
 CREATE POLICY "Users can manage own lesson progress"
     ON lesson_progress FOR ALL
     USING (auth.uid() = user_id);
@@ -190,6 +196,7 @@ CREATE TABLE IF NOT EXISTS study_plans (
 
 ALTER TABLE study_plans ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Users can manage own study plans" ON study_plans;
 CREATE POLICY "Users can manage own study plans"
     ON study_plans FOR ALL
     USING (auth.uid() = user_id);
@@ -237,6 +244,7 @@ CREATE TABLE IF NOT EXISTS question_attempts (
 
 ALTER TABLE question_attempts ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Users can manage own attempts" ON question_attempts;
 CREATE POLICY "Users can manage own attempts"
     ON question_attempts FOR ALL
     USING (auth.uid() = user_id);
