@@ -1,21 +1,51 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { theme } from "../../../theme/tokens";
-import { TOPICS, genericTopics } from "../../../data/mock/topics";
-import { BOOKS } from "../../../data/mock/books";
+import { fetchTopicsByDiscipline, fetchBooksByDiscipline } from "../../../services/supabaseService";
+import { fetchTopicContent } from "../../../services/contentService";
+import { marked } from "marked";
 import Card from "../../../components/ui/Card";
 import ProgressBar from "../../../components/ui/ProgressBar";
 import SectionHeader from "../../../components/ui/SectionHeader";
 import Badge from "../../../components/ui/Badge";
 import EmptyState from "../../../components/ui/EmptyState";
 import BookCard from "../../../components/domain/BookCard";
-import { ChevronLeft, Library } from "lucide-react";
+import { ChevronLeft, Library, X } from "lucide-react";
+import { resolveIcon } from "../../../utils/iconResolver";
 
 const STATUS_LABEL = { concluido: "Concluído", "em-andamento": "Em andamento", pendente: "Pendente" };
 const STATUS_TONE = { concluido: "teal", "em-andamento": "amber", pendente: "neutral" };
 
 export default function DisciplineDetailScreen({ discipline, onBack }) {
-  const topics = TOPICS[discipline.id] || genericTopics(discipline.topicsCount);
-  const books = BOOKS.filter((b) => b.disciplineId === discipline.id);
+  const [topics, setTopics] = useState([]);
+  const [books, setBooks] = useState([]);
+  const [selectedTopic, setSelectedTopic] = useState(null);
+
+  useEffect(() => {
+    fetchTopicsByDiscipline(discipline).then(setTopics);
+    fetchBooksByDiscipline(discipline.id).then(setBooks);
+  }, [discipline]);
+  
+  const Icon = resolveIcon(discipline.icon);
+
+  if (selectedTopic) {
+    const rawContent = fetchTopicContent(discipline.id, selectedTopic.id);
+    const htmlContent = rawContent ? marked.parse(rawContent) : "<p>Conteúdo não encontrado.</p>";
+    return (
+      <div style={{ position: "absolute", inset: 0, background: theme.bg, zIndex: 30, overflowY: "auto" }} className="bs-scroll">
+        <div style={{ padding: "20px 16px 40px" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
+            <h1 className="bs-display" style={{ fontSize: 20, fontWeight: 700, color: theme.text, margin: 0, flex: 1 }}>{selectedTopic.title}</h1>
+            <button onClick={() => setSelectedTopic(null)} style={{ width: 34, height: 34, borderRadius: 10, border: `1px solid ${theme.line}`, background: theme.surface, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", flexShrink: 0, marginLeft: 12 }}>
+              <X size={16} color={theme.textSecondary} />
+            </button>
+          </div>
+          <Card padding={20} style={{ color: theme.text, fontSize: 15, lineHeight: 1.6 }}>
+            <div className="markdown-content" dangerouslySetInnerHTML={{ __html: htmlContent }} />
+          </Card>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div style={{ padding: "20px 16px 90px" }}>
@@ -25,7 +55,7 @@ export default function DisciplineDetailScreen({ discipline, onBack }) {
 
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
         <div style={{ width: 46, height: 46, borderRadius: 12, background: theme.surface, display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <discipline.icon size={22} color={theme.primary} />
+          <Icon size={22} color={theme.primary} />
         </div>
         <div>
           <h1 className="bs-display" style={{ fontSize: 20, fontWeight: 700, color: theme.text, margin: 0 }}>{discipline.name}</h1>
@@ -54,9 +84,17 @@ export default function DisciplineDetailScreen({ discipline, onBack }) {
         <SectionHeader title="Módulos" />
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
           {topics.map((t) => (
-            <Card key={t.id} padding={12}>
+            <Card 
+              key={t.id} 
+              padding={12} 
+              onClick={t.hasContent ? () => setSelectedTopic(t) : undefined}
+              style={{ cursor: t.hasContent ? "pointer" : "default" }}
+            >
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <span style={{ fontSize: 14, color: theme.text }}>{t.title}</span>
+                <span style={{ fontSize: 14, color: theme.text, display: 'flex', alignItems: 'center', gap: 6 }}>
+                  {t.title}
+                  {t.hasContent && <Badge tone="teal">Ler Resumo</Badge>}
+                </span>
                 <Badge tone={STATUS_TONE[t.status]}>{STATUS_LABEL[t.status]}</Badge>
               </div>
             </Card>

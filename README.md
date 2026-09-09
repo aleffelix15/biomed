@@ -63,4 +63,10 @@ src/
 4. Persistência real de progresso
 5. Autenticação e backend
 6. Tutor de IA
+
+## Autenticação
+
+A autenticação é provida nativamente pelo Supabase Auth, suportando e-mail e senha. O fluxo de sessão é verificado ativamente em tempo real no carregamento do aplicativo:
+- Se as variáveis de ambiente `VITE_SUPABASE_URL` e `VITE_SUPABASE_ANON_KEY` estiverem ausentes, o app ativa automaticamente o "modo offline/demo", pulando o login e entrando com dados mockados.
+- Se configurado, a tela de login exige credenciais. O app protege todo o conteúdo de `src/screens` forçando a rota para `<LoginScreen />` até que um login, cadastro ou recuperação de senha sejam concluídos. O logout pode ser feito no topo do overlay de progresso.
 # biomed

@@ -6,19 +6,26 @@ import Card from "../../components/ui/Card";
 import ProgressBar from "../../components/ui/ProgressBar";
 import StatTile from "../../components/ui/StatTile";
 import SectionHeader from "../../components/ui/SectionHeader";
-import { X, Clock, Target, Star } from "lucide-react";
+import { X, Clock, Target, Star, LogOut } from "lucide-react";
+import { useAuth } from "../../state/useAuth";
 
 export default function ProgressOverlay({ onClose }) {
   const sorted = [...DISCIPLINES].sort((a, b) => b.progress - a.progress);
+  const { signOut } = useAuth();
 
   return (
     <div style={{ position: "absolute", inset: 0, background: theme.bg, zIndex: 20, overflowY: "auto" }} className="bs-scroll">
       <div style={{ padding: "20px 16px 40px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <h1 className="bs-display" style={{ fontSize: 22, fontWeight: 700, color: theme.text, margin: 0 }}>Progresso</h1>
-          <button onClick={onClose} style={{ width: 34, height: 34, borderRadius: 10, border: `1px solid ${theme.line}`, background: theme.surface, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
-            <X size={16} color={theme.textSecondary} />
-          </button>
+          <div style={{ display: "flex", gap: 8 }}>
+            <button onClick={signOut} style={{ width: 34, height: 34, borderRadius: 10, border: `1px solid ${theme.line}`, background: theme.surface, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
+              <LogOut size={14} color={theme.textSecondary} />
+            </button>
+            <button onClick={onClose} style={{ width: 34, height: 34, borderRadius: 10, border: `1px solid ${theme.line}`, background: theme.surface, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
+              <X size={16} color={theme.textSecondary} />
+            </button>
+          </div>
         </div>
 
         <div style={{ display: "flex", gap: 10, marginTop: 18 }}>

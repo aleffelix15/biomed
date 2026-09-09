@@ -3,15 +3,18 @@ import { theme } from "../../theme/tokens";
 import Card from "../ui/Card";
 import ProgressBar from "../ui/ProgressBar";
 import { ChevronRight, Zap } from "lucide-react";
+import { resolveIcon } from "../../utils/iconResolver";
 
 export default function DisciplineCard({ discipline, onClick }) {
   const d = discipline;
   const difficulty = d.difficulty || "Médio";
+  const IconComponent = resolveIcon(d.icon);
+  
   return (
     <Card onClick={onClick} padding={14}>
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
         <div style={{ width: 38, height: 38, borderRadius: 10, background: theme.surface, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-          <d.icon size={18} color={theme.primary} strokeWidth={2} />
+          <IconComponent size={18} color={theme.primary} strokeWidth={2} />
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 6 }}>

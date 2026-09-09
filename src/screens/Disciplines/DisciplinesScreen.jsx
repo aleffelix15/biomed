@@ -1,6 +1,6 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { theme } from "../../theme/tokens";
-import { DISCIPLINES } from "../../data/mock/disciplines";
+import { fetchDisciplines } from "../../services/supabaseService";
 import SectionHeader from "../../components/ui/SectionHeader";
 import EmptyState from "../../components/ui/EmptyState";
 import DisciplineCard from "../../components/domain/DisciplineCard";
@@ -8,14 +8,19 @@ import { Search } from "lucide-react";
 
 export default function DisciplinesScreen({ onOpenDiscipline }) {
   const [query, setQuery] = useState("");
+  const [disciplines, setDisciplines] = useState([]);
+
+  useEffect(() => {
+    fetchDisciplines().then(setDisciplines);
+  }, []);
 
   const grouped = useMemo(() => {
-    const filtered = DISCIPLINES.filter((d) => d.name.toLowerCase().includes(query.toLowerCase()));
+    const filtered = disciplines.filter((d) => d.name.toLowerCase().includes(query.toLowerCase()));
     return filtered.reduce((acc, d) => {
       (acc[d.category] ||= []).push(d);
       return acc;
     }, {});
-  }, [query]);
+  }, [query, disciplines]);
 
   return (
     <div style={{ padding: "20px 16px 90px" }}>

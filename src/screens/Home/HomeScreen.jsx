@@ -1,17 +1,25 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { theme } from "../../theme/tokens";
-import { DISCIPLINES } from "../../data/mock/disciplines";
+import { fetchDisciplines } from "../../services/supabaseService";
+import { STUDY_MODES } from "../../data/mock/studyModes";
 import { USER, UPCOMING_EXAMS, REVIEWS } from "../../data/mock/progress";
 import Card from "../../components/ui/Card";
 import ProgressBar from "../../components/ui/ProgressBar";
 import SectionHeader from "../../components/ui/SectionHeader";
 import DisciplineCard from "../../components/domain/DisciplineCard";
 import { TrendingUp, Flame, Calendar, BookOpenCheck } from "lucide-react";
+import { resolveIcon } from "../../utils/iconResolver";
 
 export default function HomeScreen({ onOpenDiscipline, onOpenProgress, onGoTab }) {
-  const recent = [...DISCIPLINES].filter((d) => d.progress > 0).sort((a, b) => b.progress - a.progress).slice(0, 3);
-  const next = DISCIPLINES.filter((d) => d.progress === 0).slice(0, 2);
-  const overall = Math.round(DISCIPLINES.reduce((s, d) => s + d.progress, 0) / DISCIPLINES.length);
+  const [disciplines, setDisciplines] = useState([]);
+
+  useEffect(() => {
+    fetchDisciplines().then(setDisciplines);
+  }, []);
+
+  const recent = [...disciplines].filter((d) => d.progress > 0).sort((a, b) => b.progress - a.progress).slice(0, 3);
+  const next = disciplines.filter((d) => d.progress === 0).slice(0, 2);
+  const overall = disciplines.length ? Math.round(disciplines.reduce((s, d) => s + d.progress, 0) / disciplines.length) : 0;
 
   return (
     <div style={{ padding: "20px 16px 90px" }}>
@@ -91,13 +99,15 @@ export default function HomeScreen({ onOpenDiscipline, onOpenProgress, onGoTab }
       <div style={{ marginTop: 22 }}>
         <SectionHeader title="Disciplinas em destaque" />
         <div style={{ display: "flex", gap: 10, overflowX: "auto" }} className="bs-scroll">
-          {next.map((d) => (
+          {next.map((d) => {
+            const Icon = resolveIcon(d.icon);
+            return (
             <Card key={d.id} padding={14} style={{ minWidth: 160, flexShrink: 0, cursor: 'pointer' }} onClick={() => onOpenDiscipline(d)}>
-              <d.icon size={20} color={theme.primary} />
+              <Icon size={20} color={theme.primary} />
               <div style={{ fontWeight: 600, fontSize: 13, color: theme.text, marginTop: 10 }}>{d.name}</div>
               <div style={{ fontSize: 12, color: theme.textSecondary, marginTop: 2 }}>{d.topicsCount} tópicos</div>
             </Card>
-          ))}
+          )})}
         </div>
       </div>
     </div>
