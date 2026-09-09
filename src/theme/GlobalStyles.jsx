@@ -1,3 +1,6 @@
+import './responsive.css';
+import { theme } from './tokens';
+
 // Carrega as fontes do design system e reset mínimo.
 // Space Grotesk -> títulos (caráter técnico/científico)
 // IBM Plex Sans -> corpo de texto (legibilidade)
@@ -5,6 +8,18 @@ export default function GlobalStyles() {
   return (
     <style>{`
       @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
+      
+      :root {
+        --theme-bg: ${theme.bg};
+        --theme-surface: ${theme.surface};
+        --theme-card: ${theme.card};
+        --theme-primary: ${theme.primary};
+        --theme-secondary: ${theme.secondary};
+        --theme-text: ${theme.text};
+        --theme-text-secondary: ${theme.textSecondary};
+        --theme-line: ${theme.line};
+      }
+
       * { box-sizing: border-box; }
       body { margin: 0; font-family: 'IBM Plex Sans', sans-serif; background-color: #071A1D; color: #F4FDFC; }
       .bs-display { font-family: 'Space Grotesk', sans-serif; }

@@ -4,11 +4,11 @@ import Card from "../ui/Card";
 import Badge from "../ui/Badge";
 import { BookOpen } from "lucide-react";
 
-export default function BookCard({ book }) {
+export default function BookCard({ book, onClick }) {
   const b = book;
   const disciplines = b.disciplines || ["Geral"];
   return (
-    <Card padding={14} style={{ display: "flex", gap: 14 }}>
+    <Card padding={14} style={{ display: "flex", gap: 14, cursor: onClick ? "pointer" : "default" }} onClick={onClick}>
       <div style={{ width: 72, height: 100, background: theme.surface, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
         <BookOpen size={24} color={theme.textSecondary} />
       </div>

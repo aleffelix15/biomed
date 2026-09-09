@@ -25,13 +25,13 @@ export default function QuestionCard({ question, onAnswer, selectedOption, isAns
 
             if (isAnswered) {
               if (opt === question.correct_option) {
-                bgColor = '#10B981'; // Green
-                borderColor = '#10B981';
-                textColor = '#fff';
+                bgColor = theme.primary;
+                borderColor = theme.primary;
+                textColor = theme.bg;
               } else if (selectedOption === opt) {
-                bgColor = '#EF4444'; // Red
-                borderColor = '#EF4444';
-                textColor = '#fff';
+                bgColor = theme.danger;
+                borderColor = theme.danger;
+                textColor = theme.bg;
               }
             }
 
@@ -66,8 +66,8 @@ export default function QuestionCard({ question, onAnswer, selectedOption, isAns
                   justifyContent: 'center',
                   fontSize: 11,
                   fontWeight: 700,
-                  background: isAnswered && opt === question.correct_option ? '#10B981' : 'transparent',
-                  color: isAnswered && opt === question.correct_option ? '#fff' : borderColor
+                  background: isAnswered && opt === question.correct_option ? theme.primary : 'transparent',
+                  color: isAnswered && opt === question.correct_option ? theme.bg : borderColor
                 }}>
                   {opt.toUpperCase()}
                 </div>

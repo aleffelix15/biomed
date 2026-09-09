@@ -10,7 +10,7 @@ import SectionHeader from "../../../components/ui/SectionHeader";
 import Badge from "../../../components/ui/Badge";
 import EmptyState from "../../../components/ui/EmptyState";
 import BookCard from "../../../components/domain/BookCard";
-import { ChevronLeft, Library, X, Play } from "lucide-react";
+import { ChevronLeft, Library, X, Play, CheckCircle, Circle } from "lucide-react";
 import { resolveIcon } from "../../../utils/iconResolver";
 import StudyTimer from "../../../components/domain/StudyTimer";
 
@@ -24,16 +24,23 @@ export default function DisciplineDetailScreen({ discipline, onBack }) {
   const [lastTopicId, setLastTopicId] = useState(null);
   const [topicProgress, setTopicProgress] = useState([]);
   const [disciplineProgress, setDisciplineProgress] = useState(discipline.progress);
+  const [loading, setLoading] = useState(true);
   const { user } = useAuth();
 
   useEffect(() => {
-    fetchTopicsByDiscipline(discipline).then(setTopics);
-    fetchBooksByDiscipline(discipline.id).then(setBooks);
-
-    if (user) {
-      getLastStudiedTopic(user.id, discipline.id).then(setLastTopicId);
-      fetchTopicProgress(user.id, discipline.id).then(setTopicProgress);
-    }
+    setLoading(true);
+    Promise.all([
+      fetchTopicsByDiscipline(discipline),
+      fetchBooksByDiscipline(discipline.id),
+      user ? getLastStudiedTopic(user.id, discipline.id) : Promise.resolve(null),
+      user ? fetchTopicProgress(user.id, discipline.id) : Promise.resolve([])
+    ]).then(([t, b, last, prog]) => {
+      setTopics(t);
+      setBooks(b);
+      setLastTopicId(last);
+      setTopicProgress(prog);
+      setLoading(false);
+    });
   }, [discipline, user]);
 
   const handleToggleCompletion = async (topicId) => {
@@ -61,6 +68,8 @@ export default function DisciplineDetailScreen({ discipline, onBack }) {
     const prog = topicProgress.find(p => p.topic_id === topicId);
     return prog ? (prog.completed ? "concluido" : "em-andamento") : "pendente";
   };
+
+  const Icon = resolveIcon(discipline.icon);
 
   if (selectedTopic) {
     const rawContent = fetchTopicContent(discipline.id, selectedTopic.id);
@@ -105,8 +114,12 @@ export default function DisciplineDetailScreen({ discipline, onBack }) {
         <div style={{ marginTop: 8 }}><ProgressBar value={disciplineProgress} /></div>
       </Card>
 
-      <div style={{ marginTop: 16 }}>
-        <StudyTimer
+      {loading ? (
+        <div style={{ textAlign: "center", padding: 40, color: theme.textSecondary, fontSize: 14 }}>Carregando módulos...</div>
+      ) : (
+      <>
+        <div style={{ marginTop: 16 }}>
+          <StudyTimer
           userId={user?.id}
           disciplineId={discipline.id}
           topicId={selectedTopic?.id || topics[0]?.id}
@@ -116,11 +129,13 @@ export default function DisciplineDetailScreen({ discipline, onBack }) {
         />
       </div>
 
+      {discipline.description && (
       <div style={{ marginTop: 16 }}>
         <p style={{ fontSize: 14, color: theme.textSecondary, lineHeight: 1.5, margin: 0 }}>
-          O estudo fundamental da forma e estrutura do corpo humano. Explore sistemas vitais, órgãos, e suas inter-relações em nível macro e microscópico para entender o funcionamento clínico.
+          {discipline.description}
         </p>
       </div>
+      )}
 
       <button
         onClick={() => {
@@ -178,6 +193,8 @@ export default function DisciplineDetailScreen({ discipline, onBack }) {
           <EmptyState icon={Library} title="Ainda sem livros cadastrados" desc="Esta disciplina receberá indicações bibliográficas em breve." />
         )}
       </div>
+      </>
+      )}
     </div>
   );
 }

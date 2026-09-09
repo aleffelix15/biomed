@@ -25,8 +25,11 @@ export default function StudyScreen() {
     fetchDisciplinesWithProgress(user?.id).then(setDisciplines);
   }, [user]);
 
+  const [errorMsg, setErrorMsg] = useState(null);
+
   const startStudying = async (disc) => {
     setLoading(true);
+    setErrorMsg(null);
     setSelectedDisc(disc);
     try {
       const data = mode === "flashcards"
@@ -38,10 +41,11 @@ export default function StudyScreen() {
         setStep("studying");
         setCurrentIndex(0);
       } else {
-        alert(`Nenhum ${mode === "flashcards" ? "flashcard" : "questão"} encontrado para esta disciplina.`);
+        setErrorMsg(`Nenhum ${mode === "flashcards" ? "flashcard" : "questão"} encontrado para esta disciplina.`);
       }
     } catch (err) {
       console.error(err);
+      setErrorMsg("Ocorreu um erro ao carregar o conteúdo.");
     } finally {
       setLoading(false);
     }
@@ -113,7 +117,31 @@ export default function StudyScreen() {
               <HelpCircle size={24} />
             </div>
             <div style={{ fontWeight: 700, color: theme.text, fontSize: 16 }}>Questões</div>
-            <div style={{ fontSize: 12, color: theme.textSecondary, marginTop: 4 }}>Simulados reais</div>
+            <div style={{ fontSize: 12, color: theme.textSecondary, marginTop: 4 }}>Prática focada</div>
+          </Card>
+
+          <Card
+            padding={24}
+            onClick={() => { setMode("simulado"); setStep("disc-selection"); }}
+            style={{ cursor: "pointer", textAlign: "center", transition: "transform 0.2s", border: "none", background: theme.card }}
+          >
+            <div style={{ width: 48, height: 48, borderRadius: 24, background: theme.surface, color: theme.textSecondary, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 12px" }}>
+              <HelpCircle size={24} />
+            </div>
+            <div style={{ fontWeight: 700, color: theme.text, fontSize: 16 }}>Simulado</div>
+            <div style={{ fontSize: 12, color: theme.textSecondary, marginTop: 4 }}>Teste misto</div>
+          </Card>
+
+          <Card
+            padding={24}
+            onClick={() => alert("Modo Prova em breve!")}
+            style={{ cursor: "pointer", textAlign: "center", transition: "transform 0.2s", border: "none", background: theme.card }}
+          >
+            <div style={{ width: 48, height: 48, borderRadius: 24, background: theme.surface, color: theme.textSecondary, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 12px" }}>
+              <Brain size={24} />
+            </div>
+            <div style={{ fontWeight: 700, color: theme.text, fontSize: 16 }}>Modo Prova</div>
+            <div style={{ fontSize: 12, color: theme.textSecondary, marginTop: 4 }}>Com cronômetro</div>
           </Card>
         </div>
       </div>
@@ -148,8 +176,16 @@ export default function StudyScreen() {
             </Card>
           ))}
         </div>
-        {disciplines.length === 0 && (
+        {disciplines.length === 0 && !loading && !errorMsg && (
+          <EmptyState icon={Brain} title="Nenhuma disciplina" desc="Não foram encontradas disciplinas." />
+        )}
+        {loading && disciplines.length === 0 && (
           <EmptyState icon={Brain} title="Carregando disciplinas..." desc="Aguarde um momento." />
+        )}
+        {errorMsg && (
+          <div style={{ marginTop: 24, padding: 16, borderRadius: 12, background: `${theme.danger}22`, border: `1px solid ${theme.danger}`, color: theme.danger, textAlign: "center", fontSize: 13, fontWeight: 500 }}>
+            {errorMsg}
+          </div>
         )}
       </div>
     );
@@ -170,7 +206,7 @@ export default function StudyScreen() {
 
         <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 32 }}>
           {mode === "flashcards" ? (
-            <Flashcard card={currentItem} onEvaluate={handleFlashcardEval} />
+            <Flashcard key={currentItem.id} card={currentItem} onEvaluate={handleFlashcardEval} />
           ) : (
             <QuestionCard
               question={currentItem}

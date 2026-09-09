@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { theme } from "../../theme/tokens";
 import { fetchDisciplinesWithProgress, fetchGlobalStats } from "../../services/supabaseService";
-import { STUDY_MODES } from "../../data/mock/studyModes";
-import { UPCOMING_EXAMS, REVIEWS } from "../../data/mock/progress";
+
 import { useAuth } from "../../state/AuthContext";
 import Card from "../../components/ui/Card";
 import ProgressBar from "../../components/ui/ProgressBar";
@@ -16,10 +15,19 @@ export default function HomeScreen({ onOpenDiscipline, onOpenProgress, onGoTab }
   const [stats, setStats] = useState(null);
   const { user, profile } = useAuth();
 
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     if (user) {
-      fetchDisciplinesWithProgress(user.id).then(setDisciplines);
-      fetchGlobalStats(user.id).then(setStats);
+      setLoading(true);
+      Promise.all([
+        fetchDisciplinesWithProgress(user.id),
+        fetchGlobalStats(user.id)
+      ]).then(([discs, st]) => {
+        setDisciplines(discs);
+        setStats(st);
+        setLoading(false);
+      });
     }
   }, [user]);
 
@@ -41,6 +49,11 @@ export default function HomeScreen({ onOpenDiscipline, onOpenProgress, onGoTab }
         </button>
       </div>
 
+      {loading ? (
+        <div style={{ textAlign: "center", padding: 40, color: theme.textSecondary, fontSize: 14 }}>Carregando dados...</div>
+      ) : (
+      <>
+
       <Card style={{ marginTop: 18, background: theme.card, border: "none" }} padding={18}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <div>
@@ -55,9 +68,7 @@ export default function HomeScreen({ onOpenDiscipline, onOpenProgress, onGoTab }
         <div style={{ marginTop: 14 }}>
           <ProgressBar value={overall} tint="#F3C77A" track="rgba(255,255,255,0.15)" />
         </div>
-        <div style={{ fontSize: 12, color: theme.textSecondary, marginTop: 8 }}>
-          Meta semanal: {profile?.weeklyDone || 0} de {profile?.weeklyGoal || 10} horas estudadas
-        </div>
+
       </Card>
 
       <div style={{ marginTop: 22 }}>
@@ -67,40 +78,25 @@ export default function HomeScreen({ onOpenDiscipline, onOpenProgress, onGoTab }
         </div>
       </div>
 
-      <div style={{ display: "flex", gap: 16, marginTop: 22 }}>
-        <div style={{ flex: 1 }}>
-          <SectionHeader title="Próximas revisões" />
-          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {REVIEWS.map((r) => (
-              <Card key={r.id} padding={12} style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                <div style={{ background: theme.surface, padding: 8, borderRadius: 8 }}>
-                  <BookOpenCheck size={16} color={theme.primary} />
-                </div>
-                <div>
-                  <div style={{ fontSize: 13, fontWeight: 600, color: theme.text }}>{r.title}</div>
-                  <div style={{ fontSize: 11, color: theme.textSecondary }}>{r.count} flashcards</div>
-                </div>
-              </Card>
-            ))}
-          </div>
+      <div style={{ marginTop: 22 }}>
+        <SectionHeader title="Próximas revisões" />
+        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          {/* Replaced mock with an empty state until real spaced repetition is wired in later sprints */}
+          <Card padding={16} style={{ textAlign: "center" }}>
+            <BookOpenCheck size={24} color={theme.textSecondary} style={{ marginBottom: 8, opacity: 0.5 }} />
+            <div style={{ fontSize: 13, color: theme.textSecondary }}>Nenhuma revisão pendente no momento.</div>
+          </Card>
         </div>
       </div>
 
       <div style={{ marginTop: 22 }}>
         <SectionHeader title="Próximas provas" />
         <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-          {UPCOMING_EXAMS.map((e) => (
-            <Card key={e.id} padding={14} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderLeft: `3px solid ${theme.primary}` }}>
-              <div>
-                <div style={{ fontSize: 13, fontWeight: 600, color: theme.text }}>{e.title}</div>
-                <div style={{ fontSize: 12, color: theme.textSecondary, marginTop: 2 }}>{e.discipline}</div>
-              </div>
-              <div style={{ display: "flex", alignItems: "center", gap: 4, background: theme.surface, padding: "4px 8px", borderRadius: 8 }}>
-                <Calendar size={12} color={theme.textSecondary} />
-                <span style={{ fontSize: 11, color: theme.textSecondary }}>{e.date}</span>
-              </div>
-            </Card>
-          ))}
+          {/* Replaced mock with an empty state since exams table doesn't exist yet */}
+          <Card padding={16} style={{ textAlign: "center" }}>
+            <Calendar size={24} color={theme.textSecondary} style={{ marginBottom: 8, opacity: 0.5 }} />
+            <div style={{ fontSize: 13, color: theme.textSecondary }}>Nenhuma prova agendada.</div>
+          </Card>
         </div>
       </div>
 
@@ -118,6 +114,8 @@ export default function HomeScreen({ onOpenDiscipline, onOpenProgress, onGoTab }
           )})}
         </div>
       </div>
+      </>
+      )}
     </div>
   );
 }

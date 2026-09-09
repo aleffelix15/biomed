@@ -10,6 +10,8 @@ export async function fetchDisciplines() {
   return Promise.resolve(DISCIPLINES);
 }
 
+export { BOOKS };
+
 export async function fetchBooksByDiscipline(disciplineId) {
   return Promise.resolve(BOOKS.filter((b) => b.disciplineId === disciplineId));
 }

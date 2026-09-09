@@ -22,6 +22,23 @@ export function AuthProvider({ children }) {
     setProfile(userProfile);
   };
 
+  // Recarrega o profile do Supabase e atualiza o estado imediatamente
+  const refreshProfile = async () => {
+    if (!supabase || !user) return;
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', user.id)
+        .single();
+      if (!error && data) {
+        setProfile(data);
+      }
+    } catch (err) {
+      console.error('Error refreshing profile:', err);
+    }
+  };
+
   useEffect(() => {
     if (!supabase) {
       setLoading(false);
@@ -49,7 +66,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, profile, loading, signOut, isOfflineMode }}>
+    <AuthContext.Provider value={{ user, profile, loading, signOut, isOfflineMode, refreshProfile }}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { theme } from "../../theme/tokens";
 import { useAuth } from "../../state/AuthContext";
-import { updateUserProfile } from "../../services/supabaseService";
+import { updateUserProfile, fetchGlobalStats } from "../../services/supabaseService";
 import Card from "../../components/ui/Card";
 import SectionHeader from "../../components/ui/SectionHeader";
-import { User, BookOpen, GraduationCap, Save, X, Edit2 } from "lucide-react";
+import { User, BookOpen, GraduationCap, Save, X, Edit2, LogOut, Clock, Target, Star, TrendingUp } from "lucide-react";
 
 export default function ProfileScreen() {
-  const { user, profile } = useAuth();
+  const { user, profile, signOut, refreshProfile } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     full_name: profile?.full_name || "",
@@ -16,17 +16,38 @@ export default function ProfileScreen() {
   });
   const [loading, setLoading] = useState(false);
   const [successMsg, setSuccessMsg] = useState(false);
+  const [stats, setStats] = useState(null);
+  const [statsLoading, setStatsLoading] = useState(true);
+
+  useEffect(() => {
+    if (user) {
+      setStatsLoading(true);
+      fetchGlobalStats(user.id).then(data => {
+        setStats(data);
+        setStatsLoading(false);
+      }).catch(() => setStatsLoading(false));
+    }
+  }, [user]);
+
+  // Sync form data when profile changes
+  useEffect(() => {
+    if (profile) {
+      setFormData({
+        full_name: profile.full_name || "",
+        course: profile.course || "",
+        period: profile.period || "",
+      });
+    }
+  }, [profile]);
 
   const handleSave = async () => {
     setLoading(true);
     setSuccessMsg(false);
     try {
       await updateUserProfile(user.id, formData);
+      if (refreshProfile) await refreshProfile();
       setSuccessMsg(true);
       setIsEditing(false);
-      // Note: AuthContext will need to be updated or we manually update the state.
-      // For now, we'll rely on the user seeing the success message.
-      // In a real app, we'd call a refreshProfile() function from the context.
     } catch (err) {
       console.error("Error updating profile:", err);
     } finally {
@@ -41,6 +62,13 @@ export default function ProfileScreen() {
       period: profile?.period || "",
     });
     setIsEditing(false);
+  };
+
+  const formatHours = (val) => {
+    if (!val && val !== 0) return "0h";
+    const h = Math.floor(val / 3600);
+    const m = Math.floor((val % 3600) / 60);
+    return h > 0 ? `${h}h ${m}m` : `${m}m`;
   };
 
   return (
@@ -134,7 +162,7 @@ export default function ProfileScreen() {
         )}
 
         {successMsg && (
-          <div style={{ marginTop: 16, textAlign: "center", fontSize: 13, color: "#4CAF50", fontWeight: 600 }}>
+          <div style={{ marginTop: 16, textAlign: "center", fontSize: 13, color: theme.primary, fontWeight: 600 }}>
             Perfil atualizado com sucesso!
           </div>
         )}
@@ -142,25 +170,64 @@ export default function ProfileScreen() {
 
       <div style={{ marginTop: 24 }}>
         <SectionHeader title="Estatísticas Acadêmicas" />
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-          <Card padding={16}>
-            <div style={{ fontSize: 12, color: theme.textSecondary }}>Horas Estudadas</div>
-            <div style={{ fontSize: 20, fontWeight: 700, color: theme.text, marginTop: 4 }}>0h</div>
-          </Card>
-          <Card padding={16}>
-            <div style={{ fontSize: 12, color: theme.textSecondary }}>Questões Respondidas</div>
-            <div style={{ fontSize: 20, fontWeight: 700, color: theme.text, marginTop: 4 }}>0</div>
-          </Card>
-          <Card padding={16}>
-            <div style={{ fontSize: 12, color: theme.textSecondary }}>Taxa de Acerto</div>
-            <div style={{ fontSize: 20, fontWeight: 700, color: theme.text, marginTop: 4 }}>0%</div>
-          </Card>
-          <Card padding={16}>
-            <div style={{ fontSize: 12, color: theme.textSecondary }}>Progresso Geral</div>
-            <div style={{ fontSize: 20, fontWeight: 700, color: theme.text, marginTop: 4 }}>0%</div>
-          </Card>
-        </div>
+        {statsLoading ? (
+          <div style={{ textAlign: "center", padding: 20, color: theme.textSecondary, fontSize: 13 }}>Carregando estatísticas...</div>
+        ) : (
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+            <Card padding={16}>
+              <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
+                <Clock size={14} color={theme.primary} />
+                <span style={{ fontSize: 12, color: theme.textSecondary }}>Horas Estudadas</span>
+              </div>
+              <div style={{ fontSize: 20, fontWeight: 700, color: theme.text }}>{formatHours(stats?.totalStudySeconds || 0)}</div>
+            </Card>
+            <Card padding={16}>
+              <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
+                <Target size={14} color={theme.primary} />
+                <span style={{ fontSize: 12, color: theme.textSecondary }}>Questões Respondidas</span>
+              </div>
+              <div style={{ fontSize: 20, fontWeight: 700, color: theme.text }}>{stats?.totalQuestions || 0}</div>
+            </Card>
+            <Card padding={16}>
+              <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
+                <Star size={14} color={theme.primary} />
+                <span style={{ fontSize: 12, color: theme.textSecondary }}>Taxa de Acerto</span>
+              </div>
+              <div style={{ fontSize: 20, fontWeight: 700, color: theme.text }}>{stats?.accuracyRate || 0}%</div>
+            </Card>
+            <Card padding={16}>
+              <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
+                <TrendingUp size={14} color={theme.primary} />
+                <span style={{ fontSize: 12, color: theme.textSecondary }}>Sequência</span>
+              </div>
+              <div style={{ fontSize: 20, fontWeight: 700, color: theme.text }}>{stats?.currentStreak || 0} dias</div>
+            </Card>
+          </div>
+        )}
       </div>
+
+      {/* Botão de Logout */}
+      <button
+        onClick={signOut}
+        style={{
+          width: "100%",
+          marginTop: 24,
+          padding: 14,
+          borderRadius: 12,
+          background: "transparent",
+          color: theme.danger,
+          border: `1px solid ${theme.danger}`,
+          fontWeight: 700,
+          fontSize: 15,
+          cursor: "pointer",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 8,
+        }}
+      >
+        <LogOut size={18} /> Sair da Conta
+      </button>
     </div>
   );
 }

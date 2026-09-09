@@ -122,6 +122,24 @@ export async function fetchBooksByDiscipline(disciplineId) {
   }));
 }
 
+export async function fetchAllBooks() {
+  if (!supabase) return mockService.BOOKS; // Not exported in mockService, but wait, mockService doesn't export BOOKS directly, wait I'll fix that.
+
+  const { data, error } = await supabase
+    .from('books')
+    .select('*');
+
+  if (error) {
+    console.error('Error fetching books from Supabase:', error);
+    return [];
+  }
+
+  return data.map(b => ({
+    ...b,
+    disciplineId: b.discipline_id,
+  }));
+}
+
 export async function fetchTopicsByDiscipline(discipline) {
   if (!supabase) return mockService.fetchTopicsByDiscipline(discipline);
 
