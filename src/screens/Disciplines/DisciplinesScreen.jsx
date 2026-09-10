@@ -43,7 +43,7 @@ export default function DisciplinesScreen({ onOpenDiscipline }) {
       {Object.entries(grouped).map(([category, items]) => (
         <div key={category} style={{ marginTop: 22 }}>
           <SectionHeader title={category} />
-          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          <div className="responsive-grid">
             {items.map((d) => <DisciplineCard key={d.id} discipline={d} onClick={() => onOpenDiscipline(d)} />)}
           </div>
         </div>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { theme } from "../../theme/tokens";
+import { theme, alpha } from "../../theme/tokens";
 import { fetchModulesAndLessons, getOrCreateStudyPlan } from "../../services/supabaseService";
 import { useAuth } from "../../state/AuthContext";
 import Card from "../../components/ui/Card";

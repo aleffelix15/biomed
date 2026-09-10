@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { theme } from "../../theme/tokens";
+import { theme, alpha } from "../../theme/tokens";
 import { fetchLessonQuiz, fetchTopicSimulado, saveQuestionAttempt } from "../../services/supabaseService";
 import { useAuth } from "../../state/AuthContext";
 import Card from "../../components/ui/Card";
@@ -103,7 +103,7 @@ export default function QuizScreen({ topicId, disciplineId, lessonId, isSimulado
         <Card padding={20} style={{ background: theme.surface, border: `1px solid ${theme.line}`, marginBottom: 24 }}>
           <div style={{ fontSize: 16, fontWeight: 700, color: theme.text, marginBottom: 16 }}>Análise de Desempenho</div>
           {percent < 100 && (
-            <div style={{ display: "flex", gap: 12, alignItems: "flex-start", background: `${theme.danger}15`, padding: 12, borderRadius: 8, marginBottom: 16 }}>
+            <div style={{ display: "flex", gap: 12, alignItems: "flex-start", background: alpha(theme.danger, '15'), padding: 12, borderRadius: 8, marginBottom: 16 }}>
               <AlertTriangle size={18} color={theme.danger} style={{ flexShrink: 0, marginTop: 2 }} />
               <div>
                 <div style={{ fontSize: 13, fontWeight: 600, color: theme.danger, marginBottom: 4 }}>Recomendação</div>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { theme } from "../../theme/tokens";
+import { theme, alpha } from "../../theme/tokens";
 import { completeLesson } from "../../services/supabaseService";
 import { useAuth } from "../../state/AuthContext";
 import Card from "../../components/ui/Card";
@@ -58,7 +58,7 @@ export default function LessonScreen({ lesson, topic, discipline, onBack }) {
 
         {/* Aplicação Clínica */}
         {lesson.clinical_application && (
-          <Card padding={16} style={{ background: `${theme.danger}15`, border: `1px solid ${theme.danger}40`, marginTop: 32 }}>
+          <Card padding={16} style={{ background: alpha(theme.danger, '15'), border: `1px solid ${theme.danger}40`, marginTop: 32 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
               <AlertTriangle size={18} color={theme.danger} />
               <span style={{ fontSize: 14, fontWeight: 700, color: theme.danger }}>Aplicação Clínica</span>

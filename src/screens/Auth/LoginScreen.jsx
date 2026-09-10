@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { theme } from '../../theme/tokens';
+import { theme, alpha } from '../../theme/tokens';
 import { supabase } from '../../services/supabaseClient';
 import { updateUserProfile } from '../../services/supabaseService';
 import { mapAuthError } from '../../utils/errorMapper';
@@ -240,12 +240,12 @@ export default function LoginScreen() {
         )}
 
         {errorMsg && (
-          <div style={{ color: theme.danger, fontSize: 13, padding: '8px 12px', background: `${theme.danger}18`, borderRadius: 8 }}>
+          <div style={{ color: theme.danger, fontSize: 13, padding: '8px 12px', background: alpha(theme.danger, '18'), borderRadius: 8 }}>
             {errorMsg}
           </div>
         )}
         {infoMsg && (
-          <div style={{ color: theme.primary, fontSize: 13, padding: '8px 12px', background: `${theme.primary}18`, borderRadius: 8 }}>
+          <div style={{ color: theme.primary, fontSize: 13, padding: '8px 12px', background: alpha(theme.primary, '18'), borderRadius: 8 }}>
             {infoMsg}
           </div>
         )}

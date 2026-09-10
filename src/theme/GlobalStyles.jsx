@@ -1,36 +1,63 @@
 import './responsive.css';
-import { theme } from './tokens';
 
-// Carrega as fontes do design system e reset mínimo.
-// Space Grotesk -> títulos (caráter técnico/científico)
-// IBM Plex Sans -> corpo de texto (legibilidade)
 export default function GlobalStyles() {
   return (
     <style>{`
       @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
       
       :root {
-        --theme-bg: ${theme.bg};
-        --theme-surface: ${theme.surface};
-        --theme-card: ${theme.card};
-        --theme-primary: ${theme.primary};
-        --theme-secondary: ${theme.secondary};
-        --theme-text: ${theme.text};
-        --theme-text-secondary: ${theme.textSecondary};
-        --theme-line: ${theme.line};
+        /* DARK MODE (Default) */
+        --theme-bg: #050807;
+        --theme-surface: #0B1512;
+        --theme-card: #0D1B17;
+        --theme-primary: #00E676;
+        --theme-secondary: #00BFA5;
+        --theme-accent: #39FF88;
+        --theme-text: #F2F7F4;
+        --theme-text-secondary: #9AAEA5;
+        --theme-muted: #64756D;
+        --theme-line: #173229;
+        --theme-danger: #FF5252;
+        --theme-warning: #FFC107;
+        --theme-info: #2196F3;
+        
+        --md-h1: #2DD4BF;
+        --md-h2: #F4FDFC;
+        --md-p: #9CC7C4;
+      }
+      
+      :root[data-theme="light"] {
+        /* LIGHT MODE */
+        --theme-bg: #F6F8F7;
+        --theme-surface: #FFFFFF;
+        --theme-card: #FFFFFF;
+        --theme-primary: #00A86B;
+        --theme-secondary: #008B57;
+        --theme-accent: #00C853;
+        --theme-text: #15201B;
+        --theme-text-secondary: #53635B;
+        --theme-muted: #718078;
+        --theme-line: #DCE5E0;
+        --theme-danger: #DC2626;
+        --theme-warning: #F59E0B;
+        --theme-info: #0284C7;
+        
+        --md-h1: #008B57;
+        --md-h2: #15201B;
+        --md-p: #404D46;
       }
 
       * { box-sizing: border-box; }
-      body { margin: 0; font-family: 'IBM Plex Sans', sans-serif; background-color: #071A1D; color: #F4FDFC; }
+      body { margin: 0; font-family: 'IBM Plex Sans', sans-serif; background-color: var(--theme-bg); color: var(--theme-text); }
       .bs-display { font-family: 'Space Grotesk', sans-serif; }
       .bs-scroll::-webkit-scrollbar { display: none; }
       .bs-scroll { -ms-overflow-style: none; scrollbar-width: none; }
       
-      .markdown-content h1 { font-family: 'Space Grotesk', sans-serif; font-size: 1.25rem; font-weight: 700; margin-top: 0; margin-bottom: 0.5rem; color: #2DD4BF; }
-      .markdown-content h2 { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; color: #F4FDFC; }
-      .markdown-content p { margin-top: 0; margin-bottom: 1rem; color: #9CC7C4; }
-      .markdown-content ul { margin-top: 0; margin-bottom: 1rem; padding-left: 1.5rem; color: #9CC7C4; }
-      .markdown-content li { margin-bottom: 0.5rem; }
+      .markdown-content h1 { font-family: 'Space Grotesk', sans-serif; font-size: 1.25rem; font-weight: 700; margin-top: 0; margin-bottom: 0.5rem; color: var(--md-h1); }
+      .markdown-content h2 { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; color: var(--md-h2); }
+      .markdown-content p { margin-top: 0; margin-bottom: 1rem; color: var(--md-p); }
+      .markdown-content ul { margin-top: 0; margin-bottom: 1rem; padding-left: 1.5rem; color: var(--md-p); }
+      .markdown-content li { margin-bottom: 0.5rem; color: var(--md-p); }
     `}</style>
   );
 }

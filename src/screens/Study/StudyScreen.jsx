@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { theme } from "../../theme/tokens";
+import { theme, alpha } from "../../theme/tokens";
 import { fetchDisciplinesWithProgress, fetchFlashcards, updateFlashcardProgress, fetchQuestions, saveQuestionAttempt } from "../../services/supabaseService";
 import { useAuth } from "../../state/AuthContext";
 import Card from "../../components/ui/Card";
@@ -221,7 +221,7 @@ export default function StudyScreen() {
           <EmptyState icon={Brain} title="Carregando disciplinas..." desc="Aguarde um momento." />
         )}
         {errorMsg && (
-          <div style={{ marginTop: 24, padding: 16, borderRadius: 12, background: `${theme.danger}22`, border: `1px solid ${theme.danger}`, color: theme.danger, textAlign: "center", fontSize: 13, fontWeight: 500 }}>
+          <div style={{ marginTop: 24, padding: 16, borderRadius: 12, background: alpha(theme.danger, '22'), border: `1px solid ${theme.danger}`, color: theme.danger, textAlign: "center", fontSize: 13, fontWeight: 500 }}>
             {errorMsg}
           </div>
         )}

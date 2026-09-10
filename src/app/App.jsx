@@ -4,6 +4,8 @@ import { theme } from "../theme/tokens";
 import { useAppNavigation } from "../state/useAppNavigation";
 import { AuthProvider, useAuth } from "../state/AuthContext";
 
+import { ThemeProvider } from "../state/ThemeContext";
+
 import BottomTabBar from "./navigation/BottomTabBar";
 import HomeScreen from "../screens/Home/HomeScreen";
 import DisciplinesScreen from "../screens/Disciplines/DisciplinesScreen";
@@ -19,9 +21,11 @@ import LoginScreen from "../screens/Auth/LoginScreen";
 
 export default function App() {
   return (
-    <AuthProvider>
-      <AppContent />
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <AppContent />
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 

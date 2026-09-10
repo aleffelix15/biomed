@@ -1,11 +1,11 @@
 import React from "react";
-import { theme } from "../../theme/tokens";
+import { theme, alpha } from "../../theme/tokens";
 
 const TONES = {
-  teal: { bg: `${theme.primary}22`, fg: theme.primary },
-  amber: { bg: `${theme.primary}22`, fg: "#F59E0B" },
+  teal: { bg: alpha(theme.primary, '22'), fg: theme.primary },
+  amber: { bg: alpha(theme.primary, '22'), fg: "#F59E0B" },
   neutral: { bg: theme.surface, fg: theme.textSecondary },
-  danger: { bg: `${theme.danger}22`, fg: theme.danger },
+  danger: { bg: alpha(theme.danger, '22'), fg: theme.danger },
 };
 
 export default function Badge({ children, tone = "teal" }) {

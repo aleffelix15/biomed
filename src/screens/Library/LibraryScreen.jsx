@@ -99,7 +99,7 @@ export default function LibraryScreen({ onOpenBook }) {
         ))}
       </div>
 
-      <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 18 }}>
+      <div className="responsive-grid" style={{ marginTop: 18 }}>
         {loading ? (
           <div style={{ textAlign: "center", padding: 40, color: theme.textSecondary, fontSize: 14 }}>Carregando livros...</div>
         ) : filtered.length === 0 ? (

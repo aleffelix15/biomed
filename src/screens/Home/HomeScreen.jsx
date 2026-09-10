@@ -55,25 +55,25 @@ export default function HomeScreen({ onOpenDiscipline, onOpenProgress, onGoTab }
       <>
 
       <Card style={{ marginTop: 18, background: theme.card, border: "none" }} padding={18}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div>
-            <div style={{ color: theme.textSecondary, fontSize: 12 }}>Progresso geral</div>
-            <div className="bs-display" style={{ color: theme.text, fontSize: 30, fontWeight: 700, marginTop: 2 }}>{overall}%</div>
+            <div style={{ fontSize: 13, color: theme.textSecondary, fontWeight: 600 }}>Progresso Geral</div>
+            <div style={{ fontSize: 24, fontWeight: 700, color: theme.text }}>{overall}%</div>
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 6, background: "rgba(255,255,255,0.05)", padding: "6px 10px", borderRadius: 999 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 6, background: alpha(theme.text, '11'), padding: "6px 10px", borderRadius: 999 }}>
             <Flame size={14} color="#F3C77A" />
             <span style={{ color: theme.text, fontSize: 13, fontWeight: 600 }}>{stats?.streak || 0} dias</span>
           </div>
         </div>
         <div style={{ marginTop: 14 }}>
-          <ProgressBar value={overall} tint="#F3C77A" track="rgba(255,255,255,0.15)" />
+          <ProgressBar value={overall} tint="#F3C77A" track={alpha(theme.text, '22')} />
         </div>
 
       </Card>
 
       <div style={{ marginTop: 22 }}>
         <SectionHeader title="Continuar estudando" action="Ver todas" onAction={() => onGoTab("disciplines")} />
-        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+        <div className="responsive-grid">
           {recent.map((d) => <DisciplineCard key={d.id} discipline={d} onClick={() => onOpenDiscipline(d)} />)}
         </div>
       </div>

@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { theme } from "../../theme/tokens";
 import { useAuth } from "../../state/AuthContext";
+import { useAppTheme } from "../../state/ThemeContext";
 import { updateUserProfile, fetchGlobalStats } from "../../services/supabaseService";
 import Card from "../../components/ui/Card";
 import SectionHeader from "../../components/ui/SectionHeader";
-import { User, BookOpen, GraduationCap, Save, X, Edit2, LogOut, Clock, Target, Star, TrendingUp, Trophy } from "lucide-react";
+import { Moon, Sun, User, BookOpen, GraduationCap, Save, X, Edit2, LogOut, Clock, Target, Star, TrendingUp, Trophy } from "lucide-react";
 
 export default function ProfileScreen({ onOpenLeaderboard }) {
+  const { themeMode, toggleTheme } = useAppTheme();
   const { user, profile, signOut, refreshProfile, isOfflineMode, updateLocalProfile } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
@@ -77,9 +79,18 @@ export default function ProfileScreen({ onOpenLeaderboard }) {
 
   return (
     <div style={{ padding: "20px 16px 90px" }}>
-      <h1 className="bs-display" style={{ fontSize: 22, fontWeight: 700, color: theme.text, margin: 0 }}>Meu Perfil</h1>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
+        <h1 className="bs-display" style={{ fontSize: 22, fontWeight: 700, color: theme.text, margin: 0 }}>Meu Perfil</h1>
+        <button
+          onClick={toggleTheme}
+          aria-label="Alternar Tema"
+          style={{ background: 'none', border: 'none', color: theme.text, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+        >
+          {themeMode === 'light' ? <Moon size={24} /> : <Sun size={24} />}
+        </button>
+      </div>
 
-      <div style={{ display: "flex", justifyContent: "center", marginTop: 24, marginBottom: 24 }}>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 24 }}>
         <div style={{ width: 100, height: 100, borderRadius: 50, background: theme.surface, border: `2px solid ${theme.primary}`, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
           {profile?.avatar_url ? (
             <img src={profile.avatar_url} alt="Avatar" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
