@@ -3,6 +3,7 @@ import { theme } from '../../theme/tokens';
 import { supabase } from '../../services/supabaseClient';
 import { updateUserProfile } from '../../services/supabaseService';
 import { mapAuthError } from '../../utils/errorMapper';
+import { useAuth } from '../../state/AuthContext';
 
 // Ícone SVG do Google (sem dependências externas)
 function GoogleIcon() {
@@ -17,6 +18,7 @@ function GoogleIcon() {
 }
 
 export default function LoginScreen() {
+  const { isOfflineMode, enterDemoMode } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
@@ -31,7 +33,7 @@ export default function LoginScreen() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!supabase) {
-      setErrorMsg('O sistema está em modo demo. Por favor, configure as variáveis de ambiente do Supabase.');
+      enterDemoMode();
       return;
     }
 
@@ -104,7 +106,7 @@ export default function LoginScreen() {
 
   const handleGoogleLogin = async () => {
     if (!supabase) {
-      setErrorMsg('O sistema está em modo demo. Por favor, configure as variáveis de ambiente do Supabase.');
+      enterDemoMode();
       return;
     }
 
@@ -165,7 +167,31 @@ export default function LoginScreen() {
       </div>
 
       {/* Formulário e-mail/senha */}
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        {isOfflineMode ? (
+          <div style={{ textAlign: 'center', marginBottom: 24, padding: 16, background: theme.surface, borderRadius: 12 }}>
+            <h3 style={{ margin: '0 0 8px', color: theme.textPrimary, fontSize: 16 }}>Modo de Demonstração</h3>
+            <p style={{ margin: '0 0 16px', color: theme.textSecondary, fontSize: 14, lineHeight: 1.5 }}>
+              O backend não está configurado neste ambiente. Você pode entrar utilizando um perfil local sem persistência de dados.
+            </p>
+            <button
+              onClick={enterDemoMode}
+              style={{
+                width: '100%',
+                padding: '14px',
+                borderRadius: 8,
+                border: 'none',
+                background: theme.primary,
+                color: '#fff',
+                fontWeight: 600,
+                fontSize: 16,
+                cursor: 'pointer'
+              }}
+            >
+              Acessar Plataforma (Demo)
+            </button>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
         {isSignUp && (
           <input
             type="text"
@@ -242,7 +268,8 @@ export default function LoginScreen() {
         >
           {loading ? 'Carregando...' : (isSignUp ? 'Criar Conta' : 'Entrar')}
         </button>
-      </form>
+        </form>
+        )}
 
       {/* Divisor "OU" — só mostra na tela de login */}
       {!isSignUp && (

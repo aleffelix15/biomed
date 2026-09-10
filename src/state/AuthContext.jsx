@@ -62,11 +62,19 @@ export function AuthProvider({ children }) {
   const signOut = async () => {
     if (supabase) {
       await supabase.auth.signOut();
+    } else {
+      setUser(null);
+      setProfile(null);
     }
   };
 
+  const enterDemoMode = () => {
+    setUser({ id: 'demo-user-123', email: 'demo@biostudy.local' });
+    setProfile({ full_name: 'Usuário Demo', course: 'Biomedicina', period: '1º Período' });
+  };
+
   return (
-    <AuthContext.Provider value={{ user, profile, loading, signOut, isOfflineMode, refreshProfile }}>
+    <AuthContext.Provider value={{ user, profile, loading, signOut, isOfflineMode, refreshProfile, enterDemoMode }}>
       {children}
     </AuthContext.Provider>
   );

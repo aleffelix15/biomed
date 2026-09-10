@@ -4,7 +4,7 @@
   "title": "Fisiologia Renal",
   "status": "active",
   "has_content": true,
-  "order_index": 0,
+  "order_index": 1,
   "modules": [
     {
       "id": "mod_renal_1",
