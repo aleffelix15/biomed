@@ -1,0 +1,34 @@
+[
+  {
+    "disciplina": "Bioquímica",
+    "periodo": 2,
+    "assuntos": [
+      {
+        "nome": "Metabolismo da Glicose",
+        "topicos": ["Glicólise", "Ciclo de Krebs", "Gliconeogênese"]
+      },
+      {
+        "nome": "Metabolismo de Lipídios",
+        "topicos": ["Beta-oxidação", "Síntese de Ácidos Graxos"]
+      }
+    ],
+    "bibliografia": ["Lehninger Princípios de Bioquímica", "Bioquímica Ilustrada Harvey"]
+  },
+  {
+    "disciplina": "Fisiologia Humana",
+    "periodo": 2,
+    "assuntos": [
+      {
+        "nome": "Fisiologia Cardiovascular",
+        "topicos": ["Ciclo Cardíaco", "Eletrocardiograma", "Regulação da Pressão Arterial"]
+      }
+    ],
+    "bibliografia": ["Tratado de Fisiologia Médica Guyton", "Fisiologia Margarida de Mello Aires"]
+  },
+  {
+    "disciplina": "Análise Malformada (Deve Falhar e Continuar)",
+    "periodo": "invalido",
+    "assuntos": "não é um array",
+    "bibliografia": []
+  }
+]
