@@ -1,0 +1,151 @@
+{
+  "id": "biosseguranca_normas_biosseguranca_gerenciamento_residuos",
+  "discipline_id": "biosseguranca",
+  "title": "Normas de Biossegurança e Gerenciamento de Resíduos",
+  "status": "active",
+  "has_content": true,
+  "order_index": 0,
+  "modules": [
+    {
+      "id": "mod_bio_1",
+      "topic_id": "biosseguranca_normas_biosseguranca_gerenciamento_residuos",
+      "title": "Conceitos Básicos e Proteção",
+      "order_index": 0,
+      "lessons": [
+        {
+          "id": "les_bio_1_1",
+          "module_id": "mod_bio_1",
+          "title": "Princípios de Biossegurança",
+          "objective": "Compreender a finalidade e a aplicação da biossegurança",
+          "difficulty": "Fácil",
+          "estimated_minutes": 15,
+          "content_markdown": "A **Biossegurança** é o conjunto de medidas que visa prevenir, controlar, reduzir ou eliminar riscos inerentes às atividades que possam comprometer a saúde humana, animal e o meio ambiente. Ela se aplica a laboratórios, hospitais e clínicas, focando na minimização da exposição a agentes biológicos, químicos e físicos.",
+          "clinical_application": "A implementação rigorosa de protocolos de biossegurança reduz a incidência de infecções relacionadas à assistência à saúde (IRAS).",
+          "summary": "Prevenção e controle de riscos em ambientes de saúde.",
+          "key_points": "[\"Prevenção de Riscos\", \"Segurança do Trabalhador\", \"Saúde Pública\"]",
+          "order_index": 0
+        },
+        {
+          "id": "les_bio_1_2",
+          "module_id": "mod_bio_1",
+          "title": "EPIs e EPCs",
+          "objective": "Diferenciar e aplicar corretamente os equipamentos de proteção",
+          "difficulty": "Fácil",
+          "estimated_minutes": 15,
+          "content_markdown": "Os **EPIs (Equipamentos de Proteção Individual)** são dispositivos de uso pessoal (luvas, jaleco, máscara, óculos, protetor auricular). Os **EPCs (Equipamentos de Proteção Coletiva)** protegem o grupo e o ambiente (Capelas de exaustão, chuveiro de emergência, lava-olhos, extintores). O uso correto do EPI deve seguir a ordem: jaleco -> máscara -> óculos -> luvas.",
+          "clinical_application": "O uso de luvas de nitrilo é preferível ao látex em casos de alergia e oferece maior resistência a certos solventes químicos.",
+          "summary": "Proteção individual (EPI) e coletiva (EPC).",
+          "key_points": "[\"EPI\", \"EPC\", \"Ordem de Paramentação\"]",
+          "order_index": 1
+        },
+        {
+          "id": "les_bio_1_3",
+          "module_id": "mod_bio_1",
+          "title": "Higienização das Mãos",
+          "objective": "Dominar as técnicas de lavagem e antissepsia das mãos",
+          "difficulty": "Fácil",
+          "estimated_minutes": 15,
+          "content_markdown": "A higienização das mãos é a medida mais simples e eficaz para evitar a propagação de patógenos. Existem três tipos: **Lavagem Simples** (água e sabão para sujidade visível), **Desinfecção** (álcool 70%) e **Degermação/Antissepsia** (sabões antissépticos como clorexidina). A técnica deve envolver a fricção de todas as superfícies, incluindo unhas e espaços interdigitais.",
+          "clinical_application": "A higienização das mãos antes e após o contato com o paciente reduz drasticamente a transmissão cruzada de bactérias multirresistentes.",
+          "summary": "Técnicas de lavagem e antissepsia para controle de infecção.",
+          "key_points": "[\"Lavagem Simples\", \"Álcool 70%\", \"Clorexidina\"]",
+          "order_index": 2
+        }
+      ]
+    },
+    {
+      "id": "mod_bio_2",
+      "topic_id": "biosseguranca_normas_biosseguranca_gerenciamento_residuos",
+      "title": "Riscos e Esterilização",
+      "order_index": 1,
+      "lessons": [
+        {
+          "id": "les_bio_2_1",
+          "module_id": "mod_bio_2",
+          "title": "Classificação de Riscos",
+          "objective": "Identificar os riscos biológicos, químicos e físicos",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "Os riscos são classificados como: **Biológicos** (vírus, bactérias, fungos), **Químicos** (ácidos, bases, solventes), **Físicos** (radiação, ruído, calor) e **Ergonômicos** (postura, estresse). Os agentes biológicos são divididos em **Classes de Risco (1 a 4)**, onde a Classe 4 representa patógenos altamente perigosos com alta transmissibilidade e sem tratamento eficaz (ex: vírus Ebola).",
+          "clinical_application": "Trabalhar com agentes de Classe 3 (ex: Mycobacterium tuberculosis) exige o uso de Cabines de Segurança Biológica (CSB) Classe II.",
+          "summary": "Tipos de riscos e níveis de biossegurança.",
+          "key_points": "[\"Riscos Biológicos\", \"Classes de Risco\", \"CSB\"]",
+          "order_index": 0
+        },
+        {
+          "id": "les_bio_2_2",
+          "module_id": "mod_bio_2",
+          "title": "Limpeza, Desinfecção e Esterilização",
+          "objective": "Diferenciar os níveis de processamento de materiais",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "A **Limpeza** remove a sujeira visível. A **Desinfecção** elimina a maioria dos microrganismos (exceto esporos) via agentes químicos. A **Esterilização** destrói todas as formas de vida microbiana, incluindo esporos. Métodos comuns incluem a **Autoclavação** (calor úmido sob pressão - padrão ouro), **Forno de Pasteur** (calor seco) e **Radiação Gamma**.",
+          "clinical_application": "Instrumentais cirúrgicos devem obrigatoriamente passar por esterilização via autoclave para garantir a ausência de esporos bacterianos.",
+          "summary": "Limpeza -> Desinfecção -> Esterilização.",
+          "key_points": "[\"Autoclave\", \"Esporos\", \"Desinfecção\"]",
+          "order_index": 1
+        },
+        {
+          "id": "les_bio_2_3",
+          "module_id": "mod_bio_2",
+          "title": "Monitoramento da Esterilização",
+          "objective": "Validar a eficácia do processo de esterilização",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "A esterilização deve ser monitorada por três tipos de indicadores: **Físicos** (pressão e temperatura do aparelho), **Químicos** (fitas que mudam de cor) e **Biológicos** (uso de esporos de *Geobacillus stearothermophilus* que devem morrer após o ciclo). O indicador biológico é a única prova definitiva de esterilização.",
+          "clinical_application": "A falha no indicador biológico exige o recolhimento de todos os materiais processados naquele lote para nova esterilização.",
+          "summary": "Monitoramento físico, químico e biológico da autoclave.",
+          "key_points": "[\"Indicadores Biológicos\", \"Geobacillus\", \"Validação\"]",
+          "order_index": 2
+        }
+      ]
+    },
+    {
+      "id": "mod_bio_3",
+      "topic_id": "biosseguranca_normas_biosseguranca_gerenciamento_residuos",
+      "title": "Gerenciamento de Resíduos (RSS)",
+      "order_index": 2,
+      "lessons": [
+        {
+          "id": "les_bio_3_1",
+          "module_id": "mod_bio_3",
+          "title": "Classificação dos Resíduos de Saúde",
+          "objective": "Categorizar resíduos conforme a RDC da ANVISA",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "Os resíduos são divididos em: **Grupo A** (Biológicos/Infectantes), **Grupo B** (Químicos), **Grupo C** (Rejeitos Radioativos), **Grupo D** (Comuns/Recicláveis) e **Grupo E** (Perfurocortantes). Cada grupo exige um acondicionamento e tratamento específico para evitar acidentes e contaminação ambiental.",
+          "clinical_application": "Agulhas e lâminas de bisturi pertencem obrigatoriamente ao Grupo E e devem ser descartadas em recipientes rígidos e resistentes a perfurações.",
+          "summary": "Grupos A (bio), B (quim), C (radio), D (comum) e E (perfuro).",
+          "key_points": "[\"Grupo A\", \"Grupo E\", \"RDC ANVISA\"]",
+          "order_index": 0
+        },
+        {
+          "id": "les_bio_3_2",
+          "module_id": "mod_bio_3",
+          "title": "Acondicionamento e Coleta",
+          "objective": "Aplicar as normas de descarte e cores de sacos",
+          "difficulty": "Fácil",
+          "estimated_minutes": 15,
+          "content_markdown": "O descarte correto previne acidentes. Resíduos do **Grupo A** vão em sacos brancos leitosos com símbolo de risco biológico. Resíduos do **Grupo D** seguem a coleta seletiva (azul, vermelho, verde, amarelo). Resíduos do **Grupo E** vão em caixas amarelas rígidas (tipo Descarpack).",
+          "clinical_application": "O descarte de algodão com sangue no lixo comum (Grupo D) é uma infração grave de biossegurança e risco para a equipe de limpeza.",
+          "summary": "Cores de sacos e recipientes rígidos para a segurança no descarte.",
+          "key_points": "[\"Saco Branco Leitoso\", \"Descarpack\", \"Coleta Seletiva\"]",
+          "order_index": 1
+        },
+        {
+          "id": "les_bio_3_3",
+          "module_id": "mod_bio_3",
+          "title": "Tratamento e Destinação Final",
+          "objective": "Entender a neutralização de resíduos perigosos",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "Resíduos infectantes (Grupo A) devem ser tratados via **Autoclavagem** ou **Incineração** antes do descarte final. Resíduos químicos (Grupo B) podem exigir neutralização química ou incineração controlada. O destino final é geralmente um aterro sanitário licenciado para resíduos de saúde.",
+          "clinical_application": "A incineração é a técnica preferencial para tecidos humanos e resíduos citostáticos (quimioterápicos) devido à destruição total da molécula.",
+          "summary": "Tratamento via autoclave ou incineração antes do aterro sanitário.",
+          "key_points": "[\"Incineração\", \"Autoclavagem\", \"Aterro Sanitário\"]",
+          "order_index": 2
+        }
+      ]
+    }
+  ]
+}

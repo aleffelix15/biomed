@@ -1,0 +1,151 @@
+{
+  "id": "citologia_organelas_citoplasmaticas_transporte",
+  "discipline_id": "citologia",
+  "title": "Organelas Citoplasmáticas e Transporte",
+  "status": "active",
+  "has_content": true,
+  "order_index": 0,
+  "modules": [
+    {
+      "id": "mod_cit_1",
+      "topic_id": "citologia_organelas_citoplasmaticas_transporte",
+      "title": "Membrana Plasmática e Transporte",
+      "order_index": 0,
+      "lessons": [
+        {
+          "id": "les_cit_1_1",
+          "module_id": "mod_cit_1",
+          "title": "Estrutura da Membrana",
+          "objective": "Compreender o modelo do mosaico fluido",
+          "difficulty": "Fácil",
+          "estimated_minutes": 15,
+          "content_markdown": "A membrana plasmática segue o modelo do **Mosaico Fluido**. É composta por uma bicamada de fosfolipídios (com cabeças hidrofílicas e caudas hidrofóbicas), proteínas integrais e periféricas, e colesterol (em células animais), que regula a fluidez. A membrana é **seletivamente permeável**, controlando o que entra e sai da célula.",
+          "clinical_application": "O colesterol é essencial para a estabilidade da membrana; níveis alterados podem afetar a função de receptores celulares.",
+          "summary": "Bicamada fosfolipídica com proteínas e colesterol.",
+          "key_points": "[\"Mosaico Fluido\", \"Permeabilidade Seletiva\", \"Fosfolipídios\"]",
+          "order_index": 0
+        },
+        {
+          "id": "les_cit_1_2",
+          "module_id": "mod_cit_1",
+          "title": "Transporte Passivo",
+          "objective": "Analisar a difusão e a osmose",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "O transporte passivo não gasta ATP e ocorre a favor do gradiente de concentração. A **Difusão Simples** ocorre para moléculas pequenas e apolares (ex: O2). A **Difusão Facilitada** usa proteínas de canal ou carreadoras para moléculas polares (ex: Glicose via GLUT). A **Osmose** é o movimento da água do meio hipotônico para o hipertônico através de aquaporinas.",
+          "clinical_application": "O uso de soros hipertônicos em certas emergências visa extrair água do tecido cerebral edemaciado para o vaso sanguíneo via osmose.",
+          "summary": "Movimento a favor do gradiente sem gasto de energia.",
+          "key_points": "[\"Difusão Simples\", \"Difusão Facilitada\", \"Osmose\"]",
+          "order_index": 1
+        },
+        {
+          "id": "les_cit_1_3",
+          "module_id": "mod_cit_1",
+          "title": "Transporte Ativo",
+          "objective": "Compreender o transporte contra o gradiente",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "O transporte ativo exige gasto de ATP para mover solutos contra o gradiente de concentração. O exemplo clássico é a **Bomba de Sódio e Potássio (Na+/K+-ATPase)**, que mantém a polaridade da célula (expulsa 3 Na+ e coloca 2 K+). Existem também o transporte ativo primário e o secundário (cotransporte e antitransporte).",
+          "clinical_application": "A Digoxina, usada na insuficiência cardíaca, inibe a bomba Na+/K+ ATPase, aumentando a concentração intracelular de cálcio e a força de contração cardíaca.",
+          "summary": "Gasto de ATP para mover solutos contra o gradiente.",
+          "key_points": "[\"Bomba Na+/K+\", \"ATP\", \"Gradiente de Concentração\"]",
+          "order_index": 2
+        }
+      ]
+    },
+    {
+      "id": "mod_cit_2",
+      "topic_id": "citologia_organelas_citoplasmaticas_transporte",
+      "title": "Sistema de Endomembranas",
+      "order_index": 1,
+      "lessons": [
+        {
+          "id": "les_cit_2_1",
+          "module_id": "mod_cit_2",
+          "title": "Retículo Endoplasmático",
+          "objective": "Diferenciar RER e REL",
+          "difficulty": "Fácil",
+          "estimated_minutes": 15,
+          "content_markdown": "O **Retículo Endoplasmático Rugoso (RER)** possui ribossomos aderidos e é responsável pela síntese de proteínas de exportação ou membrana. O **Retículo Endoplasmático Liso (REL)** não possui ribossomos e atua na síntese de lipídios, metabolismo de carboidratos e desintoxicação celular (especialmente no fígado).",
+          "clinical_application": "O uso crônico de álcool induz a hipertrofia do REL nos hepatócitos para acelerar a metabolização da toxina.",
+          "summary": "RER (Proteínas) e REL (Lipídios/Desintoxicação).",
+          "key_points": "[\"RER\", \"REL\", \"Síntese Proteica\"]",
+          "order_index": 0
+        },
+        {
+          "id": "les_cit_2_2",
+          "module_id": "mod_cit_2",
+          "title": "Complexo de Golgi",
+          "objective": "Analisar o processamento e secreção celular",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "O Complexo de Golgi funciona como o 'centro de distribuição' da célula. Ele recebe vesículas do RER, modifica as proteínas (ex: glicosilação), empacota e as envia para o destino correto (lisossomos, membrana ou exterior). É também o local de formação dos acrossomos no espermatozoide.",
+          "clinical_application": "Defeitos na glicosilação no Golgi podem causar doenças congênitas graves de glicosilação (CDG).",
+          "summary": "Processamento, empacotamento e secreção de substâncias.",
+          "key_points": "[\"Glicosilação\", \"Vesículas de Secreção\", \"Acrossomo\"]",
+          "order_index": 1
+        },
+        {
+          "id": "les_cit_2_3",
+          "module_id": "mod_cit_2",
+          "title": "Lisossomos e Peroxissomos",
+          "objective": "Entender a digestão intracelular e a detoxificação",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "Os **Lisossomos** contêm hidrolases ácidas e realizam a digestão intracelular (autofagia e heterofagia). Os **Peroxissomos** contêm oxidases e catalase, sendo responsáveis pela oxidação de ácidos graxos de cadeia longa e a neutralização do peróxido de hidrogênio (H2O2).",
+          "clinical_application": "Doenças de depósito lisossômico (ex: Doença de Gaucher) ocorrem quando a falta de uma enzima causa o acúmulo de substâncias não digeridas.",
+          "summary": "Lisossomos (digestão ácida) e Peroxissomos (oxidação/catalase).",
+          "key_points": "[\"Hidrolases Ácidas\", \"Catalase\", \"Autofagia\"]",
+          "order_index": 2
+        }
+      ]
+    },
+    {
+      "id": "mod_cit_3",
+      "topic_id": "citologia_organelas_citoplasmaticas_transporte",
+      "title": "Bioenergética Celular",
+      "order_index": 2,
+      "lessons": [
+        {
+          "id": "les_cit_3_1",
+          "module_id": "mod_cit_3",
+          "title": "Mitocôndrias",
+          "objective": "Compreender a produção de ATP",
+          "difficulty": "Difícil",
+          "estimated_minutes": 15,
+          "content_markdown": "As mitocôndrias são as usinas energéticas da célula. Possuem DNA próprio circular e membrana dupla. Ocorrem nela o Ciclo de Krebs (matriz) e a Cadeia Respiratória (cristas), resultando na síntese de ATP via fosforilação oxidativa, utilizando oxigênio como aceptor final de elétrons.",
+          "clinical_application": "Doenças mitocondriais afetam preferencialmente órgãos com alta demanda energética, como o cérebro e o coração.",
+          "summary": "Produção de ATP via respiração celular.",
+          "key_points": "[\"Ciclo de Krebs\", \"Cadeia Respiratória\", \"ATP\"]",
+          "order_index": 0
+        },
+        {
+          "id": "les_cit_3_2",
+          "module_id": "mod_cit_3",
+          "title": "Cloroplastos",
+          "objective": "Entender a fotossíntese",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "Presentes em plantas e algas, os cloroplastos realizam a fotossíntese. A fase clara (tilacoides) converte luz em ATP e NADPH; a fase escura (estroma) usa esse ATP e NADPH para fixar CO2 e produzir glicose. Possuem DNA próprio e herança materna.",
+          "clinical_application": "Estudos sobre a eficiência da fotossíntese são aplicados na agricultura para aumentar a produtividade de culturas.",
+          "summary": "Conversão de energia luminosa em energia química (glicose).",
+          "key_points": "[\"Fotossíntese\", \"Tilacoides\", \"Fixação de CO2\"]",
+          "order_index": 1
+        },
+        {
+          "id": "les_cit_3_3",
+          "module_id": "mod_cit_3",
+          "title": "Teoria Endossimbiótica",
+          "objective": "Analisar a origem das organelas energéticas",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "A teoria endossimbiótica propõe que mitocôndrias e cloroplastos originaram-se de procariontes que foram englobados por células eucariontes primitivas. As evidências incluem a presença de DNA circular próprio, ribossomos 70S (tipo bacteriano) e a capacidade de autoduplicação independente da célula.",
+          "clinical_application": "Essa teoria explica por que a toxicidade de certos antibióticos (como cloranfenicol) pode afetar as mitocôndrias humanas.",
+          "summary": "Origem bacteriana de mitocôndrias e cloroplastos.",
+          "key_points": "[\"Endossimbiose\", \"DNA Circular\", \"Ribossomos 70S\"]",
+          "order_index": 2
+        }
+      ]
+    }
+  ]
+}

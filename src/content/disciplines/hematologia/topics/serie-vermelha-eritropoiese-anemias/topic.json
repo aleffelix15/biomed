@@ -1,0 +1,151 @@
+{
+  "id": "hematologia_serie_vermelha_eritropoiese_anemias",
+  "discipline_id": "hematologia",
+  "title": "Série Vermelha: Eritropoiese e Anemias",
+  "status": "active",
+  "has_content": true,
+  "order_index": 0,
+  "modules": [
+    {
+      "id": "mod_hem_1",
+      "topic_id": "hematologia_serie_vermelha_eritropoiese_anemias",
+      "title": "Eritropoiese",
+      "order_index": 0,
+      "lessons": [
+        {
+          "id": "les_hem_1_1",
+          "module_id": "mod_hem_1",
+          "title": "Produção de Hemácias",
+          "objective": "Compreender a formação das hemácias na medula óssea",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "A eritropoiese é o processo de formação de eritrócitos. Ocorre na medula óssea vermelha sob estímulo da **eritropoetina (EPO)**, hormônio produzido principalmente pelos rins em resposta à hipóxia. As etapas incluem a diferenciação de células progenitoras em proeritroblastos, eritroblastos (síntese de hemoglobina), reticulócitos (perda do núcleo) e, finalmente, eritrócitos maduros.",
+          "clinical_application": "A insuficiência renal crônica leva a baixos níveis de EPO, resultando em anemia normocítica normocrômica.",
+          "summary": "EPO estimula a produção de hemácias na medula óssea.",
+          "key_points": "[\"Eritropoetina\", \"Reticulócitos\", \"Hipóxia\"]",
+          "order_index": 0
+        },
+        {
+          "id": "les_hem_1_2",
+          "module_id": "mod_hem_1",
+          "title": "Metabolismo do Ferro",
+          "objective": "Analisar a absorção e transporte de ferro",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "O ferro é essencial para a síntese do heme. É absorvido no duodeno e jejuno proximal. A **transferrina** transporta o ferro no plasma, e a **ferritina** é a principal proteína de armazenamento no fígado e macrófagos. A **hepcidina** é o regulador mestre, reduzindo a absorção de ferro quando os estoques estão altos ou há inflamação.",
+          "clinical_application": "Em doenças inflamatórias crônicas, a hepcidina elevada bloqueia o ferro nos estoques, causando anemia mesmo com ferro disponível (anemia de doença crônica).",
+          "summary": "Transferrina transporta, Ferritina armazena, Hepcidina regula.",
+          "key_points": "[\"Transferrina\", \"Ferritina\", \"Hepcidina\"]",
+          "order_index": 1
+        },
+        {
+          "id": "les_hem_1_3",
+          "module_id": "mod_hem_1",
+          "title": "B12 e Folato",
+          "objective": "Entender a importância da B12 e do ácido fólico na síntese de DNA",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "A vitamina B12 (cobalamina) e o folato são cofatores essenciais para a síntese de timidina (DNA). A B12 requer o **fator intrínseco** (secretado pelas células parietais do estômago) para ser absorvida no íleo distal. A deficiência de qualquer um desses nutrientes impede a divisão celular normal dos precursores eritroides.",
+          "clinical_application": "A anemia perniciosa ocorre por ausência de fator intrínseco (gastrite autoimune), levando a anemia megaloblástica.",
+          "summary": "B12 e Folato são essenciais para a maturação nuclear das hemácias.",
+          "key_points": "[\"Fator Intrínseco\", \"Síntese de DNA\", \"Anemia Megaloblástica\"]",
+          "order_index": 2
+        }
+      ]
+    },
+    {
+      "id": "mod_hem_2",
+      "topic_id": "hematologia_serie_vermelha_eritropoiese_anemias",
+      "title": "Anemias Microcíticas e Hipocrômicas",
+      "order_index": 1,
+      "lessons": [
+        {
+          "id": "les_hem_2_1",
+          "module_id": "mod_hem_2",
+          "title": "Anemia Ferropriva",
+          "objective": "Diagnosticar a deficiência de ferro",
+          "difficulty": "Fácil",
+          "estimated_minutes": 15,
+          "content_markdown": "A anemia ferropriva é a mais comum. Caracteriza-se por hemácias pequenas (**microcíticas**) e pálidas (**hipocrômicas**). A causa principal é a perda sanguínea crônica (ex: fluxo menstrual intenso ou sangramentos gastrointestinais) ou baixa ingestão dietética. No hemograma: VCM baixo, HCM baixo e RDW elevado.",
+          "clinical_application": "A pica (desejo de comer gelo ou terra) é um sintoma comportamental clássico da deficiência de ferro.",
+          "summary": "VCM e HCM baixos por falta de ferro para a hemoglobina.",
+          "key_points": "[\"VCM baixo\", \"HCM baixo\", \"RDW elevado\"]",
+          "order_index": 0
+        },
+        {
+          "id": "les_hem_2_2",
+          "module_id": "mod_hem_2",
+          "title": "Talassemias",
+          "objective": "Compreender a anemia por defeito genético de síntese de globinas",
+          "difficulty": "Difícil",
+          "estimated_minutes": 15,
+          "content_markdown": "As talassemias são anemias hereditárias causadas pela redução ou ausência da síntese de uma das cadeias de globina (alfa ou beta). A **Beta-talassemia maior** causa anemia grave desde a infância, exigindo transfusões constantes, que levam ao acúmulo de ferro (hemossiderose).",
+          "clinical_application": "Diferente da ferropriva, a talassemia apresenta VCM muito baixo mas com contagem de hemácias frequentemente normal ou alta.",
+          "summary": "Defeito genético na produção de globina.",
+          "key_points": "[\"Beta-talassemia\", \"Hemoglobina\", \"Hereditária\"]",
+          "order_index": 1
+        },
+        {
+          "id": "les_hem_2_3",
+          "module_id": "mod_hem_2",
+          "title": "Anemia de Doença Crônica",
+          "objective": "Analisar a anemia por sequestro de ferro",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "Ocorre em estados inflamatórios prolongados. A hepcidina elevada bloqueia a saída de ferro dos macrófagos e a absorção intestinal. A anemia costuma ser normocítica, mas pode evoluir para microcítica. O ferro sérico está baixo, mas a ferritina está normal ou alta (está sequestrado).",
+          "clinical_application": "O erro comum é tratar a anemia de doença crônica com ferro oral, o que é ineficaz e pode ser prejudicial.",
+          "summary": "Ferro disponível, mas inacessível devido à inflamação.",
+          "key_points": "[\"Hepcidina\", \"Ferritina Alta\", \"Sequestro de Ferro\"]",
+          "order_index": 2
+        }
+      ]
+    },
+    {
+      "id": "mod_hem_3",
+      "topic_id": "hematologia_serie_vermelha_eritropoiese_anemias",
+      "title": "Anemias Macrocíticas e Normocíticas",
+      "order_index": 2,
+      "lessons": [
+        {
+          "id": "les_hem_3_1",
+          "module_id": "mod_hem_3",
+          "title": "Anemias Megaloblásticas",
+          "objective": "Identificar a anemia por deficiência de B12 ou Folato",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "Caracterizam-se por hemácias grandes (**macrocíticas**, VCM > 100 fL) e núcleo imaturo. A deficiência de B12 causa, além da anemia, sintomas neurológicos (degeneração combinada subaguda da medula). A deficiência de folato é comum em alcoólatras e gestantes.",
+          "clinical_application": "O exame de sangue revela neutrófilos hipersegmentados, um achado patognomônico da anemia megaloblástica.",
+          "summary": "Hemácias grandes por falha na síntese de DNA.",
+          "key_points": "[\"VCM alto\", \"Neutrófilos Hipersegmentados\", \"B12/Folato\"]",
+          "order_index": 0
+        },
+        {
+          "id": "les_hem_3_2",
+          "module_id": "mod_hem_3",
+          "title": "Anemias Hemolíticas",
+          "objective": "Estudar a destruição precoce das hemácias",
+          "difficulty": "Difícil",
+          "estimated_minutes": 15,
+          "content_markdown": "Ocorrem quando a hemácia é destruída antes dos 120 dias. Podem ser **Intracorpusculares** (ex: Anemia Falciforme, Esferocitose) ou **Extracorpusculares** (ex: autoimunes, malária). Marcadores laboratoriais: aumento de bilirrubina indireta, aumento de LDH e reticulocitose (medula tentando compensar).",
+          "clinical_application": "A icterícia (pele amarela) é comum em anemias hemolíticas devido ao excesso de bilirrubina indireta liberada na lise celular.",
+          "summary": "Destruição prematura com reticulocitose e icterícia.",
+          "key_points": "[\"Hemólise\", \"Bilirrubina Indireta\", \"Reticulocitose\"]",
+          "order_index": 1
+        },
+        {
+          "id": "les_hem_3_3",
+          "module_id": "mod_hem_3",
+          "title": "Anemias Aplásticas e Normocíticas",
+          "objective": "Analisar a falência medular",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "Anemias normocíticas (VCM normal) podem ocorrer por insuficiência renal, hipotireoidismo ou anemia aplástica. A **Anemia Aplástica** é a falência da medula óssea, resultando em pancitopenia (queda de hemácias, leucócitos e plaquetas). Pode ser idiopática ou induzida por toxinas/radiação.",
+          "clinical_application": "A pancitopenia grave requer urgência médica devido ao risco de infecções fatais e hemorragias espontâneas.",
+          "summary": "VCM normal; a aplástica gera queda de todas as linhagens celulares.",
+          "key_points": "[\"Normocítica\", \"Pancitopenia\", \"Falência Medular\"]",
+          "order_index": 2
+        }
+      ]
+    }
+  ]
+}

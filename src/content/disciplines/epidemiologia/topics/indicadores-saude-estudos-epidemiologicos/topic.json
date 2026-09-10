@@ -1,0 +1,151 @@
+{
+  "id": "epidemiologia_indicadores_saude_estudos_epidemiologicos",
+  "discipline_id": "epidemiologia",
+  "title": "Indicadores de Saúde e Estudos Epidemiológicos",
+  "status": "active",
+  "has_content": true,
+  "order_index": 0,
+  "modules": [
+    {
+      "id": "mod_epi_1",
+      "topic_id": "epidemiologia_indicadores_saude_estudos_epidemiologicos",
+      "title": "Indicadores de Saúde",
+      "order_index": 0,
+      "lessons": [
+        {
+          "id": "les_epi_1_1",
+          "module_id": "mod_epi_1",
+          "title": "Morbidade: Incidência e Prevalência",
+          "objective": "Diferenciar incidência de prevalência",
+          "difficulty": "Fácil",
+          "estimated_minutes": 15,
+          "content_markdown": "A **Incidência** refere-se ao número de casos NOVOS de uma doença em uma população em um período determinado. É a medida de risco. A **Prevalência** refere-se ao número TOTAL de casos (novos + antigos) existentes em um determinado momento. É a medida de a carga da doença na população.",
+          "clinical_application": "Para controlar a propagação de uma nova epidemia, a incidência é o indicador mais crítico. Para planejar a infraestrutura de saúde para doenças crônicas, usa-se a prevalência.",
+          "summary": "Incidência (novos casos/risco) vs Prevalência (total de casos/carga).",
+          "key_points": "[\"Incidência\", \"Prevalência\", \"Morbidade\"]",
+          "order_index": 0
+        },
+        {
+          "id": "les_epi_1_2",
+          "module_id": "mod_epi_1",
+          "title": "Indicadores de Mortalidade",
+          "objective": "Analisar a mortalidade geral e específica",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "Os indicadores de mortalidade medem a frequência de óbitos. A **Mortalidade Geral** é a razão entre o número de óbitos e a população total. A **Mortalidade Infantil** (menores de 1 ano) é um indicador sensível do nível de desenvolvimento socioeconômico e de saúde de uma região. A **Letalidade** mede a proporção de óbitos entre as pessoas que têm a doença.",
+          "clinical_application": "A letalidade alta indica que a doença é grave, independentemente de quantas pessoas a tenham na população.",
+          "summary": "Mortalidade (população geral) vs Letalidade (entre doentes).",
+          "key_points": "[\"Mortalidade Infantil\", \"Letalidade\", \"Razão de Mortalidade\"]",
+          "order_index": 1
+        },
+        {
+          "id": "les_epi_1_3",
+          "module_id": "mod_epi_1",
+          "title": "Esperança de Vida e Anos de Vida Perdidos (DALY)",
+          "objective": "Entender indicadores de qualidade de vida",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "A **Esperança de Vida ao Nascer** é a média de anos que se espera que uma pessoa viva. O **DALY (Disability-Adjusted Life Year)** é um indicador mais complexo que soma os anos de vida perdidos por morte prematura (YLL) aos anos vividos com incapacidade (YLD), medindo a carga global de doenças.",
+          "clinical_application": "O DALY permite que governos priorizem investimentos em doenças que, embora não matem rapidamente, causam grande incapacidade (ex: depressão, cegueira).",
+          "summary": "Esperança de vida e DALY (carga de doença e incapacidade).",
+          "key_points": "[\"Esperança de Vida\", \"DALY\", \"Qualidade de Vida\"]",
+          "order_index": 2
+        }
+      ]
+    },
+    {
+      "id": "mod_epi_2",
+      "topic_id": "epidemiologia_indicadores_saude_estudos_epidemiologicos",
+      "title": "Desenhos de Estudos Epidemiológicos",
+      "order_index": 1,
+      "lessons": [
+        {
+          "id": "les_epi_2_1",
+          "module_id": "mod_epi_2",
+          "title": "Estudos Descritivos e Ecológicos",
+          "objective": "Identificar estudos de observação inicial",
+          "difficulty": "Fácil",
+          "estimated_minutes": 15,
+          "content_markdown": "Estudos **Descritivos** descrevem a distribuição de doenças por pessoa, lugar e tempo (ex: Relatório de Caso). Estudos **Ecológicos** analisam populações ou grupos, não indivíduos, comparando médias de exposição e doença entre diferentes regiões. O principal erro é a 'falácia ecológica', assumir que a associação no grupo vale para o indivíduo.",
+          "clinical_application": "A análise ecológica pode sugerir que regiões com maior consumo de gordura têm mais câncer de cólon, mas não prova a causa para cada paciente.",
+          "summary": "Descritivos (relatos) e Ecológicos (comparação de grupos/populações).",
+          "key_points": "[\"Estudo Descritivo\", \"Estudo Ecológico\", \"Falácia Ecológica\"]",
+          "order_index": 0
+        },
+        {
+          "id": "les_epi_2_2",
+          "module_id": "mod_epi_2",
+          "title": "Estudos Caso-Controle e Coorte",
+          "objective": "Diferenciar estudos analíticos observacionais",
+          "difficulty": "Difícil",
+          "estimated_minutes": 15,
+          "content_markdown": "No estudo de **Caso-Controle**, partimos de pessoas doentes (casos) e saudáveis (controles) e olhamos para o PASSADO para buscar a exposição. No estudo de **Coorte**, partimos de pessoas expostas e não expostas e as acompanhamos no FUTURO para ver quem desenvolve a doença. A coorte é mais robusta para calcular incidência.",
+          "clinical_application": "Para doenças raras, o Caso-Controle é ideal. Para exposições raras, a Coorte é a melhor escolha.",
+          "summary": "Caso-Controle (Passado/Retrospectivo) vs Coorte (Futuro/Prospectivo).",
+          "key_points": "[\"Caso-Controle\", \"Coorte\", \"Incidência\"]",
+          "order_index": 1
+        },
+        {
+          "id": "les_epi_2_3",
+          "module_id": "mod_epi_2",
+          "title": "Ensaios Clínicos Randomizados (ECR)",
+          "objective": "Entender o padrão-ouro da evidência",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "O **ECR** é um estudo experimental onde os participantes são divididos aleatoriamente (randomização) em grupo intervenção ou controle (placebo). O uso de **Duplo-Cego** (nem médico nem paciente sabem o grupo) elimina vieses de observação e expectativa. É o padrão-ouro para testar a eficácia de novos fármacos.",
+          "clinical_application": "A randomização garante que as características dos grupos sejam semelhantes, atribuindo a diferença no resultado apenas à intervenção testada.",
+          "summary": "Experimental, randomizado, duplo-cego; padrão-ouro de eficácia.",
+          "key_points": "[\"Randomização\", \"Placebo\", \"Duplo-Cego\"]",
+          "order_index": 2
+        }
+      ]
+    },
+    {
+      "id": "mod_epi_3",
+      "topic_id": "epidemiologia_indicadores_saude_estudos_epidemiologicos",
+      "title": "Vigilância e Análise de Dados",
+      "order_index": 2,
+      "lessons": [
+        {
+          "id": "les_epi_3_1",
+          "module_id": "mod_epi_3",
+          "title": "Vigilância Epidemiológica",
+          "objective": "Compreender o sistema de notificação de doenças",
+          "difficulty": "Fácil",
+          "estimated_minutes": 15,
+          "content_markdown": "A Vigilância Epidemiológica é a coleta sistemática e análise de dados de saúde para planejamento de ações. A **Notificação Compulsória** obriga profissionais de saúde a informar autoridades sobre doenças específicas (ex: Dengue, Sarampo). O objetivo é a detecção precoce de surtos e a implementação de bloqueios.",
+          "clinical_application": "A notificação imediata de um caso de Febre Amarela permite a vacinação de bloqueio na região para conter o vírus.",
+          "summary": "Coleta de dados e notificação compulsória para controle de surtos.",
+          "key_points": "[\"Notificação Compulsória\", \"Surtos\", \"Vigilância\"]",
+          "order_index": 0
+        },
+        {
+          "id": "les_epi_3_2",
+          "module_id": "mod_epi_3",
+          "title": "Sensibilidade e Especificidade",
+          "objective": "Analisar a performance de testes diagnósticos",
+          "difficulty": "Difícil",
+          "estimated_minutes": 15,
+          "content_markdown": "A **Sensibilidade** é a capacidade de um teste detectar a doença em quem REALMENTE está doente (evita falsos negativos). A **Especificidade** é a capacidade de dar negativo em quem REALMENTE está saudável (evita falsos positivos). Um teste altamente sensível é ideal para triagem (screening).",
+          "clinical_application": "Um teste de triagem para HIV deve ser altamente sensível para não deixar passar nenhum caso, mesmo que precise de um teste confirmatório mais específico depois.",
+          "summary": "Sensibilidade (evita falsos negativos) e Especificidade (evita falsos positivos).",
+          "key_points": "[\"Sensibilidade\", \"Especificidade\", \"Falsos Positivos\"]",
+          "order_index": 1
+        },
+        {
+          "id": "les_epi_3_3",
+          "module_id": "mod_epi_3",
+          "title": "Risco Relativo e Odds Ratio",
+          "objective": "Interpretar a força da associação",
+          "difficulty": "Difícil",
+          "estimated_minutes": 15,
+          "content_markdown": "O **Risco Relativo (RR)** é usado em coortes para comparar a incidência entre expostos e não expostos. O **Odds Ratio (OR)** é usado em caso-controle para estimar a chance de exposição entre casos e controles. RR/OR = 1 (sem associação), > 1 (fator de risco), < 1 (fator protetor).",
+          "clinical_application": "Um RR de 2.0 para tabagismo e câncer de pulmão indica que fumantes têm o dobro do risco de desenvolver a doença comparado a não fumantes.",
+          "summary": "RR e OR medem a força da associação entre exposição e doença.",
+          "key_points": "[\"Risco Relativo\", \"Odds Ratio\", \"Fator de Risco\"]",
+          "order_index": 2
+        }
+      ]
+    }
+  ]
+}

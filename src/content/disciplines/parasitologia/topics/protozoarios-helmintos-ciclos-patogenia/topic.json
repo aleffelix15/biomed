@@ -1,0 +1,151 @@
+{
+  "id": "parasitologia_protozoarios_helmintos_ciclos_patogenia",
+  "discipline_id": "parasitologia",
+  "title": "Protozoários e Helmintos: Ciclos e Patogenia",
+  "status": "active",
+  "has_content": true,
+  "order_index": 0,
+  "modules": [
+    {
+      "id": "mod_para_1",
+      "topic_id": "parasitologia_protozoarios_helmintos_ciclos_patogenia",
+      "title": "Protozoários",
+      "order_index": 0,
+      "lessons": [
+        {
+          "id": "les_par_1_1",
+          "module_id": "mod_para_1",
+          "title": "Amebíase e Giardíase",
+          "objective": "Analisar a patogenia de Entamoeba histolytica e Giardia lamblia",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "A **Entamoeba histolytica** causa a amebíase, caracterizada pela destruição tecidual (úlceras em 'botão de camisa') e possível disseminação para o fígado (abscesso hepático amebiano). A **Giardia lamblia** coloniza o duodeno e jejuno, aderindo à mucosa e causando a síndrome de má absorção (esteatorreia), pois impede a absorção de gorduras.",
+          "clinical_application": "A diferenciação laboratorial entre Entamoeba histolytica e E. dispar é crucial, pois apenas a primeira é patogênica.",
+          "summary": "Amebas (invasivas/abscessos) e Giardia (má absorção/esteatorreia).",
+          "key_points": "[\"Entamoeba histolytica\", \"Giardia lamblia\", \"Abscesso Hepático\"]",
+          "order_index": 0
+        },
+        {
+          "id": "les_par_1_2",
+          "module_id": "mod_para_1",
+          "title": "Tricomoníase",
+          "objective": "Compreender a patogenia da Trichomonas vaginalis",
+          "difficulty": "Fácil",
+          "estimated_minutes": 15,
+          "content_markdown": "A **Trichomonas vaginalis** é um protozoário flagelado que causa a tricomoníase, uma IST comum. No sexo feminino, provoca vaginite com corrimento amarelo-esverdeado bolhoso e colo uterino com aspecto de 'morango'. No sexo masculino, a infecção costuma ser assintomática, mas o indivíduo atua como portador.",
+          "clinical_application": "O diagnóstico é feito via exame a fresco da secreção vaginal ou uretral, buscando a motilidade característica do trofozoíta.",
+          "summary": "IST flagelada, vaginite com aspecto de colo em morango.",
+          "key_points": "[\"Trichomonas vaginalis\", \"IST\", \"Exame a fresco\"]",
+          "order_index": 1
+        },
+        {
+          "id": "les_par_1_3",
+          "module_id": "mod_para_1",
+          "title": "Malária e Toxoplasmose",
+          "objective": "Estudar protozoários teciduais e sanguíneos",
+          "difficulty": "Difícil",
+          "estimated_minutes": 15,
+          "content_markdown": "A **Malária** (*Plasmodium spp.*) ocorre via picada do mosquito Anopheles, com ciclo hepático e eritrocítico, causando febres terçãs ou quartãs. A **Toxoplasmose** (*Toxoplasma gondii*) é transmitida por cistos em carne crua ou fezes de gatos, podendo causar coriorretinite e graves danos fetais se a infecção ocorrer na gestação.",
+          "clinical_application": "A Gota Espessa é o padrão-ouro para diagnóstico de Malária, permitindo a quantificação da parasitemia.",
+          "summary": "Malária (ciclo sanguíneo/hepático) e Toxoplasmose (transmissão alimentar/congênita).",
+          "key_points": "[\"Plasmodium\", \"Toxoplasma gondii\", \"Gota Espessa\"]",
+          "order_index": 2
+        }
+      ]
+    },
+    {
+      "id": "mod_para_2",
+      "topic_id": "parasitologia_protozoarios_helmintos_ciclos_patogenia",
+      "title": "Helmintos",
+      "order_index": 1,
+      "lessons": [
+        {
+          "id": "les_par_2_1",
+          "module_id": "mod_para_2",
+          "title": "Nematódeos (Vermes Cilíndricos)",
+          "objective": "Identificar as principais helmintoses por nematódeos",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "Nematódeos são vermes cilíndricos. Exemplos principais: **Ascaris lumbricoides** (causa a ascaridíase, com ciclo de Loeffler - migração pulmonar), **Ancylostoma duodenale** e **Necator americanus** (causam anemia profunda por sucção de sangue intestinal) e **Enterobius vermicularis** (causa prurido anal noturno).",
+          "clinical_application": "A síndrome de Loeffler manifesta-se com tosse e eosinofilia periférica durante a migração pulmonar da larva de Ascaris.",
+          "summary": "Ascaris (Loeffler), Ancilostomídeos (Anemia) e Enterobius (Prurido).",
+          "key_points": "[\"Nematódeos\", \"Ciclo de Loeffler\", \"Anemia Ferropriva\"]",
+          "order_index": 0
+        },
+        {
+          "id": "les_par_2_2",
+          "module_id": "mod_para_2",
+          "title": "Trematódeos (Vermes Chatos)",
+          "objective": "Analisar o ciclo do Schistosoma mansoni",
+          "difficulty": "Difícil",
+          "estimated_minutes": 15,
+          "content_markdown": "Trematódeos são vermes em formato de folha. O **Schistosoma mansoni** causa a esquistossomose. A infecção ocorre via penetração cutânea de cercárias (liberadas por caramujos do gênero Biomphalaria). Os vermes adultos alojam-se no sistema porta-hepático, e os ovos causaram granulomas hepáticos e fibrose.",
+          "clinical_application": "A biópsia retal ou o método de Kato-Katz são utilizados para a quantificação de ovos de Schistosoma nas fezes.",
+          "summary": "Schistosomose: caramujo hospedeiro intermediário e fibrose hepática.",
+          "key_points": "[\"Schistosoma mansoni\", \"Biomphalaria\", \"Granuloma\"]",
+          "order_index": 1
+        },
+        {
+          "id": "les_par_2_3",
+          "module_id": "mod_para_2",
+          "title": "Cestódeos (Tênias)",
+          "objective": "Diferenciar Taenia solium e Taenia saginata",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "Cestódeos são vermes achatados e segmentados. **Taenia solium** (porco) pode causar cisticercose humana se o homem ingerir os ovos. **Taenia saginata** (boi) causa apenas a teníase intestinal. Ambas são diagnosticadas pela identificação de proglótides ou ovos nas fezes.",
+          "clinical_application": "A neurocisticercose (ovos de T. solium no cérebro) é uma das principais causas de epilepsia adquirida em países endêmicos.",
+          "summary": "T. solium (porco/cisticercose) e T. saginata (boi/teníase).",
+          "key_points": "[\"Cestódeos\", \"Cisticercose\", \"Proglótides\"]",
+          "order_index": 2
+        }
+      ]
+    },
+    {
+      "id": "mod_para_3",
+      "topic_id": "parasitologia_protozoarios_helmintos_ciclos_patogenia",
+      "title": "Diagnóstico Parasitológico",
+      "order_index": 2,
+      "lessons": [
+        {
+          "id": "les_par_3_1",
+          "module_id": "mod_para_3",
+          "title": "Exame Parasitológico de Fezes (EPF)",
+          "objective": "Conhecer as principais técnicas de concentração",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "O EPF visa a detecção de ovos, cistos e larvas. Métodos comuns: **Hoffman** (sedimentação espontânea, bom para ovos pesados), **Faust** (centrifugo-flutuação, bom para cistos de protozoários) e **Baermann-Moraes** (específico para larvas de Strongyloides stercoralis).",
+          "clinical_application": "A coleta de múltiplas amostras em dias diferentes aumenta a sensibilidade do exame devido à eliminação intermitente de parasitos.",
+          "summary": "Hoffman (Sedimentação), Faust (Flutuação), Baermann (Larvas).",
+          "key_points": "[\"EPF\", \"Hoffman\", \"Baermann-Moraes\"]",
+          "order_index": 0
+        },
+        {
+          "id": "les_par_3_2",
+          "module_id": "mod_para_3",
+          "title": "Parasitologia Sanguínea e Tecidual",
+          "objective": "Identificar parasitos fora do trato gastrointestinal",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "Para parasitos sanguíneos (Malária, Trypanosoma), utiliza-se a **Gota Espessa** e o **Esfregaço Delgado**. Para parasitos teciduais, a biópsia ou a sorologia (detecção de anticorpos) são as principais ferramentas, especialmente quando o parasito está encistado ou em baixa concentração.",
+          "clinical_application": "A coloração de Giemsa é a mais utilizada para a visualização de hemoparasitos em esfregaços sanguíneos.",
+          "summary": "Gota espessa para malária e sorologia para tecidos.",
+          "key_points": "[\"Gota Espessa\", \"Giemsa\", \"Sorologia\"]",
+          "order_index": 1
+        },
+        {
+          "id": "les_par_3_3",
+          "module_id": "mod_para_3",
+          "title": "Interpretação de Laudos e Erros Comuns",
+          "objective": "Analisar a qualidade do diagnóstico parasitológico",
+          "difficulty": "Fácil",
+          "estimated_minutes": 15,
+          "content_markdown": "Um erro comum é confundir grãos de pólen ou fibras vegetais com ovos de parasitos. A correta identificação exige a análise do tamanho, forma e a presença de estruturas internas (como o embrião). A coloração de Lugol é fundamental para evidenciar a estrutura interna dos cistos de protozoários.",
+          "clinical_application": "Falsos positivos em laudos podem levar a tratamentos desnecessários com fármacos antiparasitários tóxicos.",
+          "summary": "Cuidado com artefatos; uso de Lugol para cistos.",
+          "key_points": "[\"Artefatos\", \"Lugol\", \"Análise Morfológica\"]",
+          "order_index": 2
+        }
+      ]
+    }
+  ]
+}

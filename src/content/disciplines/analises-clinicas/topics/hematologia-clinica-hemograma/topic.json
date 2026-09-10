@@ -1,0 +1,151 @@
+{
+  "id": "analises_clinicas_hematologia_clinica_hemograma",
+  "discipline_id": "analises-clinicas",
+  "title": "Hematologia Clínica: O Hemograma",
+  "status": "active",
+  "has_content": true,
+  "order_index": 0,
+  "modules": [
+    {
+      "id": "mod_ac_1",
+      "topic_id": "analises_clinicas_hematologia_clinica_hemograma",
+      "title": "Série Vermelha (Eritrograma)",
+      "order_index": 0,
+      "lessons": [
+        {
+          "id": "les_ac_1_1",
+          "module_id": "mod_ac_1",
+          "title": "Índices Hematimétricos",
+          "objective": "Interpretar VCM, HCM e CHCM",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "O eritrograma analisa a quantidade e a qualidade das hemácias. O **VCM (Volume Corpuscular Médio)** indica o tamanho da célula (microcítica, normocítica ou macrocítica). O **HCM (Hemoglobina Corpuscular Média)** e o **CHCM (Concentração de Hemoglobina Corpuscular Média)** indicam a cor/quantidade de hemoglobina (hipocrômica ou normocrômica).",
+          "clinical_application": "A combinação de VCM baixo e HCM baixo é característica de anemias ferroprivas.",
+          "summary": "VCM (tamanho), HCM/CHCM (cor/hemoglobina).",
+          "key_points": "[\"VCM\", \"HCM\", \"CHCM\", \"Microcitose\"]",
+          "order_index": 0
+        },
+        {
+          "id": "les_ac_1_2",
+          "module_id": "mod_ac_1",
+          "title": "Reticulócitos",
+          "objective": "Avaliar a resposta medular",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "Os **reticulócitos** são hemácias jovens que ainda contêm resíduos de RNA ribossômico. A contagem de reticulócitos diferencia anemias **regenerativas** (medula respondendo, ex: hemólise) de anemias **arregenerativas** (medula falhando, ex: aplasia ou deficiência de B12).",
+          "clinical_application": "Um paciente com anemia e reticulocitose alta sugere fortemente hemólise ou sangramento agudo.",
+          "summary": "Reticulócitos indicam se a medula está produzindo hemácias adequadamente.",
+          "key_points": "[\"Reticulócitos\", \"Anemia Regenerativa\", \"Anemia Arregenerativa\"]",
+          "order_index": 1
+        },
+        {
+          "id": "les_ac_1_3",
+          "module_id": "mod_ac_1",
+          "title": "Análise Morfológica",
+          "objective": "Identificar alterações nas hemácias ao microscópio",
+          "difficulty": "Difícil",
+          "estimated_minutes": 15,
+          "content_markdown": "A análise do esfregaço sanguíneo revela anomalias: **Dacriócitos** (hemácias em lágrima, comuns em mielofibrose), **Esferócitos** (células esféricas, comuns na esferocitose hereditária), **Drepanócitos** (forma de foice, anemia falciforme) e **Codócitos** (células em alvo, talassemias).",
+          "clinical_application": "A visualização de drepanócitos confirma a anemia falciforme, independentemente dos índices hematimétricos.",
+          "summary": "Morfologia celular auxilia no diagnóstico diferencial das anemias.",
+          "key_points": "[\"Dacriócitos\", \"Esferócitos\", \"Drepanócitos\", \"Codócitos\"]",
+          "order_index": 2
+        }
+      ]
+    },
+    {
+      "id": "mod_ac_2",
+      "topic_id": "analises_clinicas_hematologia_clinica_hemograma",
+      "title": "Série Branca (Leucograma)",
+      "order_index": 1,
+      "lessons": [
+        {
+          "id": "les_ac_2_1",
+          "module_id": "mod_ac_2",
+          "title": "Leucócitos Totais e Diferencial",
+          "objective": "Interpretar a contagem global e a distribuição de leucócitos",
+          "difficulty": "Fácil",
+          "estimated_minutes": 15,
+          "content_markdown": "O leucograma avalia a imunidade. **Leucocitose** (aumento) e **Leucopenia** (redução). O diferencial analisa a porcentagem de cada tipo: **Neutrófilos** (bactérias), **Linfócitos** (vírus/imunidade adaptativa), **Monócitos** (crônicas/fagocitose), **Eosinófilos** (alergias/parasitas) e **Basófilos** (inflamação/alergias).",
+          "clinical_application": "Linfocitose com atipia sugere infecções virais como Mononucleose Infecciosa.",
+          "summary": "Contagem global e diferencial para orientar o tipo de infecção.",
+          "key_points": "[\"Leucocitose\", \"Leucopenia\", \"Diferencial\"]",
+          "order_index": 0
+        },
+        {
+          "id": "les_ac_2_2",
+          "module_id": "mod_ac_2",
+          "title": "Desvio à Esquerda",
+          "objective": "Compreender a liberação de formas jovens de neutrófilos",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "O **Desvio à Esquerda** ocorre quando a medula libera neutrófilos imaturos (como os **Bastões**) na corrente sanguínea para combater uma infecção aguda grave. Se houver a presença de metamielócitos e mielócitos, o desvio é considerado mais grave.",
+          "clinical_application": "Um hemograma com neutrofilia e desvio à esquerda é um marcador clássico de infecção bacteriana aguda.",
+          "summary": "Aparecimento de bastões e formas jovens indica resposta medular a infecção.",
+          "key_points": "[\"Bastões\", \"Desvio à Esquerda\", \"Infecção Bacteriana\"]",
+          "order_index": 1
+        },
+        {
+          "id": "les_ac_2_3",
+          "module_id": "mod_ac_2",
+          "title": "Blastos e Leucemias",
+          "objective": "Identificar células imaturas patológicas",
+          "difficulty": "Difícil",
+          "estimated_minutes": 15,
+          "content_markdown": "A presença de **Blastos** (células precursoras muito imaturas) no sangue periférico é um sinal de alerta grave. Blastos sugerem leucemias agudas, onde a medula é substituída por células malignas que não amadurecem, levando a pancitopenia.",
+          "clinical_application": "A detecção de blastos exige encaminhamento imediato para mielograma e imunofenotipagem.",
+          "summary": "Blastos no sangue periférico sugerem leucemias agudas.",
+          "key_points": "[\"Blastos\", \"Leucemias\", \"Pancitopenia\"]",
+          "order_index": 2
+        }
+      ]
+    },
+    {
+      "id": "mod_ac_3",
+      "topic_id": "analises_clinicas_hematologia_clinica_hemograma",
+      "title": "Série Plaquetária e Coagulação",
+      "order_index": 2,
+      "lessons": [
+        {
+          "id": "les_ac_3_1",
+          "module_id": "mod_ac_3",
+          "title": "Contagem de Plaquetas",
+          "objective": "Analisar a hemostasia primária",
+          "difficulty": "Fácil",
+          "estimated_minutes": 15,
+          "content_markdown": "As plaquetas são fragmentos do megacariócito essenciais para a coagulação. **Trombocitose** (excesso, risco de trombose) e **Trombocitopenia** (falta, risco de hemorragia). O valor normal geralmente gira em torno de 150.000 a 450.000/mm³.",
+          "clinical_application": "Trombocitopenia grave (< 20.000/mm³) predispõe a petéquias e sangramentos espontâneos.",
+          "summary": "Plaquetas controlam a hemostasia primária; níveis alterados causam trombose ou hemorragia.",
+          "key_points": "[\"Trombocitopenia\", \"Trombocitose\", \"Hemostasia\"]",
+          "order_index": 0
+        },
+        {
+          "id": "les_ac_3_2",
+          "module_id": "mod_ac_3",
+          "title": "Pseudotrombocitopenia",
+          "objective": "Identificar erros pré-analíticos comuns",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "A **Pseudotrombocitopenia** ocorre quando as plaquetas se agregam no tubo de coleta com EDTA, resultando em uma contagem falsamente baixa no contador automático. A resolução exige a coleta em tubo com citrato de sódio ou a análise do esfregaço.",
+          "clinical_application": "Sempre conferir o esfregaço sanguíneo ao encontrar plaquetopenia grave sem sinais clínicos de sangramento.",
+          "summary": "Agregação por EDTA simulando baixa de plaquetas.",
+          "key_points": "[\"EDTA\", \"Agregados Plaquetários\", \"Erro Pré-Analítico\"]",
+          "order_index": 1
+        },
+        {
+          "id": "les_ac_3_3",
+          "module_id": "mod_ac_3",
+          "title": "Introdução aos Testes de Coagulação",
+          "objective": "Compreender TP e TTPa",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "Além do hemograma, a hemostasia é avaliada pelo **Tempo de Protrombina (TP)**, que avalia a via extrínseca (fator VII), e pelo **TTPa (Tempo de Tromboplastina Parcial Ativada)**, que avalia a via intrínseca e comum. O INR é a padronização do TP para monitorar a Varfarina.",
+          "clinical_application": "O aumento do TTPa isoladamente sugere deficiência de hemofilias (Fatores VIII ou IX).",
+          "summary": "TP (via extrínseca) e TTPa (via intrínseca/comum).",
+          "key_points": "[\"TP\", \"TTPa\", \"INR\"]",
+          "order_index": 2
+        }
+      ]
+    }
+  ]
+}

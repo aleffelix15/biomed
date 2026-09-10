@@ -46,35 +46,35 @@
     "name": "Microbiologia",
     "icon": "Bug",
     "category": "Ciências Biomédicas",
-    "topics_count": 0
+    "topics_count": 1
   },
   {
     "id": "imunologia",
     "name": "Imunologia",
     "icon": "ShieldCheck",
     "category": "Ciências Biomédicas",
-    "topics_count": 0
+    "topics_count": 1
   },
   {
     "id": "parasitologia",
     "name": "Parasitologia",
     "icon": "Bug",
     "category": "Ciências Biomédicas",
-    "topics_count": 0
+    "topics_count": 1
   },
   {
     "id": "patologia",
     "name": "Patologia",
     "icon": "Microscope",
     "category": "Ciências Biomédicas",
-    "topics_count": 0
+    "topics_count": 1
   },
   {
     "id": "hematologia",
     "name": "Hematologia",
     "icon": "Droplet",
     "category": "Ciências Biomédicas",
-    "topics_count": 0
+    "topics_count": 1
   },
   {
     "id": "farmacologia",
@@ -88,42 +88,42 @@
     "name": "Citologia",
     "icon": "Layers",
     "category": "Ciências Básicas",
-    "topics_count": 0
+    "topics_count": 1
   },
   {
     "id": "embriologia",
     "name": "Embriologia",
     "icon": "Egg",
     "category": "Ciências Básicas",
-    "topics_count": 0
+    "topics_count": 1
   },
   {
     "id": "epidemiologia",
     "name": "Epidemiologia",
     "icon": "Activity",
     "category": "Saúde Coletiva",
-    "topics_count": 0
+    "topics_count": 1
   },
   {
     "id": "analises-clinicas",
     "name": "Análises Clínicas",
     "icon": "TestTube",
     "category": "Prática Laboratorial",
-    "topics_count": 0
+    "topics_count": 1
   },
   {
     "id": "toxicologia",
     "name": "Toxicologia",
     "icon": "Beaker",
     "category": "Ciências Biomédicas",
-    "topics_count": 0
+    "topics_count": 1
   },
   {
     "id": "biomedicina-estetica",
     "name": "Biomedicina Estética",
     "icon": "Sparkles",
     "category": "Prática Laboratorial",
-    "topics_count": 0
+    "topics_count": 1
   },
   {
     "id": "imagenologia",

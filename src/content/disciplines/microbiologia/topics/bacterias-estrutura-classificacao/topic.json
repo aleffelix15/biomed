@@ -1,0 +1,151 @@
+{
+  "id": "microbiologia_bacterias_estrutura_classificacao",
+  "discipline_id": "microbiologia",
+  "title": "Bactérias: Estrutura e Classificação",
+  "status": "active",
+  "has_content": true,
+  "order_index": 0,
+  "modules": [
+    {
+      "id": "mod_micro_bac_1",
+      "topic_id": "microbiologia_bacterias_estrutura_classificacao",
+      "title": "Estrutura Celular",
+      "order_index": 0,
+      "lessons": [
+        {
+          "id": "les_mic_1_1",
+          "module_id": "mod_micro_bac_1",
+          "title": "Parede Celular",
+          "objective": "Compreender a função e composição da parede celular bacteriana",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "A parede celular bacteriana é composta principalmente por **peptideoglicano** (mureína), uma rede de açúcares (N-acetilglucosamina e N-acetilmuramico) e aminoácidos. Sua principal função é conferir rigidez e proteção contra a lise osmótica. Em bactérias Gram-positivas, a camada de peptideoglicano é espessa; em Gram-negativas, é fina e envolta por uma membrana externa rica em lipopolissacarídeos (LPS).",
+          "clinical_application": "O uso de antibióticos beta-lactâmicos (como a Penicilina) visa inibir a síntese de peptideoglicano, causando a lise da célula bacteriana.",
+          "summary": "Proteção e rigidez via peptideoglicano.",
+          "key_points": "[\"Peptideoglicano\", \"Lise osmótica\", \"Gram-positivas vs Gram-negativas\"]",
+          "order_index": 0
+        },
+        {
+          "id": "les_mic_1_2",
+          "module_id": "mod_micro_bac_1",
+          "title": "Membrana Plasmática",
+          "objective": "Analisar a composição e função da membrana citoplasmática",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "A membrana plasmática bacteriana é uma bicamada lipídica com proteínas inseridas. Diferente dos eucariontes, a maioria das bactérias não possui esteróis (exceto os Mycoplasmas). Ela controla a entrada e saída de substâncias e é o local onde ocorrem a cadeia de transporte de elétrons e a síntese de ATP em procariontes.",
+          "clinical_application": "Alguns antibióticos, como a Polymixina B, agem desestruturando a membrana citoplasmática, especialmente em Gram-negativas.",
+          "summary": "Controle osmótico e produção de energia.",
+          "key_points": "[\"Bicamada lipídica\", \"Transporte seletivo\", \"Síntese de ATP\"]",
+          "order_index": 1
+        },
+        {
+          "id": "les_mic_1_3",
+          "module_id": "mod_micro_bac_1",
+          "title": "Citoplasma e Nucleoide",
+          "objective": "Identificar as características do interior celular bacteriano",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "O citoplasma bacteriano é um gel viscoso contendo ribossomos (70S), inclusões de reserva e o nucleoide. O nucleoide é a região onde reside o cromossomo bacteriano único, circular e haploide, sem membrana nuclear. Além disso, muitas bactérias possuem plasmídeos: pequenos anéis de DNA extracromossômico que frequentemente carregam genes de resistência a antibióticos.",
+          "clinical_application": "Plasmídeos de resistência (R-plasmids) facilitam a propagação de superbactérias via conjugação.",
+          "summary": "Interior celular com DNA circular e plasmídeos.",
+          "key_points": "[\"Nucleoide\", \"Ribossomos 70S\", \"Plasmídeos\"]",
+          "order_index": 2
+        }
+      ]
+    },
+    {
+      "id": "mod_micro_bac_2",
+      "topic_id": "microbiologia_bacterias_estrutura_classificacao",
+      "title": "Classificação e Morfologia",
+      "order_index": 1,
+      "lessons": [
+        {
+          "id": "les_mic_2_1",
+          "module_id": "mod_micro_bac_2",
+          "title": "Morfologia Bacteriana",
+          "objective": "Diferenciar as formas básicas de bactérias",
+          "difficulty": "Fácil",
+          "estimated_minutes": 15,
+          "content_markdown": "As bactérias são classificadas morfologicamente em: **Cocos** (esféricas), **Bacilos** (bastonetes), **Espirilos** (espiraladas rígidas) e **Spirochetes** (espiraladas flexíveis). A organização dos cocos pode ser em pares (diplococos), cadeias (estreptococos) ou cachos (estafilococos).",
+          "clinical_application": "A identificação morfológica inicial via Gram é crucial para a escolha da antibioticoterapia empírica.",
+          "summary": "Cocos, Bacilos, Espirilos e Spirochetes.",
+          "key_points": "[\"Morfologia\", \"Arranjos\", \"Cocos vs Bacilos\"]",
+          "order_index": 0
+        },
+        {
+          "id": "les_mic_2_2",
+          "module_id": "mod_micro_bac_2",
+          "title": "Coloração de Gram",
+          "objective": "Compreender a técnica de Gram e a distinção entre bactérias",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "A coloração de Gram diferencia bactérias com base na espessura da parede de peptideoglicano. O processo envolve cristal violeta, lugol, álcool e safranina. As **Gram-positivas** retêm o cristal violeta e ficam roxas. As **Gram-negativas** perdem o corante primário e assumem a cor rosa/vermelha da safranina devido à sua membrana externa e fina camada de peptideoglicano.",
+          "clinical_application": "A distinção Gram+/- guia a escolha entre antibióticos que visam a parede (como Vancomicina para Gram+) ou que penetram melhor na membrana externa (como Aminoglicosídeos para Gram-).",
+          "summary": "Roxas (Gram+) vs Rosas (Gram-).",
+          "key_points": "[\"Cristal Violeta\", \"Safranina\", \"Parede Celular\"]",
+          "order_index": 1
+        },
+        {
+          "id": "les_mic_2_3",
+          "module_id": "mod_micro_bac_2",
+          "title": "Bactérias Ácido-Álcool Resistentes (BAAR)",
+          "objective": "Entender a coloração de Ziehl-Neelsen",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "Algumas bactérias, como as do gênero *Mycobacterium*, possuem paredes ricas em ácidos micólicos (ceras), que impedem a coloração de Gram. A técnica de Ziehl-Neelsen utiliza calor para forçar a entrada da fucsina. Após lavagem com álcool-ácido, as BAAR retêm o corante vermelho, enquanto as demais ficam azuladas.",
+          "clinical_application": "Diagnóstico rápido de Tuberculose (*M. tuberculosis*) e Hanseníase (*M. leprae*).",
+          "summary": "Parede cerosa requer coloração especial (Ziehl-Neelsen).",
+          "key_points": "[\"Ácidos Micólicos\", \"Ziehl-Neelsen\", \"Tuberculose\"]",
+          "order_index": 2
+        }
+      ]
+    },
+    {
+      "id": "mod_micro_bac_3",
+      "topic_id": "microbiologia_bacterias_estrutura_classificacao",
+      "title": "Patogenicidade e Cultivo",
+      "order_index": 2,
+      "lessons": [
+        {
+          "id": "les_mic_3_1",
+          "module_id": "mod_micro_bac_3",
+          "title": "Fatores de Virulência",
+          "objective": "Analisar como as bactérias causam doenças",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "A virulência é a capacidade de causar doença. Fatores comuns incluem: **Cápsulas** (evitam a fagocitose), **Fímbrias/Pili** (adesão a tecidos), e a produção de **Toxinas**. Toxinas podem ser **Exotoxinas** (secretadas, geralmente proteínas) ou **Endotoxinas** (parte da membrana externa de Gram-negativas, especificamente o Lípido A do LPS).",
+          "clinical_application": "O choque séptico é frequentemente causado pela liberação massiva de endotoxinas (LPS) na corrente sanguínea.",
+          "summary": "Cápsulas, Pili e Toxinas (Exo vs Endo).",
+          "key_points": "[\"Virulência\", \"LPS\", \"Endotoxinas\"]",
+          "order_index": 0
+        },
+        {
+          "id": "les_mic_3_2",
+          "module_id": "mod_micro_bac_3",
+          "title": "Meios de Cultura",
+          "objective": "Conhecer a base do cultivo laboratorial",
+          "difficulty": "Fácil",
+          "estimated_minutes": 15,
+          "content_markdown": "O cultivo bacteriano requer meios nutritivos. Existem meios **Simples** (Ágar Nutriente), **Enriquecidos** (Ágar Sangue, para bactérias exigentes), **Seletivos** (inibem certos grupos, ex: Ágar MacConkey inibe Gram+) e **Diferenciais** (permitem distinguir espécies por reações bioquímicas, ex: fermentação da lactose no MacConkey).",
+          "clinical_application": "O uso de meios seletivos e diferenciais é a base da cultura para identificação de patógenos urinários (Urocultura).",
+          "summary": "Simples, Enriquecidos, Seletivos e Diferenciais.",
+          "key_points": "[\"Ágar\", \"MacConkey\", \"Ágar Sangue\"]",
+          "order_index": 1
+        },
+        {
+          "id": "les_mic_3_3",
+          "module_id": "mod_micro_bac_3",
+          "title": "Crescimento e Curva Bacteriana",
+          "objective": "Estudar a cinética de crescimento bacteriano",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "O crescimento bacteriano ocorre por fissão binária e segue quatro fases: **Fase Lag** (adaptação), **Fase Log** (crescimento exponencial), **Fase Estacionária** (esgotamento de nutrientes/acúmulo de resíduos) e **Fase de Declínio** (morte celular).",
+          "clinical_application": "O tempo de geração (tempo para a população dobrar) varia drasticamente entre espécies, afetando a velocidade de progressão da infecção.",
+          "summary": "Fases: Lag, Log, Estacionária e Declínio.",
+          "key_points": "[\"Fissão Binária\", \"Tempo de Geração\", \"Curva de Crescimento\"]",
+          "order_index": 2
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,154 @@
+{
+  "id": "biomedicina_estetica_anatomia_facial_estetica",
+  "discipline_id": "biomedicina-estetica",
+  "title": "Anatomia Facial e Estética",
+  "status": "active",
+  "has_content": true,
+  "order_index": 0,
+  "modules": [
+    {
+      "id": "mod_est_1",
+      "topic_id": "biomedicina_estetica_anatomia_facial_estetica",
+      "title": "Estruturas da Face",
+      "order_index": 0,
+      "lessons": [
+        {
+          "id": "les_est_1_1",
+          "module_id": "mod_est_1",
+          "title": "Camadas da Pele e Tecido Subcutâneo",
+          "objective": "Analisar a histologia da pele aplicada a procedimentos",
+          "difficulty": "Fácil",
+          "estimated_minutes": 15,
+          "content_markdown": "A pele é composta pela **Epiderme** (estrato córneo, granuloso, espinhoso e basal), **Derme** (papilar e reticular, rica em colágeno e elastina) e **Hipoderme** (tecido adiposo). A profundidade de aplicação de preenchedores e toxinas depende da camada alvo: a derme superficial para bioestimuladores e o músculo ou gordura profunda para preenchimentos estruturais.",
+          "clinical_application": "A aplicação superficial de preenchedores em áreas com pele fina pode causar a 'Tindalização' (aspecto azulado devido à refração da luz).",
+          "summary": "Epiderme, Derme e Hipoderme como alvos de procedimentos.",
+          "key_points": "[\"Epiderme\", \"Derme\", \"Hipoderme\", \"Colágeno\"]",
+          "order_index": 0
+        },
+        {
+          "id": "les_est_1_2",
+          "module_id": "mod_est_1",
+          "title": "Músculos da Mímica Facial",
+          "objective": "Entender a dinâmica muscular para aplicação de toxina botulínica",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "A face possui músculos únicos que se inserem na pele. O **Músculo Frontal** (eleva a sobrancelha), o **Corrugador do Supercílio** (forma a ruga glabelar) e o **Orbicular dos Olhos** (fecha as pálpebras). A toxina botulínica age bloqueando a liberação de acetilcolina na junção neuromuscular, causando a paralisia flácida temporária do músculo.",
+          "clinical_application": "O erro na dose ou ponto de aplicação no músculo orbiculares pode causar ptose palpebral (queda da pálpebra).",
+          "summary": "Músculos da mímica e a ação da toxina botulínica.",
+          "key_points": "[\"Toxina Botulínica\", \"Acetilcolina\", \"Músculos da Face\"]",
+          "order_index": 1
+        },
+        {
+          "id": "les_est_1_3",
+          "module_id": "mod_est_1",
+          "title": "Vascularização e Zonas de Risco",
+          "objective": "Identificar artérias faciais para evitar intercorrências",
+          "difficulty": "Difícil",
+          "estimated_minutes": 15,
+          "content_markdown": "A face é irrigada principalmente pela **Artéria Facial** e **Artéria Oftálmica**. A oclusão vascular ocorre quando um preencheder é injetado inadvertidamente dentro de uma artéria, bloqueando o fluxo sanguíneo. Zonas de alto risco incluem a glabela e a região nasal, onde a oclusão pode levar à cegueira irreversível.",
+          "clinical_application": "O uso de cânulas em vez de agulhas reduz, mas não elimina, o risco de oclusão arterial em preenchimentos.",
+          "summary": "Importância da anatomia vascular para evitar a necrose e cegueira.",
+          "key_points": "[\"Artéria Facial\", \"Oclusão Vascular\", \"Zonas de Risco\"]",
+          "order_index": 2
+        }
+      ]
+    },
+    {
+      "id": "mod_est_2",
+      "topic_id": "biomedicina_estetica_anatomia_facial_estetica",
+      "title": "Técnicas de Preenchimento e Bioestimulação",
+      "order_index": 1,
+      "lessons": [
+        {
+          "id": "les_est_2_1",
+          "module_id": "mod_est_2",
+          "title": "Ácido Hialurônico",
+          "objective": "Compreender a reologia e aplicação do AH",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_//": "Lembrete: AH é biocompatível e reversível",
+          "content_markdown": "O **Ácido Hialurônico (AH)** é um glicosaminoglicano natural que retém água. Na estética, usa-se AH reticulado para dar volume. A principal vantagem é ser biocompatível e reversível através da **Hialuronidase**, enzima que digere o preenchimento em caso de intercorrências ou insatisfação.",
+          "clinical_application": "O preenchimento labial visa a volumização e a definição do arco do cupido.",
+          "summary": "Preenchimento reversível via Hialuronidase.",
+          "key_points": "[\"Ácido Hialurônico\", \"Hialuronidase\", \"Reologia\"]",
+          "order_index": 0
+        },
+        {
+          "id": "les_est_2_2",
+          "module_id": "mod_est_2",
+          "title": "Bioestimuladores de Colágeno",
+          "objective": "Analisar a ação do PLLA e Hidroxiapatita de Cálcio",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "Diferente dos preenchedores, os bioestimuladores como o **Ácido Poli-L-Lático (PLLA)** e a **Hidroxiapatita de Cálcio (CaHA)** induzem o organismo a produzir seu próprio colágeno. Eles provocam uma resposta inflamatória controlada na derme, ativando os fibroblastos para a síntese de colágeno tipo I.",
+          "clinical_application": "Indicados para tratamento de flacidez facial e corporal, promovendo a firmeza da pele a longo prazo.",
+          "summary": "Indução de colágeno via resposta inflamatória controlada.",
+          "key_points": "[\"PLLA\", \"CaHA\", \"Fibroblastos\"]",
+          "order_index": 1
+        },
+        {
+          "id": "les_est_2_3",
+          "module_id": "mod_est_2",
+          "title": "Toxina Botulínica Tipo A",
+          "objective": "Dominar a técnica de aplicação e dosagem",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "A Toxina Botulínica tipo A bloqueia a liberação de acetilcolina na junção neuromuscular. A dose é medida em **Unidades (U)**. A aplicação deve considerar a força do músculo e a simetria facial. O efeito inicia em 3-7 dias e dura em média 4-6 meses.",
+          "clinical_//": "Lembrete: não aplicar em músculos hipertróficos sem critério",
+          "clinical_application": "Tratamento de rugas dinâmicas (que aparecem com a expressão) e hiperidrose axilar.",
+          "summary": "Paralisia temporária muscular para efeito estético.",
+          "key_points": "[\"Toxina Botulínica\", \"Junção Neuromuscular\", \"Rugas Dinâmicas\"]",
+          "order_index": 2
+        }
+      ]
+    },
+    {
+      "id": "mod_est_3",
+      "topic_id": "biomedicina_estetica_anatomia_facial_estetica",
+      "title": "Biossegurança e Ética na Estética",
+      "order_index": 2,
+      "lessons": [
+        {
+          "id": "les_est_3_1",
+          "module_id": "mod_est_3",
+          "title": "Assepsia e Antissepsia",
+          "objective": "Garantir a segurança do paciente em procedimentos invasivos",
+          "difficulty": "Fácil",
+          "estimated_minutes": 15,
+          "content_markdown": "Procedimentos estéticos injetáveis são invasivos. A **antissepsia** da pele (uso de clorexidina ou álcool 70%) e a **assepsia** do material (estéril) são obrigatórias para evitar a introdução de patógenos na derme, o que causaria granulomas infecciosos ou abscessos.",
+          "clinical_application": "A falha na antissepsia pode levar a infecções por Staphylococcus aureus, exigindo antibioticoterapia e drenagem.",
+          "summary": "Prevenção de infecções via esterilização e antissepsia.",
+          "key_points": "[\"Clorexidina\", \"Material Estéril\", \"Assepsia\"]",
+          "order_index": 0
+        },
+        {
+          "id": "les_est_3_2",
+          "module_id": "mod_est_3",
+          "title": "Manejo de Intercorrências",
+          "objective": "Saber agir em casos de oclusão arterial",
+          "difficulty": "Difícil",
+          "estimated_minutes": 15,
+          "content_markdown": "Diante de uma oclusão arterial por preenchimento, o protocolo imediato inclui: **Hialuronidase** em alta dose, massagem vigorosa, compressas mornas (para vasodilatação) e, em casos graves, uso de aspirina e corticoides para reduzir o edema.",
+          "clinical_application": "A rapidez no início do protocolo de hialuronidase é o fator determinante para evitar a necrose tecidual.",
+          "summary": "Protocolo de urgência para reverter a oclusão vascular.",
+          "key_points": "[\"Hialuronidase\", \"Vasodilatação\", \"Necrose\"]",
+          "order_index": 1
+        },
+        {
+          "id": "les_est_3_3",
+          "//": "les_est_3_3",
+          "module_id": "mod_est_3",
+          "title": "Ética e Limites Profissionais",
+          "objective": "Analisar a responsabilidade do biomédico esteta",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "O biomédico esteta deve atuar dentro de suas competências legais, realizando anamnese detalhada e termo de consentimento livre e esclarecido (TCLE). É fundamental evitar a 'sobre-estetização' e respeitar a harmonia facial do paciente, evitando a desfiguração.",
+          "clinical_application": "O TCLE protege o profissional legalmente, mas a responsabilidade técnica sobre a intercorrência permanece com o aplicador.",
+          "summary": "Responsabilidade técnica, ética e legal na estética.",
+          "key_points": "[\"TCLE\", \"Anamnese\", \"Bioética\"]",
+          "order_index": 2
+        }
+      ]
+    }
+  ]
+}

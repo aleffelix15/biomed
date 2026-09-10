@@ -1,0 +1,151 @@
+{
+  "id": "imunologia_sistema_imune_inato_adaptativo",
+  "discipline_id": "imunologia",
+  "title": "Sistema Imune: Inato e Adaptativo",
+  "status": "active",
+  "has_content": true,
+  "order_index": 0,
+  "modules": [
+    {
+      "id": "mod_imun_1",
+      "topic_id": "imunologia_sistema_imune_inato_adaptativo",
+      "title": "Imunidade Inata",
+      "order_index": 0,
+      "lessons": [
+        {
+          "id": "les_im_1_1",
+          "module_id": "mod_imun_1",
+          "title": "Barreiras Físicas e Químicas",
+          "objective": "Identificar a primeira linha de defesa do organismo",
+          "difficulty": "Fácil",
+          "estimated_minutes": 15,
+          "content_markdown": "A imunidade inata é a primeira resposta a patógenos. As **barreiras físicas** incluem a pele e as mucosas ciliadas. As **barreiras químicas** envolvem o pH ácido do estômago, a lisozima na lágrima e a saliva, e as defensinas. Essas barreiras impedem a entrada e a colonização inicial de microrganismos.",
+          "clinical_application": "Queimaduras graves eliminam a barreira cutânea, tornando o paciente extremamente suscetível a infecções sistêmicas (sepse).",
+          "summary": "Primeira linha de defesa: pele, mucosas e substâncias químicas.",
+          "key_points": "[\"Barreiras físicas\", \"Lisozima\", \"Proteção primária\"]",
+          "order_index": 0
+        },
+        {
+          "id": "les_im_1_2",
+          "module_id": "mod_imun_1",
+          "title": "Células da Imunidade Inata",
+          "objective": "Diferenciar os principais fagócitos e células NK",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "As células da imunidade inata incluem: **Neutrófilos** (primeiros a chegar, fagocitose), **Macrófagos** (fagocitose e apresentação de antígenos), **Células Dendríticas** (ponte entre imunidade inata e adaptativa) e **Células NK** (destruição de células infectadas por vírus ou tumorais via apoptose).",
+          "clinical_application": "A neutropenia (baixa de neutrófilos) aumenta drasticamente o risco de infecções bacterianas e fúngicas graves.",
+          "summary": "Neutrófilos, Macrófagos, Dendríticas e NK.",
+          "key_points": "[\"Fagocitose\", \"Células NK\", \"Apresentação de antígenos\"]",
+          "order_index": 1
+        },
+        {
+          "id": "les_im_1_3",
+          "module_id": "mod_imun_1",
+          "title": "Sistema Complemento",
+          "objective": "Compreender a cascata do complemento",
+          "difficulty": "Difícil",
+          "estimated_minutes": 15,
+          "content_markdown": "O sistema complemento consiste em proteínas plasmáticas que, ao serem ativadas, promovem: **Opsonização** (marcação do patógeno para fagocitose), **Quimiotaxia** (atração de leucócitos) e a formação do **Complexo de Ataque à Membrana (MAC)**, que cria poros na membrana do patógeno causando lise.",
+          "clinical_application": "Deficiências em componentes específicos do complemento (ex: C3) predispõem a infecções recorrentes por bactérias encapsuladas.",
+          "summary": "Proteínas que auxiliam a fagocitose e lisam patógenos.",
+          "key_points": "[\"Opsonização\", \"MAC\", \"Cascata de ativação\"]",
+          "order_index": 2
+        }
+      ]
+    },
+    {
+      "id": "mod_imun_2",
+      "topic_id": "imunologia_sistema_imune_inato_adaptativo",
+      "title": "Imunidade Adaptativa",
+      "order_index": 1,
+      "lessons": [
+        {
+          "id": "les_im_2_1",
+          "module_id": "mod_imun_2",
+          "title": "Linfócitos B e Anticorpos",
+          "objective": "Entender a imunidade humoral",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "A imunidade humoral é mediada por Linfócitos B. Quando ativados, diferenciam-se em **Plasmócitos**, que secretam anticorpos (Imunoglobulinas). Os anticorpos neutralizam toxinas, impedem a adesão bacteriana e ativam o sistema complemento. As classes principais são IgG, IgM, IgA, IgE e IgD.",
+          "clinical_application": "A vacinação estimula a produção de anticorpos e a formação de células de memória, proporcionando proteção a longo prazo.",
+          "summary": "Linfócitos B -> Plasmócitos -> Anticorpos.",
+          "key_points": "[\"Imunidade Humoral\", \"Plasmócitos\", \"Imunoglobulinas\"]",
+          "order_index": 0
+        },
+        {
+          "id": "les_im_2_2",
+          "module_id": "mod_imun_2",
+          "title": "Linfócitos T e Imunidade Celular",
+          "objective": "Analisar as funções dos linfócitos T CD4 e CD8",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "A imunidade celular é mediada por Linfócitos T. Os **T-Helper (CD4+)** coordenam a resposta imune liberando citocinas. Os **T-Citotóxicos (CD8+)** destroem células infectadas por vírus ou células cancerosas através da liberação de perforinas e granzimas.",
+          "clinical_application": "O HIV ataca preferencialmente as células T CD4+, levando à AIDS por colapso da coordenação da resposta imune.",
+          "summary": "T CD4 (Coordenador) e T CD8 (Executor).",
+          "key_points": "[\"Imunidade Celular\", \"Citocinas\", \"Perforinas\"]",
+          "order_index": 1
+        },
+        {
+          "id": "les_im_2_3",
+          "module_id": "mod_imun_2",
+          "title": "Complexo Principal de Histocompatibilidade (MHC)",
+          "objective": "Compreender a apresentação de antígenos via MHC",
+          "difficulty": "Difícil",
+          "estimated_minutes": 15,
+          "content_markdown": "O MHC é um conjunto de proteínas que apresentam fragmentos de antígenos aos linfócitos T. O **MHC Classe I** está em todas as células nucleadas e apresenta antígenos endógenos para T CD8+. O **MHC Classe II** está apenas em células apresentadoras de antígenos (APCs) e apresenta antígenos exógenos para T CD4+.",
+          "clinical_application": "O MHC é a base da rejeição de transplantes; a compatibilidade HLA (nome humano para MHC) é essencial para o sucesso do transplante.",
+          "summary": "MHC I (CD8/Endógeno) e MHC II (CD4/Exógeno).",
+          "key_points": "[\"HLA\", \"Apresentação de Antígenos\", \"APCs\"]",
+          "order_index": 2
+        }
+      ]
+    },
+    {
+      "id": "mod_imun_3",
+      "topic_id": "imunologia_sistema_imune_inato_adaptativo",
+      "title": "Resposta Imune e Hipersensibilidade",
+      "order_index": 2,
+      "lessons": [
+        {
+          "id": "les_im_3_1",
+          "module_id": "mod_imun_3",
+          "title": "Inflamação",
+          "objective": "Estudar os processos da resposta inflamatória",
+          "difficulty": "Fácil",
+          "estimated_minutes": 15,
+          "content_markdown": "A inflamação é uma resposta coordenada para eliminar a causa da injúria e iniciar a reparação. Caracteriza-se por: **Vasodilatação** (rubor e calor), **Aumento da permeabilidade vascular** (edema) e **Quimiotaxia** (migração de leucócitos para o tecido). Mediadores como histamina e prostaglandinas orquestram esse processo.",
+          "clinical_application": "A inflamação crônica, se não resolvida, pode levar à fibrose tecidual e perda de função do órgão.",
+          "summary": "Resposta a injúrias com rubor, calor, edema e dor.",
+          "key_points": "[\"Vasodilatação\", \"Histamina\", \"Exsudato\"]",
+          "order_index": 0
+        },
+        {
+          "id": "les_im_3_2",
+          "module_id": "mod_imun_3",
+          "title": "Hipersensibilidades Tipo I e IV",
+          "objective": "Diferenciar alergias imediatas de respostas tardias",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "A **Hipersensibilidade Tipo I** (Imediata) é mediada por IgE e mastócitos, resultando em anafilaxia ou rinite. A **Hipersensibilidade Tipo IV** (Tardia) é mediada por linfócitos T e macrófagos, ocorrendo geralmente 48-72h após a exposição (ex: teste de PPD para tuberculose ou dermatite de contato).",
+          "clinical_application": "O uso de adrenalina no choque anafilático visa reverter a vasodilatação sistêmica e o edema laríngeo causados pela degranulação de mastócitos.",
+          "summary": "Tipo I (IgE/Imediata) e Tipo IV (Células T/Tardia).",
+          "key_points": "[\"Anafilaxia\", \"IgE\", \"Teste de PPD\"]",
+          "order_index": 1
+        },
+        {
+          "id": "les_im_3_3",
+          "module_id": "mod_imun_3",
+          "title": "Autoimunidade e Tolerância",
+          "objective": "Entender a falha no reconhecimento do 'self'",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "A tolerância imunológica é a incapacidade do sistema imune de reagir a antígenos do próprio corpo. Quando essa tolerância falha, ocorrem as **doenças autoimunes**, onde linfócitos atacam tecidos saudáveis. Exemplos incluem o Lúpus Eritematoso Sistêmico (LES) e a Artrite Reumatoide.",
+          "clinical_application": "Imunossupressores são utilizados para tratar doenças autoimunes, reduzindo a atividade dos linfócitos T e B.",
+          "summary": "Falha na tolerância leva ao ataque do próprio organismo.",
+          "key_points": "[\"Tolerância Imunológica\", \"Autoanticorpos\", \"Lúpus\"]",
+          "order_index": 2
+        }
+      ]
+    }
+  ]
+}
