@@ -73,8 +73,12 @@ export function AuthProvider({ children }) {
     setProfile({ full_name: 'Usuário Demo', course: 'Biomedicina', period: '1º Período' });
   };
 
+  const updateLocalProfile = (data) => {
+    setProfile(prev => ({ ...prev, ...data }));
+  };
+
   return (
-    <AuthContext.Provider value={{ user, profile, loading, signOut, isOfflineMode, refreshProfile, enterDemoMode }}>
+    <AuthContext.Provider value={{ user, profile, loading, signOut, isOfflineMode, refreshProfile, enterDemoMode, updateLocalProfile }}>
       {children}
     </AuthContext.Provider>
   );

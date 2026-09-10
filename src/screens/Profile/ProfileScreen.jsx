@@ -4,10 +4,10 @@ import { useAuth } from "../../state/AuthContext";
 import { updateUserProfile, fetchGlobalStats } from "../../services/supabaseService";
 import Card from "../../components/ui/Card";
 import SectionHeader from "../../components/ui/SectionHeader";
-import { User, BookOpen, GraduationCap, Save, X, Edit2, LogOut, Clock, Target, Star, TrendingUp } from "lucide-react";
+import { User, BookOpen, GraduationCap, Save, X, Edit2, LogOut, Clock, Target, Star, TrendingUp, Trophy } from "lucide-react";
 
 export default function ProfileScreen({ onOpenLeaderboard }) {
-  const { user, profile, signOut, refreshProfile } = useAuth();
+  const { user, profile, signOut, refreshProfile, isOfflineMode, updateLocalProfile } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     full_name: profile?.full_name || "",
@@ -44,8 +44,12 @@ export default function ProfileScreen({ onOpenLeaderboard }) {
     setLoading(true);
     setSuccessMsg(false);
     try {
-      await updateUserProfile(user.id, formData);
-      if (refreshProfile) await refreshProfile();
+      if (isOfflineMode) {
+        updateLocalProfile(formData);
+      } else {
+        await updateUserProfile(user.id, formData);
+        if (refreshProfile) await refreshProfile();
+      }
       setSuccessMsg(true);
       setIsEditing(false);
     } catch (err) {
