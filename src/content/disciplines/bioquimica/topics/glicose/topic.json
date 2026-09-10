@@ -1,0 +1,263 @@
+{
+  "id": "bioquimica_glicose",
+  "discipline_id": "bioquimica",
+  "title": "Glicose e Metabolismo",
+  "status": "active",
+  "has_content": true,
+  "order_index": 0,
+  "modules": [
+    {
+      "id": "mod_glicose_1",
+      "topic_id": "bioquimica_glicose",
+      "title": "Fundamentos e Estrutura",
+      "order_index": 0,
+      "lessons": [
+        {
+          "id": "les_g1_1",
+          "module_id": "mod_glicose_1",
+          "title": "Fundamentos",
+          "objective": "Introdução à Glicose",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "A glicose é um carboidrato simples...",
+          "clinical_application": "Essencial cerebral",
+          "summary": "Glicose é energia.",
+          "key_points": "[\"Energia\", \"Carboidrato\"]",
+          "order_index": 0
+        },
+        {
+          "id": "les_g1_2",
+          "module_id": "mod_glicose_1",
+          "title": "Estrutura",
+          "objective": "Estrutura Química",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "É uma aldohexose, fórmula C6H12O6...",
+          "clinical_application": "Mutarotação",
+          "summary": "Aldohexose de 6 carbonos.",
+          "key_points": "[\"Aldohexose\", \"Pirano\"]",
+          "order_index": 1
+        },
+        {
+          "id": "les_g1_3",
+          "module_id": "mod_glicose_1",
+          "title": "Função",
+          "objective": "Funções Biológicas",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "Principal combustível celular e precursor estrutural.",
+          "clinical_application": "Hipoglicemia",
+          "summary": "Combustível celular.",
+          "key_points": "[\"Metabolismo\", \"ATP\"]",
+          "order_index": 2
+        },
+        {
+          "id": "les_g1_4",
+          "module_id": "mod_glicose_1",
+          "title": "Digestão e absorção",
+          "objective": "Como digerimos",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "Amilase salivar e pancreática quebram amido até glicose.",
+          "clinical_application": "Deficiência de lactase (exemplo similar)",
+          "summary": "Amilase -> maltose -> glicose.",
+          "key_points": "[\"Amilase\", \"Borda em escova\"]",
+          "order_index": 3
+        },
+        {
+          "id": "les_g1_5",
+          "module_id": "mod_glicose_1",
+          "title": "Transporte",
+          "objective": "Transporte SGLT",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "Transporte ativo secundário no intestino via SGLT1.",
+          "clinical_application": "Terapia de Reidratação Oral",
+          "summary": "Absorção via SGLT1 acoplado ao Na+.",
+          "key_points": "[\"SGLT1\", \"Transporte Ativo\"]",
+          "order_index": 4
+        },
+        {
+          "id": "les_g1_6",
+          "module_id": "mod_glicose_1",
+          "title": "GLUTs",
+          "objective": "Transportadores GLUT",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "Transportadores facilitadores. GLUT4 é dependente de insulina (músculo/adiposo).",
+          "clinical_application": "Resistência à insulina",
+          "summary": "GLUTs facilitam a entrada nas células.",
+          "key_points": "[\"GLUT1\", \"GLUT2\", \"GLUT4\"]",
+          "order_index": 5
+        }
+      ]
+    },
+    {
+      "id": "mod_glicose_2",
+      "topic_id": "bioquimica_glicose",
+      "title": "Regulação Hormonal",
+      "order_index": 1,
+      "lessons": [
+        {
+          "id": "les_g2_1",
+          "module_id": "mod_glicose_2",
+          "title": "Insulina",
+          "objective": "Ação da Insulina",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "Hormônio anabólico secretado pelas células beta do pâncreas.",
+          "clinical_application": "Diabetes Tipo 1",
+          "summary": "Reduz a glicemia.",
+          "key_points": "[\"Célula Beta\", \"Anabólico\"]",
+          "order_index": 0
+        },
+        {
+          "id": "les_g2_2",
+          "module_id": "mod_glicose_2",
+          "title": "Glucagon",
+          "objective": "Ação do Glucagon",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "Hormônio catabólico das células alfa, estimula liberação de glicose.",
+          "clinical_application": "Hipoglicemia de jejum",
+          "summary": "Aumenta a glicemia.",
+          "key_points": "[\"Célula Alfa\", \"Glicogenólise\"]",
+          "order_index": 1
+        },
+        {
+          "id": "les_g2_3",
+          "module_id": "mod_glicose_2",
+          "title": "Regulação glicêmica",
+          "objective": "Homeostase",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "Equilíbrio fino entre insulina e hormônios contrarreguladores.",
+          "clinical_application": "Cetoacidose",
+          "summary": "Manutenção da glicemia normal.",
+          "key_points": "[\"Homeostase\", \"Eixo hormonal\"]",
+          "order_index": 2
+        }
+      ]
+    },
+    {
+      "id": "mod_glicose_3",
+      "topic_id": "bioquimica_glicose",
+      "title": "Vias Metabólicas",
+      "order_index": 2,
+      "lessons": [
+        {
+          "id": "les_g3_1",
+          "module_id": "mod_glicose_3",
+          "title": "Glicólise",
+          "objective": "Via glicolítica",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "Oxidação da glicose a piruvato gerando 2 ATPs e 2 NADH.",
+          "clinical_application": "Efeito Warburg (câncer)",
+          "summary": "Glicose -> 2 Piruvato.",
+          "key_points": "[\"Citosol\", \"Fosfofrutoquinase\"]",
+          "order_index": 0
+        },
+        {
+          "id": "les_g3_2",
+          "module_id": "mod_glicose_3",
+          "title": "Glicogênese",
+          "objective": "Síntese de glicogênio",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "Armazenamento da glicose no fígado e músculo sob estímulo da insulina.",
+          "clinical_application": "Glicogenoses",
+          "summary": "Glicose -> Glicogênio.",
+          "key_points": "[\"Glicogênio sintase\", \"Armazenamento\"]",
+          "order_index": 1
+        },
+        {
+          "id": "les_g3_3",
+          "module_id": "mod_glicose_3",
+          "title": "Glicogenólise",
+          "objective": "Quebra do glicogênio",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "Liberação de glicose-1-P a partir do glicogênio no jejum.",
+          "clinical_application": "Doença de Von Gierke",
+          "summary": "Glicogênio -> Glicose.",
+          "key_points": "[\"Glicogênio fosforilase\", \"Glucagon\"]",
+          "order_index": 2
+        },
+        {
+          "id": "les_g3_4",
+          "module_id": "mod_glicose_3",
+          "title": "Gliconeogênese",
+          "objective": "Nova glicose",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "Síntese de glicose a partir de precursores não-glicídicos (lactato, aminoácidos).",
+          "clinical_application": "Hipoglicemia alcoólica",
+          "summary": "Lactato/AA -> Glicose.",
+          "key_points": "[\"Fígado\", \"Jejum prolongado\"]",
+          "order_index": 3
+        },
+        {
+          "id": "les_g3_5",
+          "module_id": "mod_glicose_3",
+          "title": "Integração metabólica",
+          "objective": "Ciclo Jejum-Alimentação",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "Como os órgãos cooperam para manter a energia.",
+          "clinical_application": "Sindrome metabólica",
+          "summary": "Fígado doa, músculo consome.",
+          "key_points": "[\"Ciclo de Cori\", \"Adipócito\"]",
+          "order_index": 4
+        }
+      ]
+    },
+    {
+      "id": "mod_glicose_4",
+      "topic_id": "bioquimica_glicose",
+      "title": "Clínica e Laboratório",
+      "order_index": 3,
+      "lessons": [
+        {
+          "id": "les_g4_1",
+          "module_id": "mod_glicose_4",
+          "title": "Diabetes mellitus",
+          "objective": "Patologia",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "Síndrome metabólica caracterizada por hiperglicemia crônica.",
+          "clinical_application": "Pé diabético",
+          "summary": "Falta ou resistência à insulina.",
+          "key_points": "[\"Hiperglicemia\", \"Complicações microvasculares\"]",
+          "order_index": 0
+        },
+        {
+          "id": "les_g4_2",
+          "module_id": "mod_glicose_4",
+          "title": "Exames laboratoriais",
+          "objective": "Diagnóstico",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "Glicemia de jejum, TOTG e Hemoglobina Glicada (HbA1c).",
+          "clinical_application": "Diagnóstico laboratorial",
+          "summary": "Avaliação laboratorial.",
+          "key_points": "[\"HbA1c\", \"Glicemia de Jejum\"]",
+          "order_index": 1
+        },
+        {
+          "id": "les_g4_3",
+          "module_id": "mod_glicose_4",
+          "title": "Aplicações clínicas",
+          "objective": "Manejo",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "Uso de hipoglicemiantes orais, insulina e monitoramento contínuo.",
+          "clinical_application": "Bomba de insulina",
+          "summary": "Tratamento do DM.",
+          "key_points": "[\"Metformina\", \"Insulinoterapia\"]",
+          "order_index": 2
+        }
+      ]
+    }
+  ]
+}
