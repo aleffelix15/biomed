@@ -11,7 +11,7 @@ Crie um arquivo `.env` na raiz do projeto, usando o `.env.example` como base:
 VITE_SUPABASE_URL=sua_url_aqui
 VITE_SUPABASE_ANON_KEY=sua_chave_anonima_aqui
 ```
-*Se você não fornecer estas variáveis, o app rodará no **modo demo**, utilizando os dados mock.*
+*Se você não fornecer estas variáveis, o app entrará em modo de erro, pois depende de uma conexão ativa com o Supabase.*
 
 ### 2. Instalando e executando
 ```bash
@@ -46,7 +46,7 @@ src/
 ├── components/
 │   ├── ui/                     # Card, Badge, ProgressBar, SectionHeader...
 │   └── domain/                 # DisciplineCard, BookCard
-├── services/                   # supabaseService.js (API real) e mockService.js
+├── services/                   # supabaseService.js (API real)
 ├── state/                      # useAuth.js e useAppNavigation.js
 ├── theme/                      # tokens.js (cores/tipografia) + GlobalStyles
 └── utils/
@@ -67,5 +67,4 @@ src/
 ## Autenticação
 
 A autenticação é provida nativamente pelo Supabase Auth, suportando e-mail e senha. O fluxo de sessão é verificado ativamente em tempo real no carregamento do aplicativo:
-- Se as variáveis de ambiente `VITE_SUPABASE_URL` e `VITE_SUPABASE_ANON_KEY` estiverem ausentes, o app ativa automaticamente o "modo offline/demo", pulando o login e entrando com dados mockados.
 - Se configurado, a tela de login exige credenciais. O app protege todo o conteúdo de `src/screens` forçando a rota para `<LoginScreen />` até que um login, cadastro ou recuperação de senha sejam concluídos. O logout pode ser feito no topo do overlay de progresso.

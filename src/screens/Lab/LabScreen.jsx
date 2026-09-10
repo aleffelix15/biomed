@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { theme } from "../../theme/tokens";
-import { LAB_SECTIONS } from "../../data/mock/labSections";
 import Card from "../../components/ui/Card";
 import { ChevronRight, ChevronLeft } from "lucide-react";
 
@@ -48,7 +47,7 @@ export default function LabScreen() {
       </Card>
 
       <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 18 }}>
-        {LAB_SECTIONS.map((s) => (
+        {[] .map((s) => (
           <Card key={s.id} padding={14} onClick={() => setSelectedSection(s)} style={{ cursor: "pointer", transition: "transform 0.2s" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
               <div style={{ width: 38, height: 38, borderRadius: 10, background: theme.surface, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>

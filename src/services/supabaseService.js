@@ -439,6 +439,22 @@ export async function saveQuestionAttempt(userId, questionId, selectedOption) {
     .single();
 
   if (error) throw error;
+
+  // 3. Update total points if correct
+  if (isCorrect) {
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('total_points')
+      .eq('id', userId)
+      .single();
+
+    const currentPoints = profile?.total_points || 0;
+    await supabase
+      .from('profiles')
+      .update({ total_points: currentPoints + 10 })
+      .eq('id', userId);
+  }
+
   return { ...data, isCorrect };
 }
 
@@ -561,10 +577,10 @@ export async function fetchFavoriteBooks(userId) {
 // Integar questoes erradas ao sistema de revisao (Flashcards)
 export async function addWrongQuestionToReview(disciplineId, topicId, questionObj) {
   if (!supabase) return;
-  
+
   // Verifica se ja existe um flashcard para essa questao (usamos a pergunta como base)
   const { data: existing } = await supabase.from('flashcards').select('id').eq('question', questionObj.question).single();
-  
+
   if (!existing) {
     // Cria flashcard
     const answerText = questionObj['option_' + questionObj.correct_option];
@@ -576,4 +592,20 @@ export async function addWrongQuestionToReview(disciplineId, topicId, questionOb
       category: 'Revisão Automática'
     });
   }
+}
+
+export async function fetchLeaderboard() {
+  if (!supabase) return [];
+
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('id, full_name, avatar_url, total_points')
+    .order('total_points', { ascending: false })
+    .limit(20);
+
+  if (error) {
+    console.error('Error fetching leaderboard:', error);
+    return [];
+  }
+  return data;
 }

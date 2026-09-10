@@ -8,12 +8,12 @@ import SectionHeader from "../../components/ui/SectionHeader";
 import EmptyState from "../../components/ui/EmptyState";
 import Flashcard from "../../components/domain/Flashcard";
 import QuestionCard from "../../components/domain/QuestionCard";
-import { ChevronLeft, Brain, RotateCcw, CheckCircle, HelpCircle } from "lucide-react";
+import { ChevronLeft, Brain, RotateCcw, CheckCircle, HelpCircle, Timer } from "lucide-react";
 
 export default function StudyScreen() {
   const { user } = useAuth();
   const [step, setStep] = useState("mode-selection"); // mode-selection | disc-selection | studying | finished
-  const [mode, setMode] = useState("flashcards"); // flashcards | questions
+  const [mode, setMode] = useState("flashcards"); // flashcards | questions | simulado | prova
   const [disciplines, setDisciplines] = useState([]);
   const [selectedDisc, setSelectedDisc] = useState(null);
   const [items, setItems] = useState([]);
@@ -21,9 +21,34 @@ export default function StudyScreen() {
   const [loading, setLoading] = useState(false);
   const [answeredOption, setAnsweredOption] = useState(null);
 
+  // Exam Mode State
+  const [timeLeft, setTimeLeft] = useState(0);
+  const [timerActive, setTimerActive] = useState(false);
+  const [examAnswers, setExamAnswers] = useState([]);
+
   useEffect(() => {
     fetchDisciplinesWithProgress(user?.id).then(setDisciplines);
   }, [user]);
+
+  // Timer Logic for "Modo Prova"
+  useEffect(() => {
+    let timerInterval;
+    if (timerActive && timeLeft > 0) {
+      timerInterval = setInterval(() => {
+        setTimeLeft(prev => prev - 1);
+      }, 1000);
+    } else if (timeLeft === 0 && timerActive) {
+      setStep("finished");
+      setTimerActive(false);
+    }
+    return () => clearInterval(timerInterval);
+  }, [timerActive, timeLeft]);
+
+  const formatTime = (seconds) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  };
 
   const [errorMsg, setErrorMsg] = useState(null);
 
@@ -40,6 +65,13 @@ export default function StudyScreen() {
         setItems(data);
         setStep("studying");
         setCurrentIndex(0);
+        setAnsweredOption(null);
+        setExamAnswers([]);
+
+        if (mode === "prova") {
+          setTimeLeft(600); // 10 minutes for the exam
+          setTimerActive(true);
+        }
       } else {
         setErrorMsg(`Nenhum ${mode === "flashcards" ? "flashcard" : "questão"} encontrado para esta disciplina.`);
       }
@@ -59,6 +91,7 @@ export default function StudyScreen() {
         setCurrentIndex(prev => prev + 1);
       } else {
         setStep("finished");
+        setTimerActive(false);
       }
     } catch (err) {
       console.error("Error saving flashcard progress:", err);
@@ -71,10 +104,14 @@ export default function StudyScreen() {
     const question = items[currentIndex];
     setAnsweredOption(option);
 
-    try {
-      await saveQuestionAttempt(user.id, question.id, option);
-    } catch (err) {
-      console.error("Error saving attempt:", err);
+    if (mode === "prova") {
+      setExamAnswers(prev => [...prev, { questionId: question.id, selected: option }]);
+    } else {
+      try {
+        await saveQuestionAttempt(user.id, question.id, option);
+      } catch (err) {
+        console.error("Error saving attempt:", err);
+      }
     }
   };
 
@@ -84,6 +121,7 @@ export default function StudyScreen() {
       setCurrentIndex(prev => prev + 1);
     } else {
       setStep("finished");
+      setTimerActive(false);
     }
   };
 
@@ -199,8 +237,15 @@ export default function StudyScreen() {
           <button onClick={() => setStep("disc-selection")} style={{ background: "none", border: "none", color: theme.textSecondary, cursor: "pointer", display: "flex", alignItems: "center", gap: 6, fontSize: 13 }}>
             <ChevronLeft size={16} /> Voltar
           </button>
-          <div style={{ fontSize: 12, color: theme.textSecondary, fontWeight: 600 }}>
-            {currentIndex + 1} / {items.length}
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            {mode === "prova" && (
+              <div style={{ display: "flex", alignItems: "center", gap: 6, background: theme.surface, padding: "4px 8px", borderRadius: 8, color: theme.text, fontSize: 13, fontWeight: 700 }}>
+                <Timer size={14} /> {formatTime(timeLeft)}
+              </div>
+            )}
+            <div style={{ fontSize: 12, color: theme.textSecondary, fontWeight: 600 }}>
+              {currentIndex + 1} / {items.length}
+            </div>
           </div>
         </div>
 
@@ -213,6 +258,8 @@ export default function StudyScreen() {
               selectedOption={answeredOption}
               isAnswered={!!answeredOption}
               onAnswer={handleQuestionAnswer}
+              // Disable feedback in Exam Mode
+              showFeedback={mode !== "prova"}
             />
           )}
 

@@ -3,8 +3,10 @@ import { theme } from '../../theme/tokens';
 import Card from '../ui/Card';
 import Badge from '../ui/Badge';
 
-export default function QuestionCard({ question, onAnswer, selectedOption, isAnswered }) {
+export default function QuestionCard({ question, onAnswer, selectedOption, isAnswered, showFeedback = true }) {
   const options = ['a', 'b', 'c', 'd', 'e'].filter(opt => question[`option_${opt}`]);
+// ... (rest of the logic)
+
 
   return (
     <div style={{ width: '100%', maxWidth: 600, margin: '0 auto' }}>
@@ -23,7 +25,7 @@ export default function QuestionCard({ question, onAnswer, selectedOption, isAns
             let borderColor = theme.line;
             let textColor = theme.text;
 
-            if (isAnswered) {
+            if (isAnswered && showFeedback) {
               if (opt === question.correct_option) {
                 bgColor = theme.primary;
                 borderColor = theme.primary;

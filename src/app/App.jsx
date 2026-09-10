@@ -11,6 +11,8 @@ import DisciplineDetailScreen from "../screens/Disciplines/DisciplineDetail/Disc
 import StudyScreen from "../screens/Study/StudyScreen";
 import LabScreen from "../screens/Lab/LabScreen";
 import LibraryScreen from "../screens/Library/LibraryScreen";
+import BookDetailScreen from "../screens/Library/BookDetailScreen";
+import LeaderboardScreen from "../screens/Ranking/LeaderboardScreen";
 import ProfileScreen from "../screens/Profile/ProfileScreen";
 import ProgressOverlay from "../screens/Progress/ProgressOverlay";
 import LoginScreen from "../screens/Auth/LoginScreen";
@@ -31,6 +33,10 @@ function AppContent() {
   let content;
   if (nav.selectedDiscipline) {
     content = <DisciplineDetailScreen discipline={nav.selectedDiscipline} onBack={nav.closeDiscipline} />;
+  } else if (nav.selectedBook) {
+    content = <BookDetailScreen book={nav.selectedBook} onBack={nav.closeBook} />;
+  } else if (nav.showLeaderboard) {
+    content = <LeaderboardScreen onBack={nav.closeLeaderboard} />;
   } else if (nav.tab === "home") {
     content = <HomeScreen onOpenDiscipline={nav.openDiscipline} onOpenProgress={nav.openProgress} onGoTab={nav.goTab} />;
   } else if (nav.tab === "disciplines") {
@@ -40,9 +46,9 @@ function AppContent() {
   } else if (nav.tab === "lab") {
     content = <LabScreen />;
   } else if (nav.tab === "library") {
-    content = <LibraryScreen />;
+    content = <LibraryScreen onOpenBook={nav.openBook} />;
   } else if (nav.tab === "profile") {
-    content = <ProfileScreen />;
+    content = <ProfileScreen onOpenLeaderboard={nav.openLeaderboard} />;
   }
 
   return (

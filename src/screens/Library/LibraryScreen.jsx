@@ -19,7 +19,7 @@ const filterBtnStyle = (active) => ({
   flexShrink: 0,
 });
 
-export default function LibraryScreen() {
+export default function LibraryScreen({ onOpenBook }) {
   const { user } = useAuth();
   const [filter, setFilter] = useState("todos");
   const [search, setSearch] = useState("");
@@ -113,7 +113,7 @@ export default function LibraryScreen() {
                 book={b} 
                 isFavorite={isFav}
                 onToggleFavorite={handleToggleFavorite}
-                onClick={() => window.open(`https://openlibrary.org${b.work_key}`, '_blank')} 
+                onClick={() => onOpenBook(b)}
               />
             )
           })

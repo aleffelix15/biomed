@@ -6,7 +6,7 @@ import Card from "../../components/ui/Card";
 import SectionHeader from "../../components/ui/SectionHeader";
 import { User, BookOpen, GraduationCap, Save, X, Edit2, LogOut, Clock, Target, Star, TrendingUp } from "lucide-react";
 
-export default function ProfileScreen() {
+export default function ProfileScreen({ onOpenLeaderboard }) {
   const { user, profile, signOut, refreshProfile } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
@@ -206,12 +206,35 @@ export default function ProfileScreen() {
         )}
       </div>
 
+      {/* Botão Ranking */}
+      <button
+        onClick={onOpenLeaderboard}
+        style={{
+          width: "100%",
+          marginBottom: 12,
+          padding: 14,
+          borderRadius: 12,
+          background: theme.surface,
+          color: theme.text,
+          border: `1px solid ${theme.line}`,
+          fontWeight: 700,
+          fontSize: 15,
+          cursor: "pointer",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 8,
+        }}
+      >
+        <Trophy size={18} color={theme.primary} /> Ver Ranking Global
+      </button>
+
       {/* Botão de Logout */}
       <button
         onClick={signOut}
         style={{
           width: "100%",
-          marginTop: 24,
+          marginTop: 0,
           padding: 14,
           borderRadius: 12,
           background: "transparent",

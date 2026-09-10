@@ -38,23 +38,9 @@ export function getTopicModulesAndLessons(topicId) {
 }
 
 export function getQuizQuestions(topicId, isSimulado = false, count = 10) {
-  let allQs = [];
-  for (const path in questionFiles) {
-    if (path.includes(topicId.split('_').slice(1).join('_') || topicId)) { // heuristics
-      const qs = questionFiles[path].default;
-      if (qs[0] && qs[0].topic_id === topicId) {
-         allQs = qs;
-         break;
-      }
-    }
-  }
-  
-  if (allQs.length === 0) {
-     // fallback search all
-     for (const path in questionFiles) {
-        allQs = allQs.concat(questionFiles[path].default.filter(q => q.topic_id === topicId));
-     }
-  }
+  const allQs = Object.values(questionFiles)
+    .flatMap(f => f.default)
+    .filter(q => q.topic_id === topicId);
 
   if (isSimulado) {
     return allQs.sort(() => Math.random() - 0.5).slice(0, count);
