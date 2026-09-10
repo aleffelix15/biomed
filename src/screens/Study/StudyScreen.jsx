@@ -134,7 +134,7 @@ export default function StudyScreen() {
 
           <Card
             padding={24}
-            onClick={() => alert("Modo Prova em breve!")}
+            onClick={() => { setMode("prova"); setStep("disc-selection"); }}
             style={{ cursor: "pointer", textAlign: "center", transition: "transform 0.2s", border: "none", background: theme.card }}
           >
             <div style={{ width: 48, height: 48, borderRadius: 24, background: theme.surface, color: theme.textSecondary, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 12px" }}>

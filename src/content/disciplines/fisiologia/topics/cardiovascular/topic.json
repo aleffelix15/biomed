@@ -1,0 +1,54 @@
+{
+  "id": "fisiologia_cardiovascular",
+  "discipline_id": "fisiologia",
+  "title": "Sistema Cardiovascular",
+  "order_index": 0,
+  "modules": [
+    {
+      "id": "mod_fisiologia_0",
+      "title": "Eletrofisiologia",
+      "order_index": 0,
+      "lessons": [
+        {
+          "id": "les_fisiologia_0_0",
+          "module_id": "mod_fisiologia_0",
+          "title": "Potencial de Ação Cardíaco",
+          "content_markdown": "O potencial de ação em células contráteis possui 5 fases (0 a 4). A fase de despolarização rápida é mediada por canais de Na+ rápidos, seguida de um platô (fase 2) mediado pela entrada de Ca++.",
+          "order_index": 0,
+          "estimated_minutes": 15
+        },
+        {
+          "id": "les_fisiologia_0_1",
+          "module_id": "mod_fisiologia_0",
+          "title": "Sistema de Condução",
+          "content_markdown": "O nó sinoatrial (SA) é o marcapasso natural. O impulso viaja para o nó atrioventricular (AV), feixe de His, e fibras de Purkinje, permitindo a contração sincronizada.",
+          "order_index": 1,
+          "estimated_minutes": 15
+        }
+      ]
+    },
+    {
+      "id": "mod_fisiologia_1",
+      "title": "Mecânica e Ciclo Cardíaco",
+      "order_index": 1,
+      "lessons": [
+        {
+          "id": "les_fisiologia_1_0",
+          "module_id": "mod_fisiologia_1",
+          "title": "Ciclo Cardíaco",
+          "content_markdown": "Compreende sístole (contração e ejeção) e diástole (relaxamento e enchimento). O débito cardíaco é o volume de sangue ejetado por minuto (Volume Sistólico x Frequência Cardíaca).",
+          "order_index": 0,
+          "estimated_minutes": 15
+        },
+        {
+          "id": "les_fisiologia_1_1",
+          "module_id": "mod_fisiologia_1",
+          "title": "Regulação da Pressão Arterial",
+          "content_markdown": "Regulada a curto prazo por barorreceptores (reflexo barorreceptor) e a longo prazo pelo sistema renina-angiotensina-aldosterona (SRAA).",
+          "order_index": 1,
+          "estimated_minutes": 15
+        }
+      ]
+    }
+  ]
+}

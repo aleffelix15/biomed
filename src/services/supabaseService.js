@@ -1,6 +1,6 @@
 import { supabase } from './supabaseClient';
 import * as content from './contentService';
-import * as mockService from './mockService';
+
 
 export async function toggleTopicCompletion(userId, topicId, disciplineId) {
   if (!supabase) return null;
@@ -93,42 +93,9 @@ export async function fetchDisciplinesWithProgress(userId) {
   });
 }
 
-export async function fetchBooksByDiscipline(disciplineId) {
-  if (!supabase) return mockService.fetchBooksByDiscipline(disciplineId);
 
-  const { data, error } = await supabase
-    .from('books')
-    .select('*')
-    .eq('discipline_id', disciplineId);
 
-  if (error) {
-    console.error('Error fetching books from Supabase:', error);
-    return mockService.fetchBooksByDiscipline(disciplineId);
-  }
 
-  return data.map(b => ({
-    ...b,
-    disciplineId: b.discipline_id,
-  }));
-}
-
-export async function fetchAllBooks() {
-  if (!supabase) return mockService.BOOKS; // Not exported in mockService, but wait, mockService doesn't export BOOKS directly, wait I'll fix that.
-
-  const { data, error } = await supabase
-    .from('books')
-    .select('*');
-
-  if (error) {
-    console.error('Error fetching books from Supabase:', error);
-    return [];
-  }
-
-  return data.map(b => ({
-    ...b,
-    disciplineId: b.discipline_id,
-  }));
-}
 
 export async function fetchTopicsByDiscipline(discipline) {
   const dId = discipline.id || discipline;

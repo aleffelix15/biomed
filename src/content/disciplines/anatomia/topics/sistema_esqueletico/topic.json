@@ -1,0 +1,62 @@
+{
+  "id": "anatomia_sistema_esqueletico",
+  "discipline_id": "anatomia",
+  "title": "Sistema Esquelético",
+  "order_index": 0,
+  "modules": [
+    {
+      "id": "mod_anatomia_0",
+      "title": "Fundamentos",
+      "order_index": 0,
+      "lessons": [
+        {
+          "id": "les_anatomia_0_0",
+          "module_id": "mod_anatomia_0",
+          "title": "Introdução ao Sistema Esquelético",
+          "content_markdown": "O sistema esquelético é composto por ossos, cartilagens e articulações. Ele fornece suporte estrutural, proteção de órgãos internos, alavancagem para o movimento, armazenamento de minerais e hematopoiese (produção de células sanguíneas na medula óssea vermelha).",
+          "order_index": 0,
+          "estimated_minutes": 15
+        },
+        {
+          "id": "les_anatomia_0_1",
+          "module_id": "mod_anatomia_0",
+          "title": "Tipos de Ossos",
+          "content_markdown": "Os ossos são classificados em longos (ex: fêmur), curtos (ex: carpos), planos (ex: escápula), irregulares (ex: vértebras) e sesamoides (ex: patela).",
+          "order_index": 1,
+          "estimated_minutes": 15
+        },
+        {
+          "id": "les_anatomia_0_2",
+          "module_id": "mod_anatomia_0",
+          "title": "Histologia Óssea",
+          "content_markdown": "O tecido ósseo é conjuntivo denso, contendo osteoblastos (síntese), osteócitos (manutenção) e osteoclastos (reabsorção). A matriz extracelular é rica em cálcio e fósforo (hidroxiapatita).",
+          "order_index": 2,
+          "estimated_minutes": 15
+        }
+      ]
+    },
+    {
+      "id": "mod_anatomia_1",
+      "title": "Esqueleto Axial",
+      "order_index": 1,
+      "lessons": [
+        {
+          "id": "les_anatomia_1_0",
+          "module_id": "mod_anatomia_1",
+          "title": "Crânio e Face",
+          "content_markdown": "Composto por 22 ossos, divididos em neurocrânio (protege o encéfalo) e viscerocrânio (ossos da face).",
+          "order_index": 0,
+          "estimated_minutes": 15
+        },
+        {
+          "id": "les_anatomia_1_1",
+          "module_id": "mod_anatomia_1",
+          "title": "Coluna Vertebral e Tórax",
+          "content_markdown": "A coluna vertebral possui 33 vértebras (7 cervicais, 12 torácicas, 5 lombares, 5 sacrais e 4 coccígeas). O tórax é formado pelo esterno e 12 pares de costelas.",
+          "order_index": 1,
+          "estimated_minutes": 15
+        }
+      ]
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { theme } from "../../theme/tokens";
-import { fetchDisciplinesWithProgress, fetchAllBooks, fetchFavoriteBooks, toggleFavoriteBook } from "../../services/supabaseService";
+import { fetchDisciplinesWithProgress, fetchFavoriteBooks, toggleFavoriteBook } from "../../services/supabaseService";
+import { fetchAllBooks } from "../../services/bookService";
 import { useAuth } from "../../state/AuthContext";
 import BookCard from "../../components/domain/BookCard";
 import { Search, Heart } from "lucide-react";
@@ -112,7 +113,7 @@ export default function LibraryScreen() {
                 book={b} 
                 isFavorite={isFav}
                 onToggleFavorite={handleToggleFavorite}
-                onClick={() => {}} 
+                onClick={() => window.open(`https://openlibrary.org${b.work_key}`, '_blank')} 
               />
             )
           })

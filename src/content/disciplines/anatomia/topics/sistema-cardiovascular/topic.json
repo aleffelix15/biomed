@@ -1,0 +1,138 @@
+{
+  "id": "anatomia_sistema_cardiovascular",
+  "discipline_id": "anatomia",
+  "title": "Sistema Cardiovascular",
+  "status": "active",
+  "has_content": true,
+  "order_index": 0,
+  "modules": [
+    {
+      "id": "mod_cardio_1",
+      "topic_id": "anatomia_sistema_cardiovascular",
+      "title": "Coração: estrutura e câmaras",
+      "order_index": 0,
+      "lessons": [
+        {
+          "id": "les_ac1_1",
+          "module_id": "mod_cardio_1",
+          "title": "Localização e envoltórios",
+          "objective": "Situar o coração no tórax e descrever o pericárdio",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "O coração situa-se no mediastino médio, entre os pulmões, ligeiramente à esquerda da linha média, apoiado sobre o diafragma. É envolvido pelo pericárdio, composto por uma camada fibrosa externa (pericárdio fibroso) e uma camada serosa dupla (pericárdio parietal e visceral/epicárdio), com líquido pericárdico entre elas reduzindo o atrito durante os batimentos.",
+          "clinical_application": "Tamponamento cardíaco: acúmulo de líquido no saco pericárdico comprime o coração e reduz o débito cardíaco.",
+          "summary": "Coração no mediastino médio, envolto pelo pericárdio fibroso e seroso.",
+          "key_points": "[\"Mediastino médio\", \"Pericárdio fibroso e seroso\", \"Epicárdio\"]",
+          "order_index": 0
+        },
+        {
+          "id": "les_ac1_2",
+          "module_id": "mod_cardio_1",
+          "title": "As quatro câmaras",
+          "objective": "Diferenciar átrios e ventrículos, direito e esquerdo",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "O coração possui quatro câmaras: átrio direito (recebe sangue venoso das veias cavas), ventrículo direito (bombeia para o tronco pulmonar), átrio esquerdo (recebe sangue oxigenado das veias pulmonares) e ventrículo esquerdo (bombeia para a aorta). O ventrículo esquerdo tem parede muscular bem mais espessa, pois gera pressão sistêmica muito maior que a pulmonar.",
+          "clinical_application": "Hipertrofia ventricular esquerda é um achado comum em pacientes hipertensos de longa data.",
+          "summary": "4 câmaras: AD, VD, AE, VE — VE tem parede mais espessa.",
+          "key_points": "[\"Átrio direito\", \"Ventrículo esquerdo\", \"Espessura da parede\"]",
+          "order_index": 1
+        },
+        {
+          "id": "les_ac1_3",
+          "module_id": "mod_cardio_1",
+          "title": "Valvas cardíacas",
+          "objective": "Identificar as quatro valvas e sua função",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "As valvas atrioventriculares (tricúspide à direita, mitral/bicúspide à esquerda) impedem refluxo dos ventrículos para os átrios durante a sístole. As valvas semilunares (pulmonar e aórtica) impedem refluxo das artérias para os ventrículos durante a diástole. O fechamento sequencial gera as bulhas cardíacas B1 (AV) e B2 (semilunares).",
+          "clinical_application": "Estenose ou insuficiência mitral/aórtica geram sopros característicos na ausculta.",
+          "summary": "4 valvas garantem fluxo unidirecional; geram B1 e B2.",
+          "key_points": "[\"Tricúspide\", \"Mitral\", \"Bulhas B1/B2\"]",
+          "order_index": 2
+        }
+      ]
+    },
+    {
+      "id": "mod_cardio_2",
+      "topic_id": "anatomia_sistema_cardiovascular",
+      "title": "Grandes vasos e circulação",
+      "order_index": 1,
+      "lessons": [
+        {
+          "id": "les_ac2_1",
+          "module_id": "mod_cardio_2",
+          "title": "Circulação sistêmica e pulmonar",
+          "objective": "Distinguir os dois circuitos circulatórios",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "Na pequena circulação (pulmonar), o VD bombeia sangue pobre em O2 pelo tronco pulmonar até os pulmões, onde é oxigenado e retorna ao AE pelas veias pulmonares. Na grande circulação (sistêmica), o VE bombeia sangue oxigenado pela aorta a todo o corpo, que retorna desoxigenado ao AD pelas veias cavas superior e inferior.",
+          "clinical_application": "Persistência do canal arterial mantém comunicação anormal entre aorta e tronco pulmonar após o nascimento.",
+          "summary": "Circuito pulmonar (VD→pulmões→AE) e sistêmico (VE→corpo→AD).",
+          "key_points": "[\"Pequena circulação\", \"Grande circulação\", \"Veias cavas\"]",
+          "order_index": 0
+        },
+        {
+          "id": "les_ac2_2",
+          "module_id": "mod_cardio_2",
+          "title": "Artérias coronárias",
+          "objective": "Descrever a irrigação do próprio coração",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "As artérias coronárias direita e esquerda originam-se logo acima da valva aórtica, nos seios de Valsalva. A coronária esquerda se divide em descendente anterior (irriga a parede anterior do VE e septo) e circunflexa (parede lateral). A coronária direita geralmente irriga o nó sinoatrial e a parede inferior.",
+          "clinical_application": "Oclusão da descendente anterior é a causa mais comum de infarto agudo do miocárdio de parede anterior.",
+          "summary": "Coronárias nascem na raiz da aorta e irrigam o miocárdio.",
+          "key_points": "[\"Descendente anterior\", \"Circunflexa\", \"Coronária direita\"]",
+          "order_index": 1
+        },
+        {
+          "id": "les_ac2_3",
+          "module_id": "mod_cardio_2",
+          "title": "Sistema de condução",
+          "objective": "Mapear a via elétrica do coração",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "O impulso elétrico origina-se no nó sinoatrial (marcapasso natural), propaga-se pelos átrios até o nó atrioventricular, desce pelo feixe de His e seus ramos, terminando nas fibras de Purkinje, que despolarizam os ventrículos de forma sincronizada.",
+          "clinical_application": "Bloqueios de ramo e bloqueios atrioventriculares alteram o ECG e podem exigir marcapasso artificial.",
+          "summary": "Nó SA → nó AV → feixe de His → fibras de Purkinje.",
+          "key_points": "[\"Nó sinoatrial\", \"Nó atrioventricular\", \"Fibras de Purkinje\"]",
+          "order_index": 2
+        }
+      ]
+    },
+    {
+      "id": "mod_cardio_3",
+      "topic_id": "anatomia_sistema_cardiovascular",
+      "title": "Vasos sanguíneos e correlações clínicas",
+      "order_index": 2,
+      "lessons": [
+        {
+          "id": "les_ac3_1",
+          "module_id": "mod_cardio_3",
+          "title": "Camadas dos vasos sanguíneos",
+          "objective": "Comparar artérias, veias e capilares",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "Artérias e veias possuem três camadas: túnica íntima (endotélio), túnica média (músculo liso e fibras elásticas) e túnica adventícia (tecido conjuntivo). Artérias têm túnica média mais espessa para suportar alta pressão; veias têm valvas para evitar refluxo contra a gravidade. Capilares possuem apenas endotélio, permitindo trocas gasosas e de nutrientes.",
+          "clinical_application": "Varizes ocorrem por falência das valvas venosas dos membros inferiores.",
+          "summary": "3 túnicas nos vasos; capilares só têm endotélio.",
+          "key_points": "[\"Túnica média\", \"Valvas venosas\", \"Trocas capilares\"]",
+          "order_index": 0
+        },
+        {
+          "id": "les_ac3_2",
+          "module_id": "mod_cardio_3",
+          "title": "Anatomia de superfície e ausculta",
+          "objective": "Relacionar anatomia com exame físico",
+          "difficulty": "Médio",
+          "estimated_minutes": 15,
+          "content_markdown": "Os focos de ausculta cardíaca correspondem à projeção do trajeto do sangue por cada valva na parede torácica: foco aórtico (2º EICD), pulmonar (2º EICE), tricúspide (4º-5º EIE paraesternal) e mitral (5º EIE, linha hemiclavicular, ictus cordis).",
+          "clinical_application": "Localizar corretamente os focos de ausculta é essencial para diferenciar sopros valvares na prática clínica.",
+          "summary": "4 focos de ausculta correspondem às 4 valvas cardíacas.",
+          "key_points": "[\"Foco aórtico\", \"Foco mitral\", \"Ictus cordis\"]",
+          "order_index": 1
+        }
+      ]
+    }
+  ]
+}

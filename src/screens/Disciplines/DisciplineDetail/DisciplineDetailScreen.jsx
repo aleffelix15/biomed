@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { theme } from "../../../theme/tokens";
-import { fetchTopicsByDiscipline, fetchBooksByDiscipline, getLastStudiedTopic, fetchTopicProgress, toggleTopicCompletion } from "../../../services/supabaseService";
+import { fetchTopicsByDiscipline, getLastStudiedTopic, fetchTopicProgress, toggleTopicCompletion } from "../../../services/supabaseService";
+import { searchBooksByDiscipline } from "../../../services/bookService";
 import { useAuth } from "../../../state/AuthContext";
 import { marked } from "marked";
 import Card from "../../../components/ui/Card";
@@ -31,7 +32,7 @@ export default function DisciplineDetailScreen({ discipline, onBack }) {
     setLoading(true);
     Promise.all([
       fetchTopicsByDiscipline(discipline),
-      fetchBooksByDiscipline(discipline.id),
+      searchBooksByDiscipline(discipline.name),
       user ? getLastStudiedTopic(user.id, discipline.id) : Promise.resolve(null),
       user ? fetchTopicProgress(user.id, discipline.id) : Promise.resolve([])
     ]).then(([t, b, last, prog]) => {
@@ -174,7 +175,7 @@ export default function DisciplineDetailScreen({ discipline, onBack }) {
             {books.map((b) => <BookCard key={b.id} book={b} />)}
           </div>
         ) : (
-          <EmptyState icon={Library} title="Ainda sem livros cadastrados" desc="Esta disciplina receberá indicações bibliográficas em breve." />
+          <EmptyState icon={Library} title="Nenhum livro encontrado" desc={`Não foram encontrados resultados na OpenLibrary para ${discipline.name}.`} />
         )}
       </div>
       </>

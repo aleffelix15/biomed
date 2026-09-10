@@ -1,0 +1,62 @@
+{
+  "id": "farmacologia_farmacocinetica",
+  "discipline_id": "farmacologia",
+  "title": "Farmacocinética",
+  "order_index": 0,
+  "modules": [
+    {
+      "id": "mod_farmacologia_0",
+      "title": "Absorção e Distribuição",
+      "order_index": 0,
+      "lessons": [
+        {
+          "id": "les_farmacologia_0_0",
+          "module_id": "mod_farmacologia_0",
+          "title": "Vias de Administração",
+          "content_markdown": "As vias enterais (oral, sublingual) e parenterais (IV, IM, SC) afetam a velocidade e extensão da absorção. A via IV tem 100% de biodisponibilidade.",
+          "order_index": 0,
+          "estimated_minutes": 15
+        },
+        {
+          "id": "les_farmacologia_0_1",
+          "module_id": "mod_farmacologia_0",
+          "title": "Biodisponibilidade e Absorção",
+          "content_markdown": "É a fração do fármaco inalterado que atinge a circulação sistêmica. Fármacos lipofílicos cruzam membranas por difusão passiva mais facilmente.",
+          "order_index": 1,
+          "estimated_minutes": 15
+        },
+        {
+          "id": "les_farmacologia_0_2",
+          "module_id": "mod_farmacologia_0",
+          "title": "Distribuição e Ligação Proteica",
+          "content_markdown": "Fármacos se ligam à albumina no plasma. Apenas a fração livre é farmacologicamente ativa e capaz de cruzar barreiras tissulares.",
+          "order_index": 2,
+          "estimated_minutes": 15
+        }
+      ]
+    },
+    {
+      "id": "mod_farmacologia_1",
+      "title": "Metabolismo e Excreção",
+      "order_index": 1,
+      "lessons": [
+        {
+          "id": "les_farmacologia_1_0",
+          "module_id": "mod_farmacologia_1",
+          "title": "Biotransformação Hepática",
+          "content_markdown": "Fase I (oxidação, redução, hidrólise - Citocromo P450) e Fase II (conjugação com ácido glicurônico) tornam os fármacos mais polares para excreção.",
+          "order_index": 0,
+          "estimated_minutes": 15
+        },
+        {
+          "id": "les_farmacologia_1_1",
+          "module_id": "mod_farmacologia_1",
+          "title": "Excreção Renal e Meia-vida",
+          "content_markdown": "A filtração glomerular e secreção tubular eliminam fármacos. A meia-vida (T1/2) é o tempo necessário para a concentração plasmática cair pela metade.",
+          "order_index": 1,
+          "estimated_minutes": 15
+        }
+      ]
+    }
+  ]
+}
