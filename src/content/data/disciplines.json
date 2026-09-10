@@ -130,13 +130,13 @@
     "name": "Imagenologia",
     "icon": "ScanLine",
     "category": "Prática Laboratorial",
-    "topics_count": 0
+    "topics_count": 1
   },
   {
     "id": "biosseguranca",
     "name": "Biossegurança",
     "icon": "Biohazard",
     "category": "Prática Laboratorial",
-    "topics_count": 0
+    "topics_count": 1
   }
 ]
