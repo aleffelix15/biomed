@@ -44,6 +44,11 @@ export default function QuizScreen({ topicId, disciplineId, lessonId, isSimulado
       setSaving(true);
       try {
         await saveQuestionAttempt(user.id, currentQ.id, selected);
+        // Se errou, adiciona ao sistema de flashcards para revisao
+        if (selected !== currentQ.correct_option) {
+          const { addWrongQuestionToReview } = await import('../../services/supabaseService');
+          await addWrongQuestionToReview(disciplineId, topicId, currentQ);
+        }
       } catch (err) {
         console.error("Failed to save attempt", err);
       }

@@ -164,7 +164,7 @@ export async function fetchTopicsByDiscipline(discipline) {
   }));
 }
 
-// NOVO MOTOR DE CONTEÚDO
+// NOVO MOTOR DE CONTEÃšDO
 export async function getOrCreateStudyPlan(userId, topicId) {
   if (!supabase) return null;
 
@@ -199,7 +199,7 @@ export async function getOrCreateStudyPlan(userId, topicId) {
 export async function fetchModulesAndLessons(topicId, userId) {
   if (!supabase) return [];
 
-  // Puxar módulos
+  // Puxar mÃ³dulos
   const { data: modulesData, error: modErr } = await supabase
     .from('modules')
     .select('*')
@@ -208,7 +208,7 @@ export async function fetchModulesAndLessons(topicId, userId) {
 
   if (modErr || !modulesData) return [];
 
-  // Puxar aulas desses módulos
+  // Puxar aulas desses mÃ³dulos
   const moduleIds = modulesData.map(m => m.id);
   const { data: lessonsData, error: lessErr } = await supabase
     .from('lessons')
@@ -218,14 +218,14 @@ export async function fetchModulesAndLessons(topicId, userId) {
 
   if (lessErr || !lessonsData) return [];
 
-  // Puxar progresso do usuário para essas aulas
+  // Puxar progresso do usuÃ¡rio para essas aulas
   const { data: progressData } = await supabase
     .from('lesson_progress')
     .select('lesson_id, completed')
     .eq('user_id', userId)
     .in('lesson_id', lessonsData.map(l => l.id));
 
-  // Montar árvore
+  // Montar Ã¡rvore
   return modulesData.map(m => {
     const mLessons = lessonsData.filter(l => l.module_id === m.id).map(l => {
       const prog = progressData?.find(p => p.lesson_id === l.id);
@@ -250,7 +250,7 @@ export async function fetchLesson(lessonId) {
 export async function completeLesson(userId, lessonId, topicId) {
   if (!supabase) return;
 
-  // 1. Marca aula como concluída
+  // 1. Marca aula como concluÃ­da
   await supabase
     .from('lesson_progress')
     .upsert({
@@ -268,7 +268,7 @@ export async function completeLesson(userId, lessonId, topicId) {
   if (moduleIds.length > 0) {
     const { count: totalLessons } = await supabase.from('lessons').select('*', { count: 'exact', head: true }).in('module_id', moduleIds);
     
-    // Buscar quais dessas o usuário completou
+    // Buscar quais dessas o usuÃ¡rio completou
     const { data: allLessons } = await supabase.from('lessons').select('id').in('module_id', moduleIds);
     const lessonIds = allLessons?.map(l => l.id) || [];
     const { count: completedLessons } = await supabase.from('lesson_progress').select('*', { count: 'exact', head: true }).eq('user_id', userId).eq('completed', true).in('lesson_id', lessonIds);
@@ -296,7 +296,7 @@ export async function fetchLessonQuiz(lessonId) {
 
 export async function fetchTopicSimulado(topicId) {
   if (!supabase) return [];
-  // Simulados são questões ligadas ao tópico mas NÃO a uma aula específica
+  // Simulados sÃ£o questÃµes ligadas ao tÃ³pico mas NÃƒO a uma aula especÃ­fica
   const { data, error } = await supabase
     .from('questions')
     .select('*')
@@ -325,11 +325,11 @@ export async function getUserProfile(userId) {
 
 export async function updateUserProfile(userId, profileData) {
   if (!supabase) return null;
-  // Usa update() e não upsert(): o profile já existe nesse ponto (criado
+  // Usa update() e nÃ£o upsert(): o profile jÃ¡ existe nesse ponto (criado
   // pelo trigger handle_new_user no momento do signUp). upsert() dispara
   // um INSERT com ON CONFLICT, que exige uma policy de INSERT na tabela
-  // profiles - policy que não existe em supabase/rls_policies.sql (só há
-  // policies de SELECT/UPDATE), então falhava com "new row violates
+  // profiles - policy que nÃ£o existe em supabase/rls_policies.sql (sÃ³ hÃ¡
+  // policies de SELECT/UPDATE), entÃ£o falhava com "new row violates
   // row-level security policy".
   const { data, error } = await supabase
     .from('profiles')
@@ -345,9 +345,9 @@ export async function updateUserProfile(userId, profileData) {
   return data;
 }
 
-// Garante que um profile existe para o usuário.
-// Se não existir, cria usando os dados do metadata OAuth (Google).
-// Se já existir, retorna o existente.
+// Garante que um profile existe para o usuÃ¡rio.
+// Se nÃ£o existir, cria usando os dados do metadata OAuth (Google).
+// Se jÃ¡ existir, retorna o existente.
 export async function ensureUserProfile(user) {
   if (!supabase || !user) return null;
 
@@ -361,13 +361,13 @@ export async function ensureUserProfile(user) {
   // Se encontrou, retorna sem criar duplicata
   if (existing) return existing;
 
-  // Se o erro não for "not found" (PGRST116), loga e retorna null
+  // Se o erro nÃ£o for "not found" (PGRST116), loga e retorna null
   if (fetchError && fetchError.code !== 'PGRST116') {
     console.error('Error fetching profile in ensureUserProfile:', fetchError);
     return null;
   }
 
-  // Profile não existe — cria usando dados do OAuth metadata
+  // Profile nÃ£o existe â€” cria usando dados do OAuth metadata
   const meta = user.user_metadata || {};
   const full_name = meta.full_name || meta.name || '';
   const avatar_url = meta.avatar_url || meta.picture || '';
@@ -618,4 +618,66 @@ export async function fetchUserProgress(disciplineId) {
     accuracyRate: data.accuracy_rate,
     disciplineId: data.discipline_id
   } : null;
+}
+
+
+// =============================================================
+// Integração com Biblioteca (Favoritos)
+// =============================================================
+export async function toggleFavoriteBook(userId, bookInfo) {
+  if (!supabase) return null;
+  
+  const { data: existing } = await supabase
+    .from('favorite_books')
+    .select('id')
+    .eq('user_id', userId)
+    .eq('work_key', bookInfo.work_key)
+    .single();
+
+  if (existing) {
+    await supabase.from('favorite_books').delete().eq('id', existing.id);
+    return false; // removido
+  } else {
+    await supabase.from('favorite_books').insert({
+      user_id: userId,
+      work_key: bookInfo.work_key,
+      title: bookInfo.title,
+      author: bookInfo.author,
+      cover_url: bookInfo.cover_url
+    });
+    return true; // adicionado
+  }
+}
+
+export async function fetchFavoriteBooks(userId) {
+  if (!supabase) return [];
+  const { data, error } = await supabase
+    .from('favorite_books')
+    .select('*')
+    .eq('user_id', userId);
+  if (error) {
+    console.error('Error fetching favorite books:', error);
+    return [];
+  }
+  return data;
+}
+
+// Integar questoes erradas ao sistema de revisao (Flashcards)
+export async function addWrongQuestionToReview(disciplineId, topicId, questionObj) {
+  if (!supabase) return;
+  
+  // Verifica se ja existe um flashcard para essa questao (usamos a pergunta como base)
+  const { data: existing } = await supabase.from('flashcards').select('id').eq('question', questionObj.question).single();
+  
+  if (!existing) {
+    // Cria flashcard
+    const answerText = questionObj['option_' + questionObj.correct_option];
+    await supabase.from('flashcards').insert({
+      discipline_id: disciplineId,
+      topic_id: topicId,
+      question: questionObj.question,
+      answer: answerText,
+      category: 'Revisão Automática'
+    });
+  }
 }

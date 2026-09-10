@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { theme } from "../../theme/tokens";
-import { fetchDisciplinesWithProgress, fetchAllBooks } from "../../services/supabaseService";
+import { fetchDisciplinesWithProgress, fetchAllBooks, fetchFavoriteBooks, toggleFavoriteBook } from "../../services/supabaseService";
 import { useAuth } from "../../state/AuthContext";
 import BookCard from "../../components/domain/BookCard";
-import { Search } from "lucide-react";
+import { Search, Heart } from "lucide-react";
 
 const filterBtnStyle = (active) => ({
   padding: "7px 13px",
@@ -24,29 +24,49 @@ export default function LibraryScreen() {
   const [search, setSearch] = useState("");
   const [allBooks, setAllBooks] = useState([]);
   const [disciplines, setDisciplines] = useState([]);
+  const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const loadData = async () => {
+    setLoading(true);
+    try {
+      const [booksData, discsData, favsData] = await Promise.all([
+        fetchAllBooks(),
+        fetchDisciplinesWithProgress(user?.id),
+        user ? fetchFavoriteBooks(user.id) : Promise.resolve([])
+      ]);
+      setAllBooks(booksData || []);
+      setDisciplines(discsData || []);
+      setFavorites(favsData || []);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const loadData = async () => {
-      setLoading(true);
-      try {
-        const [booksData, discsData] = await Promise.all([
-          fetchAllBooks(),
-          fetchDisciplinesWithProgress(user?.id)
-        ]);
-        setAllBooks(booksData || []);
-        setDisciplines(discsData || []);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
     loadData();
   }, [user]);
 
+  const handleToggleFavorite = async (book) => {
+    if (!user) return;
+    const isFav = favorites.some(f => f.work_key === book.id);
+    
+    // update optimistic UI
+    if (isFav) {
+      setFavorites(prev => prev.filter(f => f.work_key !== book.id));
+    } else {
+      setFavorites(prev => [...prev, { work_key: book.id, title: book.title, author: book.author }]);
+    }
+    
+    // save to backend
+    await toggleFavoriteBook(user.id, { work_key: book.id, title: book.title, author: book.author });
+  };
+
   const filtered = allBooks.filter((b) => {
-    const matchFilter = filter === "todos" || b.disciplineId === filter;
+    const isFav = favorites.some(f => f.work_key === b.id);
+    const matchFilter = filter === "todos" || b.disciplineId === filter || (filter === "favoritos" && isFav);
     const matchSearch = search.trim() === "" || 
                         b.title.toLowerCase().includes(search.toLowerCase()) || 
                         (b.author && b.author.toLowerCase().includes(search.toLowerCase()));
@@ -70,6 +90,9 @@ export default function LibraryScreen() {
 
       <div style={{ display: "flex", gap: 8, marginTop: 16, overflowX: "auto" }} className="bs-scroll">
         <button onClick={() => setFilter("todos")} style={filterBtnStyle(filter === "todos")}>Todos</button>
+        <button onClick={() => setFilter("favoritos")} style={filterBtnStyle(filter === "favoritos")}>
+           Favoritos
+        </button>
         {disciplines.map((d) => (
           <button key={d.id} onClick={() => setFilter(d.id)} style={filterBtnStyle(filter === d.id)}>{d.name}</button>
         ))}
@@ -81,7 +104,18 @@ export default function LibraryScreen() {
         ) : filtered.length === 0 ? (
           <div style={{ textAlign: "center", padding: 40, color: theme.textSecondary, fontSize: 14 }}>Nenhum livro encontrado.</div>
         ) : (
-          filtered.map((b) => <BookCard key={b.id} book={b} onClick={() => alert("Abrindo " + b.title)} />)
+          filtered.map((b) => {
+            const isFav = favorites.some(f => f.work_key === b.id);
+            return (
+              <BookCard 
+                key={b.id} 
+                book={b} 
+                isFavorite={isFav}
+                onToggleFavorite={handleToggleFavorite}
+                onClick={() => {}} 
+              />
+            )
+          })
         )}
       </div>
     </div>

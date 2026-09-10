@@ -142,6 +142,15 @@ CREATE TABLE IF NOT EXISTS modules (
     order_index int DEFAULT 0
 );
 
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM pg_constraint WHERE conname = 'modules_topic_title_key'
+    ) THEN
+        ALTER TABLE modules ADD CONSTRAINT modules_topic_title_key UNIQUE (topic_id, title);
+    END IF;
+END $$;
+
 -- =============================================================
 -- Aulas (Conteúdo base de estudo dentro de um módulo)
 -- =============================================================
@@ -267,3 +276,24 @@ BEGIN
         ALTER TABLE flashcards ADD COLUMN category text;
     END IF;
 END $$;
+
+-- =============================================================
+-- Livros Favoritos (Integracao Open Library)
+-- =============================================================
+CREATE TABLE IF NOT EXISTS favorite_books (
+    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE,
+    work_key text NOT NULL,
+    title text NOT NULL,
+    author text,
+    cover_url text,
+    created_at timestamptz DEFAULT now(),
+    UNIQUE(user_id, work_key)
+);
+
+ALTER TABLE favorite_books ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Users can manage own favorite books" ON favorite_books;
+CREATE POLICY "Users can manage own favorite books"
+    ON favorite_books FOR ALL
+    USING (auth.uid() = user_id);
