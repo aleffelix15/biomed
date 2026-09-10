@@ -90,6 +90,8 @@ export default function StudyPlanScreen({ topic, discipline, onBack }) {
 
         {loading ? (
           <div style={{ textAlign: "center", padding: 40, color: theme.textSecondary, fontSize: 14 }}>Carregando aulas...</div>
+        ) : modules.length === 0 ? (
+          <div style={{ textAlign: "center", padding: 40, color: theme.textSecondary, fontSize: 14, marginTop: 24, background: theme.surface, borderRadius: 16 }}>Conteúdo em breve! Este assunto ainda não possui aulas cadastradas.</div>
         ) : (
           <>
             {/* Lista de Módulos */}
