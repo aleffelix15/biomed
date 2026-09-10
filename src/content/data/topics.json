@@ -1,0 +1,10 @@
+[
+  {
+    "id": "bioquimica_glicose",
+    "discipline_id": "bioquimica",
+    "title": "Glicose e Metabolismo",
+    "status": "active",
+    "has_content": true,
+    "order_index": 0
+  }
+]

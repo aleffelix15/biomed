@@ -1,0 +1,142 @@
+[
+  {
+    "id": "anatomia",
+    "name": "Anatomia",
+    "icon": "Bone",
+    "category": "Ciências Básicas",
+    "topics_count": 0
+  },
+  {
+    "id": "fisiologia",
+    "name": "Fisiologia",
+    "icon": "HeartPulse",
+    "category": "Ciências Básicas",
+    "topics_count": 0
+  },
+  {
+    "id": "histologia",
+    "name": "Histologia",
+    "icon": "Layers",
+    "category": "Ciências Básicas",
+    "topics_count": 0
+  },
+  {
+    "id": "bioquimica",
+    "name": "Bioquímica",
+    "icon": "FlaskConical",
+    "category": "Ciências Básicas",
+    "topics_count": 1
+  },
+  {
+    "id": "biologia-molecular",
+    "name": "Biologia Molecular",
+    "icon": "Dna",
+    "category": "Ciências Básicas",
+    "topics_count": 0
+  },
+  {
+    "id": "genetica",
+    "name": "Genética",
+    "icon": "Dna",
+    "category": "Ciências Básicas",
+    "topics_count": 0
+  },
+  {
+    "id": "microbiologia",
+    "name": "Microbiologia",
+    "icon": "Bug",
+    "category": "Ciências Biomédicas",
+    "topics_count": 0
+  },
+  {
+    "id": "imunologia",
+    "name": "Imunologia",
+    "icon": "ShieldCheck",
+    "category": "Ciências Biomédicas",
+    "topics_count": 0
+  },
+  {
+    "id": "parasitologia",
+    "name": "Parasitologia",
+    "icon": "Bug",
+    "category": "Ciências Biomédicas",
+    "topics_count": 0
+  },
+  {
+    "id": "patologia",
+    "name": "Patologia",
+    "icon": "Microscope",
+    "category": "Ciências Biomédicas",
+    "topics_count": 0
+  },
+  {
+    "id": "hematologia",
+    "name": "Hematologia",
+    "icon": "Droplet",
+    "category": "Ciências Biomédicas",
+    "topics_count": 0
+  },
+  {
+    "id": "farmacologia",
+    "name": "Farmacologia",
+    "icon": "Pill",
+    "category": "Ciências Biomédicas",
+    "topics_count": 0
+  },
+  {
+    "id": "citologia",
+    "name": "Citologia",
+    "icon": "Layers",
+    "category": "Ciências Básicas",
+    "topics_count": 0
+  },
+  {
+    "id": "embriologia",
+    "name": "Embriologia",
+    "icon": "Egg",
+    "category": "Ciências Básicas",
+    "topics_count": 0
+  },
+  {
+    "id": "epidemiologia",
+    "name": "Epidemiologia",
+    "icon": "Activity",
+    "category": "Saúde Coletiva",
+    "topics_count": 0
+  },
+  {
+    "id": "analises-clinicas",
+    "name": "Análises Clínicas",
+    "icon": "TestTube",
+    "category": "Prática Laboratorial",
+    "topics_count": 0
+  },
+  {
+    "id": "toxicologia",
+    "name": "Toxicologia",
+    "icon": "Beaker",
+    "category": "Ciências Biomédicas",
+    "topics_count": 0
+  },
+  {
+    "id": "biomedicina-estetica",
+    "name": "Biomedicina Estética",
+    "icon": "Sparkles",
+    "category": "Prática Laboratorial",
+    "topics_count": 0
+  },
+  {
+    "id": "imagenologia",
+    "name": "Imagenologia",
+    "icon": "ScanLine",
+    "category": "Prática Laboratorial",
+    "topics_count": 0
+  },
+  {
+    "id": "biosseguranca",
+    "name": "Biossegurança",
+    "icon": "Biohazard",
+    "category": "Prática Laboratorial",
+    "topics_count": 0
+  }
+]

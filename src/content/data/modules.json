@@ -1,0 +1,26 @@
+[
+  {
+    "id": "mod_glicose_1",
+    "topic_id": "bioquimica_glicose",
+    "title": "Fundamentos e Estrutura",
+    "order_index": 0
+  },
+  {
+    "id": "mod_glicose_2",
+    "topic_id": "bioquimica_glicose",
+    "title": "Regulação Hormonal",
+    "order_index": 1
+  },
+  {
+    "id": "mod_glicose_3",
+    "topic_id": "bioquimica_glicose",
+    "title": "Vias Metabólicas",
+    "order_index": 2
+  },
+  {
+    "id": "mod_glicose_4",
+    "topic_id": "bioquimica_glicose",
+    "title": "Clínica e Laboratório",
+    "order_index": 3
+  }
+]

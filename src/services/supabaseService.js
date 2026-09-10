@@ -1,4 +1,5 @@
 import { supabase } from './supabaseClient';
+import * as content from './contentService';
 import * as mockService from './mockService';
 
 export async function toggleTopicCompletion(userId, topicId, disciplineId) {
@@ -72,33 +73,22 @@ export async function fetchTopicProgress(userId, disciplineId) {
 }
 
 export async function fetchDisciplinesWithProgress(userId) {
-  if (!supabase) return mockService.fetchDisciplines();
-
-  const { data: disciplines, error: discError } = await supabase
-    .from('disciplines')
-    .select('*');
-
-  if (discError) {
-    console.error('Error fetching disciplines:', discError);
-    return mockService.fetchDisciplines();
-  }
+  const disciplines = content.getDisciplines();
+  if (!supabase || !userId) return disciplines.map(d => ({ ...d, progress: 0, topicsCount: d.topics_count }));
 
   const { data: progress, error: progError } = await supabase
     .from('user_progress')
     .select('*')
     .eq('user_id', userId);
 
-  if (progError) {
-    console.error('Error fetching user progress:', progError);
-    return disciplines;
-  }
+  if (progError) throw progError;
 
   return disciplines.map(d => {
     const userProg = progress?.find(p => p.discipline_id === d.id);
     return {
       ...d,
       progress: userProg?.percent_complete || 0,
-      hoursStudied: userProg?.hours_studied || 0,
+      topicsCount: d.topics_count
     };
   });
 }
@@ -141,27 +131,9 @@ export async function fetchAllBooks() {
 }
 
 export async function fetchTopicsByDiscipline(discipline) {
-  if (!supabase) return mockService.fetchTopicsByDiscipline(discipline);
-
-  const { data, error } = await supabase
-    .from('topics')
-    .select('*')
-    .eq('discipline_id', discipline.id);
-
-  if (error) {
-    console.error('Error fetching topics from Supabase:', error);
-    return mockService.fetchTopicsByDiscipline(discipline);
-  }
-
-  if (!data || data.length === 0) {
-     return mockService.fetchTopicsByDiscipline(discipline);
-  }
-
-  return data.map(t => ({
-    ...t,
-    disciplineId: t.discipline_id,
-    hasContent: t.has_content,
-  }));
+  const dId = discipline.id || discipline;
+  const topics = content.getTopicsByDiscipline(dId);
+  return topics;
 }
 
 // NOVO MOTOR DE CONTEÃšDO
@@ -197,55 +169,28 @@ export async function getOrCreateStudyPlan(userId, topicId) {
 }
 
 export async function fetchModulesAndLessons(topicId, userId) {
-  if (!supabase) return [];
-
-  // Puxar mÃ³dulos
-  const { data: modulesData, error: modErr } = await supabase
-    .from('modules')
-    .select('*')
-    .eq('topic_id', topicId)
-    .order('order_index', { ascending: true });
-
-  if (modErr || !modulesData) return [];
-
-  // Puxar aulas desses mÃ³dulos
-  const moduleIds = modulesData.map(m => m.id);
-  const { data: lessonsData, error: lessErr } = await supabase
-    .from('lessons')
-    .select('id, module_id, title, estimated_minutes, difficulty, order_index')
-    .in('module_id', moduleIds)
-    .order('order_index', { ascending: true });
-
-  if (lessErr || !lessonsData) return [];
-
-  // Puxar progresso do usuÃ¡rio para essas aulas
-  const { data: progressData } = await supabase
+  const modules = content.getTopicModulesAndLessons(topicId);
+  
+  if (!supabase || !userId) return modules;
+  
+  const { data: lessonProg } = await supabase
     .from('lesson_progress')
     .select('lesson_id, completed')
-    .eq('user_id', userId)
-    .in('lesson_id', lessonsData.map(l => l.id));
-
-  // Montar Ã¡rvore
-  return modulesData.map(m => {
-    const mLessons = lessonsData.filter(l => l.module_id === m.id).map(l => {
-      const prog = progressData?.find(p => p.lesson_id === l.id);
-      return { ...l, completed: prog?.completed || false };
+    .eq('user_id', userId);
+    
+  if (lessonProg) {
+    modules.forEach(m => {
+      m.lessons.forEach(l => {
+        const prog = lessonProg.find(p => p.lesson_id === l.id);
+        l.completed = prog ? prog.completed : false;
+      });
     });
-    return { ...m, lessons: mLessons };
-  });
+  }
+  
+  return modules;
 }
 
-export async function fetchLesson(lessonId) {
-  if (!supabase) return null;
-  const { data, error } = await supabase
-    .from('lessons')
-    .select('*')
-    .eq('id', lessonId)
-    .single();
-
-  if (error) console.error("Error fetching lesson", error);
-  return data;
-}
+export async function fetchLesson(lessonId) { return null; }
 
 export async function completeLesson(userId, lessonId, topicId) {
   if (!supabase) return;
@@ -284,27 +229,11 @@ export async function completeLesson(userId, lessonId, topicId) {
 }
 
 export async function fetchLessonQuiz(lessonId) {
-  if (!supabase) return [];
-  const { data, error } = await supabase
-    .from('questions')
-    .select('*')
-    .eq('lesson_id', lessonId);
-  
-  if (error) console.error("Error fetching lesson quiz", error);
-  return data || [];
+  return []; // Nao usado ainda no conteudo novo
 }
 
 export async function fetchTopicSimulado(topicId) {
-  if (!supabase) return [];
-  // Simulados sÃ£o questÃµes ligadas ao tÃ³pico mas NÃƒO a uma aula especÃ­fica
-  const { data, error } = await supabase
-    .from('questions')
-    .select('*')
-    .eq('topic_id', topicId)
-    .is('lesson_id', null);
-  
-  if (error) console.error("Error fetching topic simulado", error);
-  return data || [];
+  return content.getQuizQuestions(topicId, true, 10);
 }
 
 

@@ -36,7 +36,3 @@ ALTER TABLE study_streaks ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS "Users can manage own study_streaks" ON study_streaks;
 CREATE POLICY "Users can manage own study_streaks" ON study_streaks FOR ALL USING (auth.uid() = user_id);
 
--- 8. question_attempts
-ALTER TABLE question_attempts ENABLE ROW LEVEL SECURITY;
-DROP POLICY IF EXISTS "Users can manage own question_attempts" ON question_attempts;
-CREATE POLICY "Users can manage own question_attempts" ON question_attempts FOR ALL USING (auth.uid() = user_id);

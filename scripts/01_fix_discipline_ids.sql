@@ -35,3 +35,4 @@ UPDATE public.disciplines d
 SET topics_count = (
     SELECT COUNT(*) FROM public.topics t WHERE t.discipline_id = d.id
 );
+

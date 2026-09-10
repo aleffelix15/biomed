@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { theme } from "../../../theme/tokens";
 import { fetchTopicsByDiscipline, fetchBooksByDiscipline, getLastStudiedTopic, fetchTopicProgress, toggleTopicCompletion } from "../../../services/supabaseService";
 import { useAuth } from "../../../state/AuthContext";
-import { fetchTopicContent } from "../../../services/contentService";
 import { marked } from "marked";
 import Card from "../../../components/ui/Card";
 import ProgressBar from "../../../components/ui/ProgressBar";
