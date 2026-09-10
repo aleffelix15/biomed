@@ -58,7 +58,7 @@ export default function LessonScreen({ lesson, topic, discipline, onBack }) {
 
         {/* Aplicação Clínica */}
         {lesson.clinical_application && (
-          <Card padding={16} style={{ background: alpha(theme.danger, '15'), border: `1px solid ${theme.danger}40`, marginTop: 32 }}>
+          <Card padding={16} style={{ background: alpha(theme.danger, '15'), border: `1px solid ${alpha(theme.danger, '40')}`, marginTop: 32 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
               <AlertTriangle size={18} color={theme.danger} />
               <span style={{ fontSize: 14, fontWeight: 700, color: theme.danger }}>Aplicação Clínica</span>
@@ -89,7 +89,7 @@ export default function LessonScreen({ lesson, topic, discipline, onBack }) {
 
         {/* Quiz da Aula */}
         <div style={{ marginTop: 32 }}>
-           <Card padding={16} style={{ background: theme.surface, border: `1px dashed ${theme.textSecondary}40`, textAlign: "center" }}>
+           <Card padding={16} style={{ background: theme.surface, border: `1px dashed ${alpha(theme.textSecondary, '40')}`, textAlign: "center" }}>
               <div style={{ fontSize: 15, fontWeight: 600, color: theme.text, marginBottom: 4 }}>Fixe o conhecimento</div>
               <div style={{ fontSize: 13, color: theme.textSecondary, marginBottom: 12 }}>Responda questões rápidas sobre esta aula para testar sua retenção.</div>
               <button 

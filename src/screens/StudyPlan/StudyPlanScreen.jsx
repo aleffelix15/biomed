@@ -134,7 +134,7 @@ export default function StudyPlanScreen({ topic, discipline, onBack }) {
             {/* Simulado Final */}
             <div style={{ marginTop: 32 }}>
               <div style={{ height: 1, background: theme.line, marginBottom: 24 }} />
-              <Card padding={20} style={{ background: `linear-gradient(135deg, ${theme.card} 0%, ${theme.bg} 100%)`, border: `1px solid ${theme.primary}33` }}>
+              <Card padding={20} style={{ background: `linear-gradient(135deg, ${theme.card} 0%, ${theme.bg} 100%)`, border: `1px solid ${alpha(theme.primary, '33')}` }}>
                 <div style={{ fontSize: 16, fontWeight: 700, color: theme.text, marginBottom: 6 }}>Mini-simulado: {topic.title}</div>
                 <div style={{ fontSize: 13, color: theme.textSecondary, marginBottom: 16, lineHeight: 1.5 }}>Teste seus conhecimentos em todo o assunto com 10 questões e identifique seus pontos fracos.</div>
                 
