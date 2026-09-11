@@ -1,5 +1,4 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
-import { OpenAI } from "https://esm.sh/openai@4.0.0"
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -19,9 +18,6 @@ serve(async (req) => {
       throw new Error('Missing Authorization header')
     }
 
-    // In a real Supabase Edge Function, we would verify the JWT using the Supabase Client.
-    // For this implementation, we'll assume the auth header is present.
-
     // 2. Parse and Validate Input
     const { topic, question, context } = await req.json()
 
@@ -39,64 +35,69 @@ serve(async (req) => {
       )
     }
 
-    // 3. OpenAI Client Setup
-    const openai = new OpenAI({
-      apiKey: Deno.env.get('OPENAI_API_KEY'),
-    })
+    // 3. Gemini Client Setup
+    const apiKey = Deno.env.get('GEMINI_API_KEY') 
+    const model = Deno.env.get('GEMINI_MODEL') || 'gemini-2.0-flash'
 
-    const model = Deno.env.get('OPENAI_MODEL') || 'gpt-4o'
-
-    // 4. Construct Prompt with Biomed Persona
-    const systemPrompt = `VocÃª Ã© o BioStudy AI, um tutor especializado em Biomedicina.
-Seu objetivo Ã© ajudar estudantes de Biomedicina a compreenderem conceitos complexos de forma didÃ¡tica, clara e cientificamente rigorosa.
-
-DIRETRIZES DE RESPOSTA:
-- Idioma: PortuguÃªs Brasileiro.
-- Linguagem: Clara, didÃ¡tica e profissional.
-- Estrutura:
-  1. ExplicaÃ§Ã£o direta do conceito.
-  2. Desenvolvimento com exemplos e analogias se apropriado.
-  3. AplicaÃ§Ãµes clÃ­nicas relevantes para a Biomedicina.
-  4. Resumo final em tÃ³picos.
-- Rigor: NÃƒO invente referÃªncias, dados cientÃ­ficos ou informaÃ§Ãµes clÃ­nicas.
-- SeguranÃ§a:
-  - Se houver incerteza, declare explicitamente.
-  - NÃƒO forneÃ§a diagnÃ³sticos mÃ©dicos.
-  - NÃƒO prescreva medicamentos ou tratamentos.
-  - Deixe claro que suas respostas sÃ£o para fins educacionais e nÃ£o substituem a orientaÃ§Ã£o profissional.
-`;
-
-    const userPrompt = `TÃ³pico: \${topic}
-Contexto do usuÃ¡rio: \${context || 'Estudante de Biomedicina'}
-Pergunta: \${question}`
-
-    // 5. Call OpenAI Responses API (as per the provided example)
-    // Note: Using the /v1/responses endpoint structure from the prompt's example
-    const response = await fetch('https://api.openai.com/v1/responses', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer \${openai.apiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: model,
-        input: `\${systemPrompt}\\n\\n\${userPrompt}`,
-        store: true,
-      }),
-    })
-
-    if (!response.ok) {
-      const errorData = await response.json()
-      console.error('OpenAI API Error:', errorData)
-      throw new Error(errorData.error?.message || 'OpenAI API failed')
+    if (!apiKey) {
+      throw new Error('GEMINI_API_KEY is missing.')
     }
 
-    const data = await response.json()
+    // 4. Construct Prompt with Biomed Persona
+    const systemPrompt = Você é o BioStudy AI, um tutor especializado em Biomedicina.
+Seu objetivo é ajudar estudantes de Biomedicina a compreenderem conceitos complexos de forma didática, clara e cientificamente rigorosa.
 
-    // The example doesn't specify the response format of /v1/responses,
-    // but assuming it returns the answer in a field like 'output' or 'answer'.
-    // Adjusting to a plausible response structure for this specific endpoint.
-    const answer = (typeof data.output === 'string' ? data.output : data.output?.[0]?.content?.[0]?.text) || data.answer || data.choices?.[0]?.message?.content || 'NÃ£o foi possÃ­vel gerar uma resposta.'
+DIRETRIZES DE RESPOSTA:
+- Idioma: Português Brasileiro.
+- Linguagem: Clara, didática e profissional.
+- Estrutura:
+  1. Explicação direta do conceito.
+  2. Desenvolvimento com exemplos e analogias se apropriado.
+  3. Aplicações clínicas relevantes para a Biomedicina.
+  4. Resumo final em tópicos.
+- Rigor: NÃO invente referências, dados científicos ou informações clínicas.
+- Segurança:
+  - Se houver incerteza, declare explicitamente.
+  - NÃO forneça diagnósticos médicos.
+  - NÃO prescreva medicamentos ou tratamentos.
+  - Deixe claro que suas respostas são para fins educacionais e não substituem a orientação profissional.
+
+
+    const userPrompt = Tópico: 
+Contexto do usuário: 
+Pergunta: 
+
+    // 5. Call Gemini API
+    const geminiResponse = await fetch(
+      https://generativelanguage.googleapis.com/v1beta/models/:generateContent?key=,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          systemInstruction: {
+            parts: [{ text: systemPrompt }],
+          },
+          contents: [
+            {
+              role: 'user',
+              parts: [{ text: userPrompt }],
+            },
+          ],
+          generationConfig: {
+            temperature: 0.4,
+          },
+        }),
+      }
+    )
+
+    if (!geminiResponse.ok) {
+      const errorData = await geminiResponse.json()
+      console.error('Gemini API Error:', errorData)
+      throw new Error(errorData.error?.message || 'Gemini API failed')
+    }
+
+    const data = await geminiResponse.json()
+    const answer = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Não foi possível gerar uma resposta.'
 
     return new Response(
       JSON.stringify({
