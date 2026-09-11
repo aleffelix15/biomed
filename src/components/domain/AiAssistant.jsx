@@ -76,9 +76,27 @@ export default function AiAssistant({ topic }) {
     >
       <button
         onClick={() => { setIsOpen(false); setStatus('idle'); setAnswer(''); }}
-        style={{ position: 'absolute', top: 12, right: 12, background: 'none', border: 'none', color: theme.textSecondary, cursor: 'pointer' }}
+        aria-label="Fechar assistente de IA"
+        style={{
+          position: 'absolute',
+          top: 10,
+          right: 10,
+          width: 32,
+          height: 32,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: theme.surface,
+          border: `1px solid ${theme.line}`,
+          borderRadius: 8,
+          color: theme.text,
+          cursor: 'pointer',
+          transition: 'background 0.15s',
+        }}
+        onMouseEnter={(e) => e.currentTarget.style.background = theme.line}
+        onMouseLeave={(e) => e.currentTarget.style.background = theme.surface}
       >
-        <X size={18} />
+        <X size={16} />
       </button>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>

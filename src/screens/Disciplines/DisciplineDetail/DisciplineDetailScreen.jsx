@@ -148,17 +148,18 @@ export default function DisciplineDetailScreen({ discipline, onBack }) {
                   {t.hasContent && <Badge tone="teal">Ler Resumo</Badge>}
                 </span>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleToggleCompletion(t.id);
-                    }}
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center' }}
-                  >
-                    {getTopicStatus(t.id) === "concluido" ?
-                      <CheckCircle size={18} color={theme.primary} /> :
-                      <Circle size={18} color={theme.line} />
-                    }
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleToggleCompletion(t.id);
+                      }}
+                      aria-label={getTopicStatus(t.id) === "concluido" ? "Marcar como não concluído" : "Marcar como concluído"}
+                      style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                    >
+                      {getTopicStatus(t.id) === "concluido" ?
+                        <CheckCircle size={18} color={theme.primary} /> :
+                        <Circle size={18} color={theme.textSecondary} />
+                      }
                   </button>
                   <Badge tone={STATUS_TONE[getTopicStatus(t.id)]}>{STATUS_LABEL[getTopicStatus(t.id)]}</Badge>
                 </div>
