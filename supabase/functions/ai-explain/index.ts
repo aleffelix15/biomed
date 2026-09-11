@@ -1,4 +1,4 @@
-﻿import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -34,7 +34,7 @@ serve(async (req) => {
     }
 
     const apiKey = Deno.env.get('GEMINI_API_KEY')
-    const model = Deno.env.get('GEMINI_MODEL') || 'gemini-2.0-flash'
+    const model = Deno.env.get('GEMINI_MODEL') || 'gemini-3.6-flash'
 
     if (!apiKey) {
       throw new Error('GEMINI_API_KEY is missing.')
