@@ -8,7 +8,7 @@ import SectionHeader from "../../components/ui/SectionHeader";
 import EmptyState from "../../components/ui/EmptyState";
 import Flashcard from "../../components/domain/Flashcard";
 import QuestionCard from "../../components/domain/QuestionCard";
-import { ChevronLeft, Brain, RotateCcw, CheckCircle, HelpCircle, Timer } from "lucide-react";
+import { ChevronLeft, Brain, RotateCcw, CheckCircle, HelpCircle, Timer, Trophy } from "lucide-react";
 
 export default function StudyScreen() {
   const { user } = useAuth();
@@ -318,21 +318,74 @@ export default function StudyScreen() {
     );
   }
 
-  return (
-    <div style={{ padding: "20px 16px 90px", height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center" }}>
-      <div style={{ width: 64, height: 64, borderRadius: 32, background: theme.primary, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 20 }}>
-        <CheckCircle size={32} color={theme.bg} />
+  if (step === "finished") {
+    if (mode === "prova") {
+      // Calculate results for Exam Mode
+      let correct = 0;
+      items.forEach((q, idx) => {
+        const answer = examAnswers[idx]?.selected;
+        if (answer === q.correct_option) correct++;
+      });
+      const percent = Math.round((correct / items.length) * 100);
+
+      let status = "PRECISA REFORÇO";
+      let statusColor = theme.danger;
+      if (percent >= 80) { status = "DOMINADO"; statusColor = theme.primary; }
+      else if (percent >= 60) { status = "REVISAR"; statusColor = theme.secondary; }
+
+      const timeTaken = 600 - timeLeft; // Based on the 10min limit
+      const mins = Math.floor(timeTaken / 60);
+      const secs = timeTaken % 60;
+
+      return (
+        <div style={{ padding: "20px 16px 90px", height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center" }}>
+          <div style={{ width: 80, height: 80, borderRadius: 40, background: `${statusColor}20`, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px" }}>
+            <Trophy size={40} color={statusColor} />
+          </div>
+          <h1 className="bs-display" style={{ fontSize: 32, fontWeight: 700, color: theme.text, margin: 0 }}>{percent}%</h1>
+          <div style={{ fontSize: 18, fontWeight: 600, color: statusColor, marginTop: 8 }}>{status}</div>
+          <div style={{ fontSize: 14, color: theme.textSecondary, marginTop: 4, marginBottom: 24 }}>
+            Você acertou {correct} de {items.length} questões.<br />
+            Tempo: {mins}m {secs}s
+          </div>
+
+          <Card padding={20} style={{ background: theme.surface, border: `1px solid ${theme.line}`, marginBottom: 24, width: "100%", maxWidth: 400 }}>
+            <div style={{ fontSize: 16, fontWeight: 700, color: theme.text, marginBottom: 12 }}>Análise da Prova</div>
+            <div style={{ fontSize: 14, color: theme.textSecondary, lineHeight: 1.5, textAlign: "left" }}>
+              {percent < 80 ?
+                "Ainda existem lacunas no seu conhecimento. Recomendamos revisar os tópicos onde houve erro antes de avançar." :
+                "Excelente desempenho! Você demonstra domínio sólido sobre este conteúdo."}
+            </div>
+          </Card>
+
+          <button
+            onClick={() => setStep("mode-selection")}
+            style={{ padding: "12px 24px", borderRadius: 12, background: theme.primary, color: theme.bg, border: "none", fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", gap: 8 }}
+          >
+            <RotateCcw size={18} /> Tentar Novamente
+          </button>
+        </div>
+      );
+    }
+
+    return (
+      <div style={{ padding: "20px 16px 90px", height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center" }}>
+        <div style={{ width: 64, height: 64, borderRadius: 32, background: theme.primary, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 20 }}>
+          <CheckCircle size={32} color={theme.bg} />
+        </div>
+        <h1 className="bs-display" style={{ fontSize: 22, fontWeight: 700, color: theme.text, margin: 0 }}>Revisão Concluída!</h1>
+        <p style={{ fontSize: 14, color: theme.textSecondary, marginTop: 8, marginBottom: 24 }}>
+          Você completou todos os {mode === "flashcards" ? "flashcards" : "questões"} de {selectedDisc?.name}.
+        </p>
+        <button
+          onClick={() => setStep("mode-selection")}
+          style={{ padding: "12px 24px", borderRadius: 12, background: theme.primary, color: theme.bg, border: "none", fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", gap: 8 }}
+        >
+          <RotateCcw size={18} /> Estudar outra disciplina
+        </button>
       </div>
-      <h1 className="bs-display" style={{ fontSize: 22, fontWeight: 700, color: theme.text, margin: 0 }}>Revisão Concluída!</h1>
-      <p style={{ fontSize: 14, color: theme.textSecondary, marginTop: 8, marginBottom: 24 }}>
-        Você completou todos os {mode === "flashcards" ? "flashcards" : "questões"} de {selectedDisc?.name}.
-      </p>
-      <button
-        onClick={() => setStep("mode-selection")}
-        style={{ padding: "12px 24px", borderRadius: 12, background: theme.primary, color: theme.bg, border: "none", fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", gap: 8 }}
-      >
-        <RotateCcw size={18} /> Estudar outra disciplina
-      </button>
-    </div>
-  );
+    );
+  }
+
+  return null;
 }

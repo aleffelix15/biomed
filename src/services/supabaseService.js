@@ -201,7 +201,31 @@ export async function completeLesson(userId, lessonId, topicId) {
 }
 
 export async function fetchLessonQuiz(lessonId) {
-  return []; // Nao usado ainda no conteudo novo
+  if (!supabase) return [];
+
+  // Since local questions don't have a lesson_id, we derive the topicId from the lessonId.
+  // Local lesson IDs follow pattern: "les_{discipline}_{topic}_{index}"
+  // Example: "les_g1_1" -> we need to find the topic this belongs to.
+  // A better way: find the topic that contains this lessonId.
+
+  const allTopicIds = [];
+  // We search through all topics in the local content system
+  const topicFiles = import.meta.glob('../content/disciplines/*/topics/*/topic.json', { eager: true });
+
+  let targetTopicId = null;
+  for (const path in topicFiles) {
+    const topic = topicFiles[path].default;
+    const hasLesson = topic.modules?.some(m => m.lessons?.some(l => l.id === lessonId));
+    if (hasLesson) {
+      targetTopicId = topic.id;
+      break;
+    }
+  }
+
+  if (!targetTopicId) return [];
+
+  // Return a subset of questions from that topic as a "mini-quiz"
+  return content.getQuizQuestions(targetTopicId, false, 5);
 }
 
 export async function fetchTopicSimulado(topicId) {
