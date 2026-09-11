@@ -47,7 +47,7 @@ serve(async (req) => {
     const model = Deno.env.get('OPENAI_MODEL') || 'gpt-4o'
 
     // 4. Construct Prompt with Biomed Persona
-    const systemPrompt = \`Você é o BioStudy AI, um tutor especializado em Biomedicina.
+    const systemPrompt = `Você é o BioStudy AI, um tutor especializado em Biomedicina.
 Seu objetivo é ajudar estudantes de Biomedicina a compreenderem conceitos complexos de forma didática, clara e cientificamente rigorosa.
 
 DIRETRIZES DE RESPOSTA:
@@ -64,23 +64,23 @@ DIRETRIZES DE RESPOSTA:
   - NÃO forneça diagnósticos médicos.
   - NÃO prescreva medicamentos ou tratamentos.
   - Deixe claro que suas respostas são para fins educacionais e não substituem a orientação profissional.
-\`;
+`;
 
-    const userPrompt = \`Tópico: \${topic}
+    const userPrompt = `Tópico: \${topic}
 Contexto do usuário: \${context || 'Estudante de Biomedicina'}
-Pergunta: \${question}\`
+Pergunta: \${question}`
 
     // 5. Call OpenAI Responses API (as per the provided example)
     // Note: Using the /v1/responses endpoint structure from the prompt's example
     const response = await fetch('https://api.openai.com/v1/responses', {
       method: 'POST',
       headers: {
-        'Authorization': \`Bearer \${openai.apiKey}\`,
+        'Authorization': `Bearer \${openai.apiKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         model: model,
-        input: \`\${systemPrompt}\\n\\n\${userPrompt}\`,
+        input: `\${systemPrompt}\\n\\n\${userPrompt}`,
         store: true,
       }),
     })
@@ -96,7 +96,7 @@ Pergunta: \${question}\`
     // The example doesn't specify the response format of /v1/responses,
     // but assuming it returns the answer in a field like 'output' or 'answer'.
     // Adjusting to a plausible response structure for this specific endpoint.
-    const answer = data.output || data.answer || data.choices?.[0]?.message?.content || 'Não foi possível gerar uma resposta.'
+    const answer = (typeof data.output === 'string' ? data.output : data.output?.[0]?.content?.[0]?.text) || data.answer || data.choices?.[0]?.message?.content || 'Não foi possível gerar uma resposta.'
 
     return new Response(
       JSON.stringify({
