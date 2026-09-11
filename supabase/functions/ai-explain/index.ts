@@ -1,4 +1,4 @@
-import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
+ï»¿import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -12,13 +12,11 @@ serve(async (req) => {
   }
 
   try {
-    // 1. Authenticate User
     const authHeader = req.headers.get('Authorization')
     if (!authHeader) {
       throw new Error('Missing Authorization header')
     }
 
-    // 2. Parse and Validate Input
     const { topic, question, context } = await req.json()
 
     if (!question || !topic) {
@@ -35,41 +33,37 @@ serve(async (req) => {
       )
     }
 
-    // 3. Gemini Client Setup
-    const apiKey = Deno.env.get('GEMINI_API_KEY') 
+    const apiKey = Deno.env.get('GEMINI_API_KEY')
     const model = Deno.env.get('GEMINI_MODEL') || 'gemini-2.0-flash'
 
     if (!apiKey) {
       throw new Error('GEMINI_API_KEY is missing.')
     }
 
-    // 4. Construct Prompt with Biomed Persona
-    const systemPrompt = Você é o BioStudy AI, um tutor especializado em Biomedicina.
-Seu objetivo é ajudar estudantes de Biomedicina a compreenderem conceitos complexos de forma didática, clara e cientificamente rigorosa.
+    const systemPrompt = `VocÃª Ã© o BioStudy AI, um tutor especializado em Biomedicina.
+Seu objetivo Ã© ajudar estudantes de Biomedicina a compreenderem conceitos complexos de forma didÃ¡tica, clara e cientificamente rigorosa.
 
 DIRETRIZES DE RESPOSTA:
-- Idioma: Português Brasileiro.
-- Linguagem: Clara, didática e profissional.
+- Idioma: PortuguÃªs Brasileiro.
+- Linguagem: Clara, didÃ¡tica e profissional.
 - Estrutura:
-  1. Explicação direta do conceito.
+  1. ExplicaÃ§Ã£o direta do conceito.
   2. Desenvolvimento com exemplos e analogias se apropriado.
-  3. Aplicações clínicas relevantes para a Biomedicina.
-  4. Resumo final em tópicos.
-- Rigor: NÃO invente referências, dados científicos ou informações clínicas.
-- Segurança:
+  3. AplicaÃ§Ãµes clÃ­nicas relevantes para a Biomedicina.
+  4. Resumo final em tÃ³picos.
+- Rigor: NÃƒO invente referÃªncias, dados cientÃ­ficos ou informaÃ§Ãµes clÃ­nicas.
+- SeguranÃ§a:
   - Se houver incerteza, declare explicitamente.
-  - NÃO forneça diagnósticos médicos.
-  - NÃO prescreva medicamentos ou tratamentos.
-  - Deixe claro que suas respostas são para fins educacionais e não substituem a orientação profissional.
+  - NÃƒO forneÃ§a diagnÃ³sticos mÃ©dicos.
+  - NÃƒO prescreva medicamentos ou tratamentos.
+  - Deixe claro que suas respostas sÃ£o para fins educacionais e nÃ£o substituem a orientaÃ§Ã£o profissional.`
 
+    const userPrompt = `TÃ³pico: ${topic}
+Contexto do usuÃ¡rio: ${context || 'Estudante de Biomedicina'}
+Pergunta: ${question}`
 
-    const userPrompt = Tópico: 
-Contexto do usuário: 
-Pergunta: 
-
-    // 5. Call Gemini API
     const geminiResponse = await fetch(
-      https://generativelanguage.googleapis.com/v1beta/models/:generateContent?key=,
+      `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -97,7 +91,7 @@ Pergunta:
     }
 
     const data = await geminiResponse.json()
-    const answer = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Não foi possível gerar uma resposta.'
+    const answer = data.candidates?.[0]?.content?.parts?.[0]?.text || 'NÃ£o foi possÃ­vel gerar uma resposta.'
 
     return new Response(
       JSON.stringify({
