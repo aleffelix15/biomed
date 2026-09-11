@@ -6,6 +6,7 @@ import Card from "../../components/ui/Card";
 import { marked } from "marked";
 import { ChevronLeft, Check, BookOpen, AlertTriangle, ListChecks, Play } from "lucide-react";
 import QuizScreen from "../Quiz/QuizScreen";
+import AiAssistant from "../../components/domain/AiAssistant";
 
 export default function LessonScreen({ lesson, topic, discipline, onBack }) {
   const [submitting, setSubmitting] = useState(false);
@@ -92,7 +93,7 @@ export default function LessonScreen({ lesson, topic, discipline, onBack }) {
            <Card padding={16} style={{ background: theme.surface, border: `1px dashed ${alpha(theme.textSecondary, '40')}`, textAlign: "center" }}>
               <div style={{ fontSize: 15, fontWeight: 600, color: theme.text, marginBottom: 4 }}>Fixe o conhecimento</div>
               <div style={{ fontSize: 13, color: theme.textSecondary, marginBottom: 12 }}>Responda questões rápidas sobre esta aula para testar sua retenção.</div>
-              <button 
+              <button
                 onClick={() => setActiveQuiz(true)}
                 style={{ background: theme.bg, color: theme.text, border: `1px solid ${theme.line}`, borderRadius: 8, padding: "8px 16px", fontSize: 13, fontWeight: 600, cursor: "pointer", display: "inline-flex", alignItems: "center", gap: 6 }}
               >
@@ -100,6 +101,9 @@ export default function LessonScreen({ lesson, topic, discipline, onBack }) {
               </button>
            </Card>
         </div>
+
+        {/* AI Assistant Integration */}
+        <AiAssistant topic={topic?.name || lesson.title} />
 
       </div>
 
