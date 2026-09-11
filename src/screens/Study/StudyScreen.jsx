@@ -339,7 +339,7 @@ export default function StudyScreen() {
 
       return (
         <div style={{ padding: "20px 16px 90px", height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center" }}>
-          <div style={{ width: 80, height: 80, borderRadius: 40, background: `${statusColor}20`, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px" }}>
+          <div style={{ width: 80, height: 80, borderRadius: 40, background: alpha(statusColor, '20'), display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px" }}>
             <Trophy size={40} color={statusColor} />
           </div>
           <h1 className="bs-display" style={{ fontSize: 32, fontWeight: 700, color: theme.text, margin: 0 }}>{percent}%</h1>
