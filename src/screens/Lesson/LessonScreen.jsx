@@ -28,7 +28,7 @@ export default function LessonScreen({ lesson, topic, discipline, onBack }) {
   const htmlContent = lesson.content_markdown ? marked.parse(lesson.content_markdown) : "<p>Sem conteúdo cadastrado.</p>";
 
   return (
-    <div style={{ position: "absolute", inset: 0, background: theme.bg, zIndex: 40, overflowY: "auto" }} className="bs-scroll">
+    <div style={{ position: "absolute", inset: 0, background: theme.bg, zIndex: 60, overflowY: "auto" }} className="bs-scroll">
       <div style={{ padding: "20px 16px 120px" }}>
         
         {/* Header */}

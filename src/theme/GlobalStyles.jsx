@@ -55,7 +55,11 @@ export default function GlobalStyles() {
       
       .markdown-content h1 { font-family: 'Space Grotesk', sans-serif; font-size: 1.25rem; font-weight: 700; margin-top: 0; margin-bottom: 0.5rem; color: var(--md-h1); }
       .markdown-content h2 { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; color: var(--md-h2); }
-      .markdown-content p { margin-top: 0; margin-bottom: 1rem; color: var(--md-p); }
+      .markdown-content { word-break: break-word; overflow-wrap: break-word; }
+        .markdown-content img { max-width: 100%; height: auto; }
+        .markdown-content table { width: 100%; border-collapse: collapse; display: block; overflow-x: auto; }
+        .markdown-content pre { overflow-x: auto; }
+        .markdown-content p { margin-top: 0; margin-bottom: 1rem; color: var(--md-p); }
       .markdown-content ul { margin-top: 0; margin-bottom: 1rem; padding-left: 1.5rem; color: var(--md-p); }
       .markdown-content li { margin-bottom: 0.5rem; color: var(--md-p); }
     `}</style>

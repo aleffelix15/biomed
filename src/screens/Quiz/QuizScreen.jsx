@@ -63,12 +63,12 @@ export default function QuizScreen({ topicId, disciplineId, lessonId, isSimulado
   };
 
   if (loading) {
-    return <div style={{ position: "absolute", inset: 0, background: theme.bg, zIndex: 50, display: "flex", alignItems: "center", justifyContent: "center", color: theme.textSecondary }}>Carregando questões...</div>;
+    return <div style={{ position: "absolute", inset: 0, background: theme.bg, zIndex: 60, display: "flex", alignItems: "center", justifyContent: "center", color: theme.textSecondary }}>Carregando questões...</div>;
   }
 
   if (questions.length === 0) {
     return (
-      <div style={{ position: "absolute", inset: 0, background: theme.bg, zIndex: 50, padding: 20 }}>
+      <div style={{ position: "absolute", inset: 0, background: theme.bg, zIndex: 60, padding: 20 }}>
         <button onClick={onBack} style={{ display: "flex", alignItems: "center", gap: 6, background: "none", border: "none", color: theme.textSecondary, fontSize: 13, cursor: "pointer", padding: 0 }}>
           <ChevronLeft size={16} /> Voltar
         </button>
@@ -90,7 +90,7 @@ export default function QuizScreen({ topicId, disciplineId, lessonId, isSimulado
     else if (percent >= 60) { status = "REVISAR"; statusColor = theme.secondary; }
 
     return (
-      <div style={{ position: "absolute", inset: 0, background: theme.bg, zIndex: 50, overflowY: "auto", padding: "20px 16px" }}>
+      <div style={{ position: "absolute", inset: 0, background: theme.bg, zIndex: 60, overflowY: "auto", padding: "20px 16px" }}>
         <div style={{ textAlign: "center", marginTop: 40, marginBottom: 40 }}>
           <div style={{ width: 80, height: 80, borderRadius: 40, background: `${statusColor}20`, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px" }}>
             <Trophy size={40} color={statusColor} />
@@ -127,7 +127,7 @@ export default function QuizScreen({ topicId, disciplineId, lessonId, isSimulado
   const progress = Math.round(((currentIndex) / questions.length) * 100);
 
   return (
-    <div style={{ position: "absolute", inset: 0, background: theme.bg, zIndex: 50, display: "flex", flexDirection: "column" }}>
+    <div style={{ position: "absolute", inset: 0, background: theme.bg, zIndex: 60, display: "flex", flexDirection: "column" }}>
       <div style={{ padding: "20px 16px 16px", background: theme.surface, borderBottom: `1px solid ${theme.line}` }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
           <button onClick={onBack} style={{ display: "flex", alignItems: "center", gap: 6, background: "none", border: "none", color: theme.textSecondary, fontSize: 13, cursor: "pointer", padding: 0 }}>
