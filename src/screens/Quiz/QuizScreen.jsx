@@ -43,7 +43,7 @@ export default function QuizScreen({ topicId, disciplineId, lessonId, isSimulado
     if (user && selected) {
       setSaving(true);
       try {
-        await saveQuestionAttempt(user.id, currentQ.id, selected);
+        await saveQuestionAttempt(user.id, currentQ, selected);
         // Se errou, adiciona ao sistema de flashcards para revisao
         if (selected !== currentQ.correct_option) {
           const { addWrongQuestionToReview } = await import('../../services/supabaseService');

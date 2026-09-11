@@ -162,8 +162,8 @@ export async function fetchLesson(lessonId) { return null; }
 export async function completeLesson(userId, lessonId, topicId) {
   if (!supabase) return;
 
-  // 1. Marca aula como concluÃ­da
-  await supabase
+  // 1. Marca aula como concluída
+  const { error: upsertError } = await supabase
     .from('lesson_progress')
     .upsert({
       user_id: userId,
@@ -171,21 +171,26 @@ export async function completeLesson(userId, lessonId, topicId) {
       completed: true,
       completed_at: new Date().toISOString()
     });
+  if (upsertError) throw upsertError;
 
   // 2. Atualiza plano de estudos (percentual)
-  // Busca todas as aulas do topicId para calcular porcentagem
-  const { data: modulesData } = await supabase.from('modules').select('id').eq('topic_id', topicId);
-  const moduleIds = modulesData?.map(m => m.id) || [];
-  
-  if (moduleIds.length > 0) {
-    const { count: totalLessons } = await supabase.from('lessons').select('*', { count: 'exact', head: true }).in('module_id', moduleIds);
-    
-    // Buscar quais dessas o usuÃ¡rio completou
-    const { data: allLessons } = await supabase.from('lessons').select('id').in('module_id', moduleIds);
-    const lessonIds = allLessons?.map(l => l.id) || [];
-    const { count: completedLessons } = await supabase.from('lesson_progress').select('*', { count: 'exact', head: true }).eq('user_id', userId).eq('completed', true).in('lesson_id', lessonIds);
+  // Busca todas as aulas do topicId via conteúdo local
+  const modules = content.getTopicModulesAndLessons(topicId);
+  const allLessonIds = modules.flatMap(m => m.lessons.map(l => l.id));
+  const totalLessons = allLessonIds.length;
 
-    const percent = totalLessons ? Math.round((completedLessons / totalLessons) * 100) : 0;
+  if (totalLessons > 0) {
+    // Buscar quais dessas o usuário completou
+    const { data: progressRows, error: progressError } = await supabase
+      .from('lesson_progress')
+      .select('lesson_id, completed')
+      .eq('user_id', userId)
+      .in('lesson_id', allLessonIds);
+
+    if (progressError) throw progressError;
+
+    const completedCount = (progressRows || []).filter(p => p.completed).length;
+    const percent = Math.round((completedCount / totalLessons) * 100);
 
     await supabase
       .from('study_plans')
@@ -412,18 +417,10 @@ export async function fetchQuestions(disciplineId, topicId = null) {
   return data;
 }
 
-export async function saveQuestionAttempt(userId, questionId, selectedOption) {
+export async function saveQuestionAttempt(userId, question, selectedOption) {
   if (!supabase) return null;
 
-  // 1. Fetch the correct answer first
-  const { data: question } = await supabase
-    .from('questions')
-    .select('correct_option')
-    .eq('id', questionId)
-    .single();
-
-  if (!question) throw new Error('Question not found');
-
+  // 1. Use the correct answer from the local question object
   const isCorrect = selectedOption === question.correct_option;
 
   // 2. Save attempt
@@ -431,8 +428,8 @@ export async function saveQuestionAttempt(userId, questionId, selectedOption) {
     .from('question_attempts')
     .insert({
       user_id: userId,
-      question_id: questionId,
-      selected_option,
+      question_id: question.id,
+      selected_option: selectedOption,
       is_correct: isCorrect,
     })
     .select()
@@ -578,13 +575,21 @@ export async function fetchFavoriteBooks(userId) {
 export async function addWrongQuestionToReview(disciplineId, topicId, questionObj) {
   if (!supabase) return;
 
-  // Verifica se ja existe um flashcard para essa questao (usamos a pergunta como base)
-  const { data: existing } = await supabase.from('flashcards').select('id').eq('question', questionObj.question).single();
+  // Gera ID determinístico para evitar duplicatas e garantir consistência
+  const reviewId = `review_${questionObj.id}`;
+
+  // Verifica se já existe um flashcard para essa questão pelo ID
+  const { data: existing } = await supabase
+    .from('flashcards')
+    .select('id')
+    .eq('id', reviewId)
+    .single();
 
   if (!existing) {
     // Cria flashcard
     const answerText = questionObj['option_' + questionObj.correct_option];
     await supabase.from('flashcards').insert({
+      id: reviewId,
       discipline_id: disciplineId,
       topic_id: topicId,
       question: questionObj.question,

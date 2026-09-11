@@ -108,7 +108,7 @@ export default function StudyScreen() {
       setExamAnswers(prev => [...prev, { questionId: question.id, selected: option }]);
     } else {
       try {
-        await saveQuestionAttempt(user.id, question.id, option);
+        await saveQuestionAttempt(user.id, question, option);
       } catch (err) {
         console.error("Error saving attempt:", err);
       }
