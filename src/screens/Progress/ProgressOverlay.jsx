@@ -46,11 +46,11 @@ export default function ProgressOverlay({ onClose }) {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <h1 className="bs-display" style={{ fontSize: 22, fontWeight: 700, color: theme.text, margin: 0 }}>Progresso</h1>
           <div style={{ display: "flex", gap: 8 }}>
-            <button onClick={signOut} style={{ width: 34, height: 34, borderRadius: 10, border: `1px solid ${theme.line}`, background: theme.surface, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
-              <LogOut size={14} color={theme.textSecondary} />
+            <button onClick={signOut} aria-label="Sair da conta" style={{ width: 34, height: 34, borderRadius: 10, border: `1px solid ${theme.line}`, background: theme.surface, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", transition: "background 0.15s" }} onMouseEnter={(e) => e.currentTarget.style.background = theme.line} onMouseLeave={(e) => e.currentTarget.style.background = theme.surface}>
+              <LogOut size={14} color={theme.text} />
             </button>
-            <button onClick={onClose} style={{ width: 34, height: 34, borderRadius: 10, border: `1px solid ${theme.line}`, background: theme.surface, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
-              <X size={16} color={theme.textSecondary} />
+            <button onClick={onClose} aria-label="Fechar overlay de progresso" style={{ width: 34, height: 34, borderRadius: 10, border: `1px solid ${theme.line}`, background: theme.surface, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", transition: "background 0.15s" }} onMouseEnter={(e) => e.currentTarget.style.background = theme.line} onMouseLeave={(e) => e.currentTarget.style.background = theme.surface}>
+              <X size={16} color={theme.text} />
             </button>
           </div>
         </div>
