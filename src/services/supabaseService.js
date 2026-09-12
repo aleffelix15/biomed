@@ -905,7 +905,7 @@ export async function fetchLeaderboard() {
   if (!supabase) return [];
 
   const { data, error } = await supabase
-    .from('profiles')
+    .from('leaderboard_view')
     .select('id, full_name, avatar_url, total_points')
     .order('total_points', { ascending: false })
     .limit(20);
