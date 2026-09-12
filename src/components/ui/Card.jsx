@@ -1,21 +1,28 @@
 import React from "react";
-import { theme } from "../../theme/tokens";
 
 export default function Card({ children, onClick, style, padding = 16 }) {
   return (
     <div
       onClick={onClick}
       style={{
-        background: theme.surface,
-        border: `1px solid ${theme.line}`,
-        borderRadius: 16,
+        background: "var(--theme-card)",
+        border: `1px solid var(--theme-line)`,
+        borderRadius: 20,
         padding,
         cursor: onClick ? "pointer" : "default",
-        transition: "border-color 120ms ease",
+        transition: "border-color 150ms ease, background 150ms ease, transform 150ms ease",
         ...style,
       }}
-      onMouseEnter={(e) => onClick && (e.currentTarget.style.borderColor = theme.primary)}
-      onMouseLeave={(e) => onClick && (e.currentTarget.style.borderColor = theme.line)}
+      onMouseEnter={(e) => {
+        if (onClick) {
+           e.currentTarget.style.borderColor = "var(--theme-primary)";
+        }
+      }}
+      onMouseLeave={(e) => {
+        if (onClick) {
+           e.currentTarget.style.borderColor = "var(--theme-line)";
+        }
+      }}
     >
       {children}
     </div>

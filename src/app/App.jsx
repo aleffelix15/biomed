@@ -13,11 +13,9 @@ const DisciplinesScreen = lazy(() => import("../screens/Disciplines/DisciplinesS
 const DisciplineDetailScreen = lazy(() => import("../screens/Disciplines/DisciplineDetail/DisciplineDetailScreen"));
 const StudyScreen = lazy(() => import("../screens/Study/StudyScreen"));
 const LabScreen = lazy(() => import("../screens/Lab/LabScreen"));
-const LibraryScreen = lazy(() => import("../screens/Library/LibraryScreen"));
-const BookDetailScreen = lazy(() => import("../screens/Library/BookDetailScreen"));
-const LeaderboardScreen = lazy(() => import("../screens/Ranking/LeaderboardScreen"));
 const ProfileScreen = lazy(() => import("../screens/Profile/ProfileScreen"));
 const ProgressOverlay = lazy(() => import("../screens/Progress/ProgressOverlay"));
+const FlashcardScreen = lazy(() => import("../screens/Flashcards/FlashcardScreen")); // NEW
 
 import { DataCacheProvider } from "../state/DataCacheContext";
 
@@ -45,13 +43,13 @@ function AppContent() {
     }
   }, [nav.tab, visitedTabs]);
 
-  const showOverlay = nav.selectedDiscipline || nav.selectedBook || nav.showLeaderboard;
-
+  const showOverlay = nav.selectedDiscipline;
+  
   const showHome = !showOverlay && nav.tab === "home";
   const showDisc = !showOverlay && nav.tab === "disciplines";
   const showStudy = !showOverlay && nav.tab === "study";
-  const showLab = !showOverlay && nav.tab === "lab";
-  const showLib = !showOverlay && nav.tab === "library";
+  const showFlashcards = !showOverlay && nav.tab === "flashcards";
+  const showLab = !showOverlay && nav.tab === "lab"; // Lab / Simulados fallback
   const showProf = !showOverlay && nav.tab === "profile";
 
   return (
@@ -59,21 +57,19 @@ function AppContent() {
       <GlobalStyles />
       <div className="app-frame">
         {loading ? (
-           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", color: theme.textSecondary }}>Carregando...</div>
+           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", color: "var(--theme-text-secondary)" }}>Carregando...</div>
         ) : !user ? (
            <div className="app-scroll"><LoginScreen /></div>
         ) : (
           <>
-            <Suspense fallback={<div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", color: theme.textSecondary }}>Carregando...</div>}>
+            <Suspense fallback={<div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", color: "var(--theme-text-secondary)" }}>Carregando...</div>}>
               <div className="app-scroll bs-scroll">
                 {isOfflineMode && (
-                  <div style={{ background: theme.surface, color: theme.textSecondary, fontSize: 11, textAlign: "center", padding: "4px 0", borderBottom: `1px solid ${theme.line}` }}>Modo offline/demo</div>
+                  <div style={{ background: "var(--theme-surface)", color: "var(--theme-text-secondary)", fontSize: 11, textAlign: "center", padding: "4px 0", borderBottom: `1px solid var(--theme-line)` }}>Modo offline/demo</div>
                 )}
                 
                 {/* Overlays */}
                 {nav.selectedDiscipline && <DisciplineDetailScreen discipline={nav.selectedDiscipline} onBack={nav.closeDiscipline} />}
-                {nav.selectedBook && <BookDetailScreen book={nav.selectedBook} onBack={nav.closeBook} />}
-                {nav.showLeaderboard && <LeaderboardScreen onBack={nav.closeLeaderboard} />}
 
                 {/* Tabs with Keep-Alive (display: none when inactive) */}
                 {visitedTabs.has("home") && (
@@ -91,19 +87,19 @@ function AppContent() {
                     <StudyScreen />
                   </div>
                 )}
+                {visitedTabs.has("flashcards") && (
+                  <div style={{ display: showFlashcards ? "block" : "none", height: "100%" }}>
+                    <FlashcardScreen />
+                  </div>
+                )}
                 {visitedTabs.has("lab") && (
                   <div style={{ display: showLab ? "block" : "none", height: "100%" }}>
                     <LabScreen />
                   </div>
                 )}
-                {visitedTabs.has("library") && (
-                  <div style={{ display: showLib ? "block" : "none", height: "100%" }}>
-                    <LibraryScreen onOpenBook={nav.openBook} />
-                  </div>
-                )}
                 {visitedTabs.has("profile") && (
                   <div style={{ display: showProf ? "block" : "none", height: "100%" }}>
-                    <ProfileScreen onOpenLeaderboard={nav.openLeaderboard} />
+                    <ProfileScreen />
                   </div>
                 )}
               </div>

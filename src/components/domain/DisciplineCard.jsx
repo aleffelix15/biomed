@@ -1,38 +1,54 @@
 import React from "react";
-import { theme } from "../../theme/tokens";
 import Card from "../ui/Card";
 import ProgressBar from "../ui/ProgressBar";
-import { ChevronRight, Zap } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { resolveIcon } from "../../utils/iconResolver";
 
-export default function DisciplineCard({ discipline, onClick }) {
+export default function DisciplineCard({ discipline, onClick, index = 0 }) {
   const d = discipline;
-  const difficulty = d.difficulty || "Médio";
   const IconComponent = resolveIcon(d.icon);
   
+  // Fake colors for visual variety based on index, as requested in Mockup
+  const colors = [
+    { bg: "rgba(30, 144, 255, 0.15)", fg: "var(--theme-info)" },     // Blue
+    { bg: "rgba(255, 165, 2, 0.15)", fg: "var(--theme-warning)" },  // Orange
+    { bg: "rgba(255, 71, 87, 0.15)", fg: "var(--theme-danger)" },   // Red
+    { bg: "rgba(28, 230, 121, 0.15)", fg: "var(--theme-primary)" }, // Green
+    { bg: "rgba(181, 134, 248, 0.15)", fg: "var(--theme-accent-light)" } // Purple
+  ];
+  const color = colors[index % colors.length];
+
+  const totalTopics = d.topics_count || d.topicsCount || 0;
+  const completedTopics = Math.round(((d.progress_percent || 0) / 100) * totalTopics);
+
   return (
-    <Card onClick={onClick} padding={14}>
-      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-        <div style={{ width: 38, height: 38, borderRadius: 10, background: theme.surface, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-          <IconComponent size={18} color={theme.primary} strokeWidth={2} />
+    <Card onClick={onClick} padding={16} style={{ marginBottom: 12 }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+        {/* Colorful Box */}
+        <div style={{ width: 44, height: 44, borderRadius: 12, background: color.bg, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+          <IconComponent size={22} color={color.fg} strokeWidth={2} />
         </div>
+        
+        {/* Details */}
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <div style={{ fontWeight: 600, fontSize: 14, color: theme.text }}>{d.name}</div>
-            <div style={{ fontSize: 9, fontWeight: 600, background: theme.surface, color: theme.textSecondary, padding: "2px 6px", borderRadius: 4, textTransform: "uppercase" }}>{difficulty}</div>
+          <div style={{ fontWeight: 600, fontSize: 16, color: "var(--theme-text)", marginBottom: 2 }}>{d.name}</div>
+          <div style={{ fontSize: 13, color: "var(--theme-text-secondary)" }}>
+            {completedTopics}/{totalTopics} tópicos
           </div>
-          <div style={{ fontSize: 12, color: theme.textSecondary, marginTop: 1 }}>{d.topics_count || d.topicsCount || 0} tópicos</div>
         </div>
-        {d.progress_percent > 0 && (
-           <div style={{ display: "flex", alignItems: "center", gap: 4, background: theme.primary, color: theme.bg, padding: "4px 8px", borderRadius: 8, fontSize: 11, fontWeight: 600 }}>
-             Continuar
-           </div>
-        )}
-        {d.progress_percent === 0 && <ChevronRight size={16} color={theme.textSecondary} />}
+        
+        {/* Right Arrow */}
+        <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+          <ChevronRight size={20} color="var(--theme-muted)" />
+        </div>
       </div>
-      <div style={{ marginTop: 12 }}>
-        <ProgressBar value={d.progress_percent} />
-        <div style={{ fontSize: 11, color: theme.textSecondary, marginTop: 4 }}>{d.progress_percent}% concluído</div>
+      
+      {/* Progress */}
+      <div style={{ marginTop: 14, display: "flex", alignItems: "center", gap: 12 }}>
+        <ProgressBar value={d.progress_percent || 0} height={4} tint={color.fg} track="var(--theme-line)" />
+        <div style={{ fontSize: 12, color: "var(--theme-text-secondary)", fontWeight: 600, width: 35, textAlign: "right" }}>
+          {d.progress_percent || 0}%
+        </div>
       </div>
     </Card>
   );

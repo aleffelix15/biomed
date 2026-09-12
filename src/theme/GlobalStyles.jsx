@@ -6,62 +6,107 @@ export default function GlobalStyles() {
       @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
       
       :root {
-        /* DARK MODE (Default) */
-        --theme-bg: #050807;
-        --theme-surface: #0B1512;
-        --theme-card: #0D1B17;
-        --theme-primary: #00E676;
-        --theme-secondary: #00BFA5;
-        --theme-accent: #39FF88;
-        --theme-text: #F2F7F4;
-        --theme-text-secondary: #9AAEA5;
-        --theme-muted: #64756D;
-        --theme-line: #173229;
-        --theme-danger: #FF5252;
-        --theme-warning: #FFC107;
-        --theme-info: #2196F3;
+        /* DARK MODE (Default - UI/UX 2.0) */
+        --theme-bg: #030B1C;         /* Fundo navy muito escuro */
+        --theme-surface: #0A1633;    /* Superficíe azul-marinho */
+        --theme-card: #0F1E40;       /* Card azul-marinho um pouco mais claro */
+        --theme-primary: #1CE679;    /* Verde success/action principal (emerald/green) */
+        --theme-secondary: #00D2D3;  /* Cyan actions secundárias */
+        --theme-accent: #8E44AD;     /* Roxo destaque */
+        --theme-accent-light: #B586F8; /* Lilás */
         
-        --md-h1: #2DD4BF;
-        --md-h2: #F4FDFC;
-        --md-p: #9CC7C4;
+        --theme-text: #FFFFFF;
+        --theme-text-secondary: #8BA0C7;
+        --theme-muted: #56688A;
+        --theme-line: #182A52;       /* Bordas sutis */
+        
+        --theme-danger: #FF4757;
+        --theme-warning: #FFA502;
+        --theme-info: #1E90FF;
+        
+        /* Markdown overrides */
+        --md-h1: #1CE679;
+        --md-h2: #FFFFFF;
+        --md-p: #8BA0C7;
       }
       
       :root[data-theme="light"] {
-        /* LIGHT MODE */
-        --theme-bg: #F6F8F7;
+        /* LIGHT MODE (Alinhado à nova identidade, embora Dark seja o foco principal) */
+        --theme-bg: #F5F7FA;
         --theme-surface: #FFFFFF;
         --theme-card: #FFFFFF;
-        --theme-primary: #00A86B;
-        --theme-secondary: #008B57;
-        --theme-accent: #00C853;
-        --theme-text: #15201B;
-        --theme-text-secondary: #53635B;
-        --theme-muted: #718078;
-        --theme-line: #DCE5E0;
-        --theme-danger: #DC2626;
-        --theme-warning: #F59E0B;
-        --theme-info: #0284C7;
+        --theme-primary: #00B894;
+        --theme-secondary: #00CEC9;
+        --theme-accent: #6C5CE7;
+        --theme-accent-light: #A29BFE;
         
-        --md-h1: #008B57;
-        --md-h2: #15201B;
-        --md-p: #404D46;
+        --theme-text: #2D3436;
+        --theme-text-secondary: #636E72;
+        --theme-muted: #B2BEC3;
+        --theme-line: #DFE6E9;
+        
+        --theme-danger: #D63031;
+        --theme-warning: #FDCB6E;
+        --theme-info: #0984E3;
+        
+        --md-h1: #00B894;
+        --md-h2: #2D3436;
+        --md-p: #636E72;
       }
 
-      * { box-sizing: border-box; }
-      body { margin: 0; font-family: 'IBM Plex Sans', sans-serif; background-color: var(--theme-bg); color: var(--theme-text); }
-      .bs-display { font-family: 'Space Grotesk', sans-serif; }
-      .bs-scroll::-webkit-scrollbar { display: none; }
-      .bs-scroll { -ms-overflow-style: none; scrollbar-width: none; }
-      
-      .markdown-content h1 { font-family: 'Space Grotesk', sans-serif; font-size: 1.25rem; font-weight: 700; margin-top: 0; margin-bottom: 0.5rem; color: var(--md-h1); }
-      .markdown-content h2 { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; color: var(--md-h2); }
-      .markdown-content { word-break: break-word; overflow-wrap: break-word; }
-        .markdown-content img { max-width: 100%; height: auto; }
-        .markdown-content table { width: 100%; border-collapse: collapse; display: block; overflow-x: auto; }
-        .markdown-content pre { overflow-x: auto; }
-        .markdown-content p { margin-top: 0; margin-bottom: 1rem; color: var(--md-p); }
-      .markdown-content ul { margin-top: 0; margin-bottom: 1rem; padding-left: 1.5rem; color: var(--md-p); }
-      .markdown-content li { margin-bottom: 0.5rem; color: var(--md-p); }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      body {
+        background-color: var(--theme-bg);
+        color: var(--theme-text);
+        font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        line-height: 1.5;
+        overflow-x: hidden;
+      }
+
+      h1, h2, h3, h4, h5, h6 {
+        font-family: 'Space Grotesk', sans-serif;
+        font-weight: 600;
+        line-height: 1.2;
+      }
+
+      button {
+        font-family: inherit;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        background: none;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      input, textarea {
+        font-family: inherit;
+      }
+
+      /* Utilitários globais de scrollbar */
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--theme-line);
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--theme-muted);
+      }
     `}</style>
   );
 }

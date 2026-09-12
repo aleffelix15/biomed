@@ -1,164 +1,156 @@
 import React, { useState } from "react";
-import { theme, alpha } from "../../theme/tokens";
 import { completeLesson } from "../../services/supabaseService";
 import { useAuth } from "../../state/AuthContext";
 import Card from "../../components/ui/Card";
-import { marked } from "marked";
-import { ChevronLeft, Check, BookOpen, AlertTriangle, ListChecks, Play } from "lucide-react";
+import { ChevronLeft, Bookmark, Type, ArrowRight, Play, AlertTriangle } from "lucide-react";
 import QuizScreen from "../Quiz/QuizScreen";
-import AiAssistant from "../../components/domain/AiAssistant";
 import ContentRenderer from "../../components/common/ContentRenderer";
+import AiAssistant from "../../components/domain/AiAssistant";
+import { resolveIcon } from "../../utils/iconResolver";
 
-export default function LessonScreen({ lesson, topic, discipline, onBack }) {
+export default function LessonScreen({ lesson, topic, discipline, module, onBack }) {
   const [submitting, setSubmitting] = useState(false);
-  const [errorMsg, setErrorMsg] = useState(null);
   const [activeQuiz, setActiveQuiz] = useState(false);
   const { user } = useAuth();
+  const IconComponent = resolveIcon(discipline?.icon);
 
   const handleComplete = async () => {
     if (!user || submitting) return;
     setSubmitting(true);
-    setErrorMsg(null);
     try {
       await completeLesson(user.id, lesson.id, topic.id);
-      onBack(); // Voltar para o plano
+      setActiveQuiz(true); // Na UI 2.0, avançar leva ao Quiz!
     } catch (err) {
-      console.error("Erro ao salvar conclusão da aula:", err);
-      setErrorMsg("Não foi possível salvar: " + (err.message || JSON.stringify(err)));
+      console.error(err);
+      // Fallback in case of error
+      setActiveQuiz(true);
     } finally {
       setSubmitting(false);
     }
   };
 
   if (activeQuiz) {
-    return <QuizScreen topicId={topic.id} disciplineId={discipline.id} lessonId={lesson.id} isSimulado={false} onBack={() => setActiveQuiz(false)} />;
+    return <QuizScreen topicId={topic.id} disciplineId={discipline.id} lessonId={lesson.id} isSimulado={false} onBack={onBack} />;
   }
 
-  return (
-    <div style={{ position: "absolute", inset: 0, background: theme.bg, zIndex: 60, overflowY: "auto" }} className="bs-scroll">
-      <div style={{ padding: "20px 16px 120px" }}>
-        
-        {/* Header */}
-        <button onClick={onBack} style={{ display: "flex", alignItems: "center", gap: 6, background: "none", border: "none", color: theme.textSecondary, fontSize: 13, cursor: "pointer", padding: 0, marginBottom: 20 }}>
-          <ChevronLeft size={16} /> Voltar ao Plano
-        </button>
+  // Determine Module/Topic texts for the UI
+  const breadcrumb = `${discipline?.name || 'Disciplina'} • ${topic?.title || 'Tópico'}`;
+  const subBreadcrumb = `Módulo ${module?.order !== undefined ? module.order + 1 : 1} • Tópico ${topic?.order !== undefined ? topic.order + 1 : 1} • Aula ${lesson?.order !== undefined ? lesson.order + 1 : 1}`;
 
-        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
-          <span style={{ fontSize: 12, fontWeight: 600, color: theme.primary, textTransform: "uppercase" }}>{lesson.difficulty}</span>
-          <span style={{ color: theme.textSecondary, fontSize: 12 }}>•</span>
-          <span style={{ fontSize: 12, color: theme.textSecondary }}>{lesson.estimated_minutes} min</span>
+  return (
+    <div style={{ position: "absolute", inset: 0, background: "var(--theme-bg)", zIndex: 60, overflowY: "auto", display: "flex", flexDirection: "column" }} className="bs-scroll">
+      
+      {/* HEADER FIXO */}
+      <div style={{ position: "sticky", top: 0, background: "var(--theme-bg)", zIndex: 10, padding: "16px 16px 12px", display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: "1px solid var(--theme-line)" }}>
+        <button onClick={onBack} style={{ display: "flex", alignItems: "center", gap: 12, background: "none", color: "var(--theme-text)", fontSize: 16, fontWeight: 600 }}>
+          <ChevronLeft size={24} /> Aula
+        </button>
+        <div style={{ display: "flex", alignItems: "center", gap: 16, color: "var(--theme-text)" }}>
+          <Bookmark size={20} />
+          <div style={{ display: "flex", alignItems: "center", gap: 2 }}>
+            <Type size={14} />
+            <Type size={18} />
+          </div>
+        </div>
+      </div>
+
+      <div style={{ padding: "20px 16px 120px", maxWidth: 720, margin: "0 auto", width: "100%" }}>
+        
+        {/* CABEÇALHO DA AULA */}
+        <div style={{ display: "flex", alignItems: "flex-start", gap: 12, marginBottom: 24 }}>
+          <div style={{ width: 44, height: 44, borderRadius: 12, background: "rgba(255, 255, 255, 0.05)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+            {IconComponent && <IconComponent size={24} color="var(--theme-primary)" />}
+          </div>
+          <div>
+            <div style={{ fontSize: 14, fontWeight: 600, color: "var(--theme-text)" }}>{breadcrumb}</div>
+            <div style={{ fontSize: 12, color: "var(--theme-text-secondary)", marginTop: 2 }}>
+              {subBreadcrumb}
+            </div>
+          </div>
         </div>
 
-        <h1 style={{ fontSize: 24, fontWeight: 800, color: theme.text, marginBottom: 8, lineHeight: 1.3 }}>
+        <h1 style={{ fontSize: 26, fontWeight: 700, color: "var(--theme-text)", marginBottom: 16, lineHeight: 1.3 }}>
           {lesson.title}
         </h1>
         
-        <p style={{ fontSize: 15, color: theme.textSecondary, marginBottom: 24, lineHeight: 1.5 }}>
+        <p style={{ fontSize: 15, color: "var(--theme-text-secondary)", marginBottom: 24, lineHeight: 1.6 }}>
           {lesson.description}
         </p>
 
-        {/* AI Assistant Contextual */}
-        <Card padding={16} style={{ marginBottom: 24, background: alpha(theme.primary, '10'), borderColor: alpha(theme.primary, '20') }}>
-          <AiAssistant context={`Aula: ${lesson.title}. Disciplina: ${discipline.name}. Tópico: ${topic.title}`} compact />
-        </Card>
-
-        {/* Conteúdo Principal Renderizado */}
-        <ContentRenderer blocks={lesson.content_blocks} fallbackMarkdown={lesson.content_markdown || lesson.content} />
-
-        {/* Imagens (se existirem) */}
+        {/* IMAGENS DE DESTAQUE (mocked visual layout for actual images) */}
         {lesson.images && lesson.images.length > 0 && (
-          <div style={{ marginTop: 24, display: "flex", flexDirection: "column", gap: 16 }}>
+          <div style={{ marginBottom: 24 }}>
             {lesson.images.map((img, idx) => (
-              <figure key={idx} style={{ margin: 0 }}>
+              <figure key={idx} style={{ margin: "0 0 16px 0" }}>
                 <img
                   src={img.url}
                   alt={img.caption}
-                  loading="lazy"
-                  style={{ width: "100%", borderRadius: 12, border: `1px solid ${theme.line}` }}
+                  style={{ width: "100%", borderRadius: 16, border: "1px solid var(--theme-line)", display: "block" }}
                 />
-                <figcaption style={{ fontSize: 12, color: theme.textSecondary, marginTop: 6, lineHeight: 1.4 }}>
+                <figcaption style={{ fontSize: 12, color: "var(--theme-text-secondary)", marginTop: 8 }}>
                   {img.caption}
-                  {img.source && <span> — Fonte: {img.source} ({img.license})</span>}
                 </figcaption>
               </figure>
             ))}
           </div>
         )}
 
-        {/* Aplicação Clínica */}
-        {lesson.clinical_application && (
-          <Card padding={16} style={{ background: alpha(theme.danger, '15'), border: `1px solid ${alpha(theme.danger, '40')}`, marginTop: 32 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
-              <AlertTriangle size={18} color={theme.danger} />
-              <span style={{ fontSize: 14, fontWeight: 700, color: theme.danger }}>Aplicação Clínica</span>
-            </div>
-            <div style={{ fontSize: 14, color: theme.text, lineHeight: 1.5 }}>{lesson.clinical_application}</div>
-          </Card>
-        )}
-
-        {/* Resumo e Pontos Chave */}
-        {lesson.summary && (
-          <div style={{ marginTop: 32 }}>
-            <div style={{ fontSize: 16, fontWeight: 700, color: theme.text, marginBottom: 12, display: "flex", alignItems: "center", gap: 8 }}>
-              <ListChecks size={18} color={theme.primary} /> Resumo Rápido
-            </div>
-            <Card padding={16} style={{ background: theme.surface, border: `1px solid ${theme.line}` }}>
-              <div style={{ fontSize: 14, color: theme.textSecondary, lineHeight: 1.5, marginBottom: 16 }}>{lesson.summary}</div>
-              
-              {(() => {
-                const keyPoints = Array.isArray(lesson.key_points)
-                  ? lesson.key_points
-                  : (typeof lesson.key_points === 'string'
-                      ? (() => { try { return JSON.parse(lesson.key_points); } catch { return []; } })()
-                      : []);
-                
-                return keyPoints.length > 0 ? (
-                  <ul style={{ margin: 0, padding: "0 0 0 20px", color: theme.text, fontSize: 14 }}>
-                    {keyPoints.map((kp, idx) => (
-                      <li key={idx} style={{ marginBottom: 6 }}>{kp}</li>
-                    ))}
-                  </ul>
-                ) : null;
-              })()}
-            </Card>
-          </div>
-        )}
-
-        {/* Quiz da Aula */}
-        <div style={{ marginTop: 32 }}>
-           <Card padding={16} style={{ background: theme.surface, border: `1px dashed ${alpha(theme.textSecondary, '40')}`, textAlign: "center" }}>
-              <div style={{ fontSize: 15, fontWeight: 600, color: theme.text, marginBottom: 4 }}>Fixe o conhecimento</div>
-              <div style={{ fontSize: 13, color: theme.textSecondary, marginBottom: 12 }}>Responda questões rápidas sobre esta aula para testar sua retenção.</div>
-              <button
-                onClick={() => setActiveQuiz(true)}
-                style={{ background: theme.bg, color: theme.text, border: `1px solid ${theme.line}`, borderRadius: 8, padding: "8px 16px", fontSize: 13, fontWeight: 600, cursor: "pointer", display: "inline-flex", alignItems: "center", gap: 6 }}
-              >
-                <Play size={14} /> FAZER MINI-QUIZ
-              </button>
-           </Card>
+        {/* CONTEÚDO PRINCIPAL */}
+        <div style={{ color: "var(--theme-text)", fontSize: 15, lineHeight: 1.6, marginBottom: 32 }}>
+          <ContentRenderer blocks={lesson.content_blocks} fallbackMarkdown={lesson.content_markdown || lesson.content} />
         </div>
 
-        {/* AI Assistant Integration */}
+        {/* PONTOS PRINCIPAIS */}
+        {(() => {
+          const keyPoints = Array.isArray(lesson.key_points)
+            ? lesson.key_points
+            : (typeof lesson.key_points === 'string'
+                ? (() => { try { return JSON.parse(lesson.key_points); } catch { return []; } })()
+                : []);
+          
+          if (keyPoints.length > 0) {
+            return (
+              <Card padding={20} style={{ background: "var(--theme-surface)", border: "1px solid var(--theme-line)", marginBottom: 32 }}>
+                <div style={{ fontSize: 16, fontWeight: 700, color: "var(--theme-text)", marginBottom: 16 }}>Pontos principais</div>
+                <ul style={{ margin: 0, padding: "0 0 0 20px", color: "var(--theme-text-secondary)", fontSize: 14 }}>
+                  {keyPoints.map((kp, idx) => (
+                    <li key={idx} style={{ marginBottom: 8, paddingLeft: 4 }}>{kp}</li>
+                  ))}
+                </ul>
+              </Card>
+            );
+          }
+          return null;
+        })()}
+
         <AiAssistant topic={topic?.name || lesson.title} />
 
       </div>
 
-      {/* Fixed Bottom Bar for Completion */}
-      <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, padding: "16px", background: theme.card, borderTop: `1px solid ${theme.line}`, zIndex: 10 }}>
-        {errorMsg && (
-          <div style={{ background: alpha(theme.danger, '22'), color: theme.danger, padding: 12, borderRadius: 8, fontSize: 13, fontWeight: 500, marginBottom: 12, textAlign: "center" }}>
-            {errorMsg}
-          </div>
-        )}
+      {/* BOTTOM BAR (Ação de Avançar) */}
+      <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, padding: "16px 20px 32px", background: "var(--theme-card)", borderTop: "1px solid var(--theme-line)", zIndex: 10 }}>
         <button 
           onClick={handleComplete}
           disabled={submitting}
-          style={{ width: "100%", background: theme.primary, color: theme.bg, border: "none", borderRadius: 12, padding: 16, fontSize: 15, fontWeight: 700, cursor: submitting ? "not-allowed" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, opacity: submitting ? 0.7 : 1 }}
+          style={{ 
+            width: "100%", 
+            background: "var(--theme-primary)", 
+            color: "#000", 
+            border: "none", 
+            borderRadius: 16, 
+            padding: "16px", 
+            fontSize: 16, 
+            fontWeight: 700, 
+            display: "flex", 
+            alignItems: "center", 
+            justifyContent: "center", 
+            gap: 8,
+            transition: "opacity 0.2s ease"
+          }}
         >
-          <Check size={20} strokeWidth={3} /> {submitting ? "SALVANDO..." : "MARCAR COMO CONCLUÍDO"}
+          {submitting ? "SALVANDO..." : "Testar conhecimento"}
         </button>
       </div>
-
     </div>
   );
 }

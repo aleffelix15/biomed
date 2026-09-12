@@ -123,7 +123,20 @@ export const labItems = [
         'Força g excessiva (pode romper tubos ou lisar células - hemólise).'
       ] }
     ],
-    quiz: []
+    quiz: [
+      {
+        id: 'q_centrifugacao_1',
+        text: 'Qual a consequência da centrifugação prematura de uma amostra de sangue para obtenção de soro, antes da completa retração do coágulo?',
+        options: [
+          { id: 'A', text: 'Diminuição artificial da concentração de glicose.' },
+          { id: 'B', text: 'Geração de fibrina em suspensão, que pode entupir sondas de automação.' },
+          { id: 'C', text: 'Aumento da força G, resultando na quebra dos tubos.' },
+          { id: 'D', text: 'Hemólise imediata e intensa de todas as hemácias.' }
+        ],
+        correctOption: 'B',
+        explanation: 'Conforme descrito nos possíveis erros da técnica, a centrifugação prematura impede a retração completa do coágulo, gerando fibrina em suspensão que é um grande risco de entupimento para sondas de equipamentos automatizados.'
+      }
+    ]
   }
 ,
   // --- BIOSSEGURANÇA ---
@@ -209,6 +222,20 @@ export const labItems = [
         'NB-3: Agentes letais com transmissão respiratória severa, mas que possuem tratamento (ex: Mycobacterium tuberculosis). Requer pressão negativa no laboratório, portas duplas e EPIs respiratórios de alta eficiência.',
         'NB-4: Risco máximo. Agentes exóticos, letais, sem vacina ou tratamento (ex: vírus Ebola). Exige trajes de pressão positiva independentes e chuveiros de descontaminação.'
       ] }
+    ],
+    quiz: [
+      {
+        id: 'q_niveis_bio_1',
+        text: 'Qual o Nível de Biossegurança (NB) considerado padrão para a rotina de um laboratório de análises clínicas, utilizado ao manipular amostras que podem conter agentes como HIV ou Salmonella?',
+        options: [
+          { id: 'A', text: 'NB-1' },
+          { id: 'B', text: 'NB-2' },
+          { id: 'C', text: 'NB-3' },
+          { id: 'D', text: 'NB-4' }
+        ],
+        correctOption: 'B',
+        explanation: 'Conforme descrito na classificação, o NB-2 é o nível padrão da rotina laboratorial de análises clínicas, destinado a agentes que causam doenças mas possuem tratamento e não são facilmente transmitidos pelo ar.'
+      }
     ]
   },
 
@@ -270,6 +297,20 @@ export const labItems = [
         'Deixar secar rapidamente ao ar livre.'
       ] },
       { type: 'section', title: 'Avaliação de um Bom Esfregaço', text: 'Um esfregaço ideal possui três regiões nítidas: cabeça, corpo e cauda (franja). A cauda é a região ideal para a leitura microscópica, pois nela as hemácias estão separadas sem se sobreporem ou se deformarem.' }
+    ],
+    quiz: [
+      {
+        id: 'q_esfregaco_1',
+        text: 'Na técnica da cunha para preparo de esfregaço sanguíneo, qual é a região considerada ideal para a leitura microscópica e por quê?',
+        options: [
+          { id: 'A', text: 'A cabeça, pois concentra a maior quantidade de células por campo.' },
+          { id: 'B', text: 'O corpo, pois ocorre o empilhamento em rouleaux das hemácias, facilitando a contagem.' },
+          { id: 'C', text: 'A cauda (franja), pois nela as hemácias estão separadas sem se sobreporem ou se deformarem.' },
+          { id: 'D', text: 'Qualquer região, desde que a coloração do esfregaço seja adequada.' }
+        ],
+        correctOption: 'C',
+        explanation: 'A cauda (ou franja) é a região onde a gota de sangue fica mais bem distendida. Nela, as hemácias não ficam umas sobre as outras e não perdem sua morfologia original, o que permite uma leitura microscópica confiável e precisa.'
+      }
     ]
   },
   {
@@ -358,6 +399,20 @@ export const labItems = [
         'Mede a precipitação das hemácias, que caem mais rápido (VHS elevado) na presença de proteínas plasmáticas alteradas, principalmente fibrinogênio e imunoglobulinas.',
         'Sofre interferência de diversos fatores: anemias (aumenta o VHS), policitemia (reduz o VHS), idade e gravidez.'
       ] }
+    ],
+    quiz: [
+      {
+        id: 'q_marcadores_1',
+        text: 'Qual a principal diferença na cinética de resposta entre a Proteína C Reativa (PCR) e a Velocidade de Hemossedimentação (VHS) diante de um quadro inflamatório?',
+        options: [
+          { id: 'A', text: 'O VHS eleva-se precocemente nas primeiras horas, enquanto a PCR demora dias para subir.' },
+          { id: 'B', text: 'A PCR é muito específica para infecções virais, enquanto o VHS indica apenas inflamações crônicas.' },
+          { id: 'C', text: 'A PCR eleva-se precocemente e cai rapidamente após a cura, já o VHS possui cinética lenta e demora semanas para normalizar.' },
+          { id: 'D', text: 'Ambas possuem a mesma cinética, mas a PCR não sofre interferência de anemias.' }
+        ],
+        correctOption: 'C',
+        explanation: 'A PCR é um marcador de fase aguda com cinética rápida (eleva-se em 6 a 12 horas e cai assim que a inflamação cede). O VHS depende da concentração de proteínas plasmáticas de meia-vida mais longa (como fibrinogênio), o que faz com que sua elevação e normalização sejam muito mais lentas.'
+      }
     ]
   },
   {
@@ -375,6 +430,20 @@ export const labItems = [
         'R (Resistente): Há alta probabilidade de falha terapêutica, pois o isolado possui mecanismos de resistência.'
       ] },
       { type: 'section', title: 'Mecanismos Importantes', text: 'Certas resistências fenotípicas inativam classes inteiras. Exemplo: Produção de ESBL (Betalactamase de Espectro Estendido) por E. coli indica resistência a cefalosporinas de todas as gerações, mesmo que o halo in vitro pareça intermediário ou grande.' }
+    ],
+    quiz: [
+      {
+        id: 'q_tsam_1',
+        text: 'Ao interpretar um Antibiograma (TSAM) por difusão em disco, por que é incorreto afirmar que "quanto maior o halo de inibição, melhor ou mais potente é o antibiótico"?',
+        options: [
+          { id: 'A', text: 'Porque halos muito grandes indicam sempre que a bactéria sofreu mutação durante o teste.' },
+          { id: 'B', text: 'Porque cada antibiótico possui uma capacidade de difusão química diferente no ágar, exigindo tabelas padronizadas para interpretar a medida em milímetros.' },
+          { id: 'C', text: 'Porque o halo de inibição reflete apenas a velocidade de crescimento bacteriano, e não a ação da droga.' },
+          { id: 'D', text: 'Porque halos maiores indicam que o disco de papel continha uma concentração tóxica para humanos.' }
+        ],
+        correctOption: 'B',
+        explanation: 'O diâmetro do halo depende fortemente do tamanho da molécula do antibiótico e de sua capacidade de se difundir quimicamente no ágar Mueller-Hinton. Drogas com moléculas maiores difundem menos (formando halos menores), mesmo sendo altamente eficazes contra a bactéria.'
+      }
     ]
   },
 

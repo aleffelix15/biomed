@@ -13,9 +13,25 @@ export default function BottomTabBar({ active, onChange }) {
               key={t.id}
               onClick={() => onChange(t.id)}
               className="bottom-nav-item"
+              style={{
+                position: 'relative'
+              }}
             >
-              <t.icon size={19} color={isActive ? theme.primary : theme.textSecondary} strokeWidth={isActive ? 2.4 : 2} />
-              <span style={{ fontSize: 10.5, color: isActive ? theme.primary : theme.textSecondary, fontWeight: isActive ? 600 : 500 }}>{t.label}</span>
+              <t.icon 
+                size={22} 
+                color={isActive ? 'var(--theme-primary)' : 'var(--theme-muted)'} 
+                strokeWidth={isActive ? 2.5 : 2} 
+              />
+              <span 
+                style={{ 
+                  fontSize: 11, 
+                  marginTop: 2,
+                  color: isActive ? 'var(--theme-primary)' : 'var(--theme-muted)', 
+                  fontWeight: isActive ? 600 : 500 
+                }}
+              >
+                {t.label}
+              </span>
             </button>
           );
         })}

@@ -1,5 +1,5 @@
-// Design tokens – cor, tipografia e espaçamento do BioStudy.
-// Alterado para suportar variáveis CSS (Light/Dark mode) preservando o objeto `theme`.
+// Design tokens — cor, tipografia e espaçamento do BioStudy.
+// Alterado para suportar variáveis CSS (Light/Dark mode) preservando o objeto \`theme\`.
 
 export const theme = {
   bg: "var(--theme-bg)",
@@ -8,6 +8,7 @@ export const theme = {
   primary: "var(--theme-primary)",
   secondary: "var(--theme-secondary)",
   accent: "var(--theme-accent)",
+  accentLight: "var(--theme-accent-light)",
   text: "var(--theme-text)",
   textSecondary: "var(--theme-text-secondary)",
   muted: "var(--theme-muted)",
@@ -18,15 +19,15 @@ export const theme = {
 };
 
 export const radius = {
-  sm: 16,
-  md: 20,
+  sm: 12,
+  md: 16,
   lg: 24,
   pill: 999,
 };
 
-// Helper para substituir concatenações hardcoded como `${theme.primary}22`
+// Helper para substituir concatenações hardcoded como \`\${theme.primary}22\`
 // por uma função color-mix suportada nativamente nos navegadores modernos.
 export const alpha = (colorVar, opacityHex) => {
   const percent = Math.round((parseInt(opacityHex, 16) / 255) * 100);
-  return `color-mix(in srgb, ${colorVar} ${percent}%, transparent)`;
+  return \`color-mix(in srgb, \${colorVar} \${percent}%, transparent)\`;
 };

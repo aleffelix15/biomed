@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { theme, alpha } from "../../theme/tokens";
 import { fetchLessonQuiz, fetchTopicSimulado, saveQuestionAttempt, addWrongQuestionToReview } from "../../services/supabaseService";
 import { useAuth } from "../../state/AuthContext";
 import Card from "../../components/ui/Card";
 import ProgressBar from "../../components/ui/ProgressBar";
 import QuestionCard from "../../components/domain/QuestionCard";
-import { ChevronLeft, Trophy, AlertTriangle, ArrowRight } from "lucide-react";
+import { ChevronLeft, Flag, Trophy, AlertTriangle, ArrowRight } from "lucide-react";
+import { resolveIcon } from "../../utils/iconResolver";
 
-export default function QuizScreen({ topicId, disciplineId, lessonId, isSimulado, onBack }) {
+export default function QuizScreen({ topicId, disciplineId, lessonId, isSimulado, onBack, discipline }) {
   const [questions, setQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState({});
@@ -15,6 +15,8 @@ export default function QuizScreen({ topicId, disciplineId, lessonId, isSimulado
   const [finished, setFinished] = useState(false);
   const [saving, setSaving] = useState(false);
   const { user } = useAuth();
+  
+  const IconComponent = resolveIcon(discipline?.icon);
 
   useEffect(() => {
     const loadQuestions = async () => {
@@ -28,93 +30,100 @@ export default function QuizScreen({ topicId, disciplineId, lessonId, isSimulado
       setQuestions(q);
       setLoading(false);
     };
+
     loadQuestions();
   }, [topicId, lessonId, isSimulado]);
 
   const handleAnswer = (optionId) => {
-    setAnswers(prev => ({ ...prev, [questions[currentIndex].id]: optionId }));
+    if (answers[questions[currentIndex].id]) return;
+    setAnswers({ ...answers, [questions[currentIndex].id]: optionId });
   };
 
   const handleNext = async () => {
+    if (saving) return;
     const currentQ = questions[currentIndex];
-    const selected = answers[currentQ.id];
-    
-    // Salvar attempt silenciosamente no Supabase
-    if (user && selected) {
-      setSaving(true);
-      try {
-        await saveQuestionAttempt(user.id, currentQ, selected);
-        // Se errou, adiciona ao sistema de flashcards para revisao
-        if (selected !== currentQ.correct_option) {
-          await addWrongQuestionToReview(disciplineId, topicId, currentQ);
+    const isCorrect = answers[currentQ.id] === currentQ.correct_option;
+
+    setSaving(true);
+    try {
+      if (user) {
+        await saveQuestionAttempt(user.id, currentQ.id, isCorrect);
+        if (!isCorrect) {
+          await addWrongQuestionToReview(user.id, currentQ.id);
         }
-      } catch (err) {
-        console.error("Failed to save attempt", err);
       }
+    } catch (err) {
+      console.error("Erro salvando questao:", err);
+    } finally {
       setSaving(false);
     }
 
     if (currentIndex < questions.length - 1) {
-      setCurrentIndex(prev => prev + 1);
+      setCurrentIndex(currentIndex + 1);
     } else {
       setFinished(true);
     }
   };
 
   if (loading) {
-    return <div style={{ position: "absolute", inset: 0, background: theme.bg, zIndex: 60, display: "flex", alignItems: "center", justifyContent: "center", color: theme.textSecondary }}>Carregando questões...</div>;
+    return (
+      <div style={{ position: "absolute", inset: 0, background: "var(--theme-bg)", zIndex: 60, display: "flex", alignItems: "center", justifyContent: "center", color: "var(--theme-text-secondary)" }}>
+        Carregando questões...
+      </div>
+    );
   }
 
   if (questions.length === 0) {
     return (
-      <div style={{ position: "absolute", inset: 0, background: theme.bg, zIndex: 60, padding: 20 }}>
-        <button onClick={onBack} style={{ display: "flex", alignItems: "center", gap: 6, background: "none", border: "none", color: theme.textSecondary, fontSize: 13, cursor: "pointer", padding: 0 }}>
-          <ChevronLeft size={16} /> Voltar
+      <div style={{ position: "absolute", inset: 0, background: "var(--theme-bg)", zIndex: 60, padding: 20 }}>
+        <button onClick={onBack} style={{ display: "flex", alignItems: "center", gap: 6, background: "none", border: "none", color: "var(--theme-text)", fontSize: 15, fontWeight: 600, cursor: "pointer", padding: 0 }}>
+          <ChevronLeft size={20} /> Voltar
         </button>
-        <div style={{ textAlign: "center", marginTop: 100, color: theme.textSecondary }}>Nenhuma questão cadastrada para este módulo ainda.</div>
+        <div style={{ textAlign: "center", marginTop: 100, color: "var(--theme-text-secondary)" }}>
+          Nenhuma questão cadastrada para este módulo ainda.
+        </div>
       </div>
     );
   }
 
   if (finished) {
-    // Calcular resultado
     let correct = 0;
     questions.forEach(q => {
       if (answers[q.id] === q.correct_option) correct++;
     });
     const percent = Math.round((correct / questions.length) * 100);
-    let status = "PRECISA REFORÇO";
-    let statusColor = theme.danger;
-    if (percent >= 80) { status = "DOMINADO"; statusColor = theme.primary; }
-    else if (percent >= 60) { status = "REVISAR"; statusColor = theme.secondary; }
+    let status = "Precisa Reforço";
+    let statusColor = "var(--theme-danger)";
+    if (percent >= 80) { status = "Dominado"; statusColor = "var(--theme-primary)"; }
+    else if (percent >= 60) { status = "Revisar"; statusColor = "var(--theme-warning)"; }
 
     return (
-      <div style={{ position: "absolute", inset: 0, background: theme.bg, zIndex: 60, overflowY: "auto", padding: "20px 16px" }}>
-        <div style={{ textAlign: "center", marginTop: 40, marginBottom: 40 }}>
-          <div style={{ width: 80, height: 80, borderRadius: 40, background: `${statusColor}20`, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px" }}>
-            <Trophy size={40} color={statusColor} />
+      <div style={{ position: "absolute", inset: 0, background: "var(--theme-bg)", zIndex: 60, overflowY: "auto", padding: "20px 16px" }} className="bs-scroll">
+        <div style={{ textAlign: "center", marginTop: 60, marginBottom: 40 }}>
+          <div style={{ width: 96, height: 96, borderRadius: 48, background: `color-mix(in srgb, ${statusColor} 15%, transparent)`, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 24px", border: `2px solid ${statusColor}` }}>
+            <Trophy size={48} color={statusColor} />
           </div>
-          <h1 className="bs-display" style={{ fontSize: 32, fontWeight: 700, color: theme.text, margin: 0 }}>{percent}%</h1>
-          <div style={{ fontSize: 16, fontWeight: 600, color: statusColor, marginTop: 8 }}>{status}</div>
-          <div style={{ fontSize: 14, color: theme.textSecondary, marginTop: 4 }}>Você acertou {correct} de {questions.length} questões.</div>
+          <h1 style={{ fontSize: 48, fontWeight: 700, color: "var(--theme-text)", margin: 0 }}>{percent}%</h1>
+          <div style={{ fontSize: 18, fontWeight: 600, color: statusColor, marginTop: 12 }}>{status}</div>
+          <div style={{ fontSize: 15, color: "var(--theme-text-secondary)", marginTop: 8 }}>Você acertou {correct} de {questions.length} questões.</div>
         </div>
 
-        <Card padding={20} style={{ background: theme.surface, border: `1px solid ${theme.line}`, marginBottom: 24 }}>
-          <div style={{ fontSize: 16, fontWeight: 700, color: theme.text, marginBottom: 16 }}>Análise de Desempenho</div>
+        <Card padding={24} style={{ maxWidth: 400, margin: "0 auto 24px" }}>
+          <div style={{ fontSize: 16, fontWeight: 700, color: "var(--theme-text)", marginBottom: 16 }}>Análise de Desempenho</div>
           {percent < 100 && (
-            <div style={{ display: "flex", gap: 12, alignItems: "flex-start", background: alpha(theme.danger, '15'), padding: 12, borderRadius: 8, marginBottom: 16 }}>
-              <AlertTriangle size={18} color={theme.danger} style={{ flexShrink: 0, marginTop: 2 }} />
+            <div style={{ display: "flex", gap: 16, alignItems: "flex-start", background: "rgba(255, 71, 87, 0.1)", padding: 16, borderRadius: 12, border: "1px solid rgba(255, 71, 87, 0.2)" }}>
+              <AlertTriangle size={24} color="var(--theme-danger)" style={{ flexShrink: 0 }} />
               <div>
-                <div style={{ fontSize: 13, fontWeight: 600, color: theme.danger, marginBottom: 4 }}>Recomendação</div>
-                <div style={{ fontSize: 13, color: theme.textSecondary, lineHeight: 1.5 }}>Identificamos pontos fracos nas questões erradas. Recomendamos revisar os conceitos básicos antes de avançar para a próxima aula.</div>
+                <div style={{ fontSize: 14, fontWeight: 600, color: "var(--theme-danger)", marginBottom: 4 }}>Recomendação</div>
+                <div style={{ fontSize: 13, color: "var(--theme-text)", lineHeight: 1.5 }}>Recomendamos revisar os conceitos básicos antes de avançar. As questões erradas foram salvas para revisão (Flashcards).</div>
               </div>
             </div>
           )}
           <button 
             onClick={onBack}
-            style={{ width: "100%", background: theme.card, border: `1px solid ${theme.line}`, color: theme.text, borderRadius: 8, padding: 12, fontSize: 14, fontWeight: 600, cursor: "pointer", marginTop: 8 }}
+            style={{ width: "100%", background: "var(--theme-primary)", color: "#000", border: "none", borderRadius: 16, padding: 16, fontSize: 15, fontWeight: 700, cursor: "pointer", marginTop: 24 }}
           >
-            VOLTAR
+            Continuar estudando
           </button>
         </Card>
       </div>
@@ -123,23 +132,41 @@ export default function QuizScreen({ topicId, disciplineId, lessonId, isSimulado
 
   const currentQ = questions[currentIndex];
   const hasAnsweredCurrent = !!answers[currentQ.id];
-  const progress = Math.round(((currentIndex) / questions.length) * 100);
+  const progress = Math.round(((currentIndex + 1) / questions.length) * 100);
 
   return (
-    <div style={{ position: "absolute", inset: 0, background: theme.bg, zIndex: 60, display: "flex", flexDirection: "column" }}>
-      <div style={{ padding: "20px 16px 16px", background: theme.surface, borderBottom: `1px solid ${theme.line}` }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
-          <button onClick={onBack} style={{ display: "flex", alignItems: "center", gap: 6, background: "none", border: "none", color: theme.textSecondary, fontSize: 13, cursor: "pointer", padding: 0 }}>
-            <ChevronLeft size={16} /> Abandonar
+    <div style={{ position: "absolute", inset: 0, background: "var(--theme-bg)", zIndex: 60, display: "flex", flexDirection: "column" }}>
+      
+      {/* HEADER */}
+      <div style={{ padding: "16px 16px 20px", background: "var(--theme-bg)", borderBottom: "1px solid var(--theme-line)" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
+          <button onClick={onBack} style={{ display: "flex", alignItems: "center", gap: 12, background: "none", border: "none", color: "var(--theme-text)", fontSize: 16, fontWeight: 600, cursor: "pointer", padding: 0 }}>
+            <ChevronLeft size={24} /> Quiz
           </button>
-          <div style={{ fontSize: 13, fontWeight: 600, color: theme.text }}>
-            Questão {currentIndex + 1} / {questions.length}
-          </div>
+          <Flag size={20} color="var(--theme-text)" />
         </div>
-        <ProgressBar value={progress} />
+        
+        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
+           <div style={{ width: 36, height: 36, borderRadius: 8, background: "rgba(255, 255, 255, 0.05)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+             {IconComponent && <IconComponent size={20} color="var(--theme-primary)" />}
+           </div>
+           <div>
+             <div style={{ fontSize: 13, fontWeight: 600, color: "var(--theme-text)" }}>{discipline?.name || 'Disciplina'}</div>
+             <div style={{ fontSize: 12, color: "var(--theme-text-secondary)" }}>Testando conhecimentos</div>
+           </div>
+        </div>
+
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+          <div style={{ fontSize: 13, fontWeight: 600, color: "var(--theme-text-secondary)" }}>
+            {currentIndex + 1} / {questions.length}
+          </div>
+          {/* Mock timer since we don't have a real one implemented yet, to match UI */}
+          <div style={{ fontSize: 13, fontWeight: 600, color: "var(--theme-text)" }}>00:45</div>
+        </div>
+        <ProgressBar value={progress} height={6} />
       </div>
 
-      <div style={{ flex: 1, padding: "20px 16px", overflowY: "auto" }}>
+      <div style={{ flex: 1, padding: "32px 16px", overflowY: "auto" }} className="bs-scroll">
         <QuestionCard 
           question={currentQ}
           onAnswer={handleAnswer}
@@ -148,13 +175,28 @@ export default function QuizScreen({ topicId, disciplineId, lessonId, isSimulado
         />
       </div>
 
-      <div style={{ padding: "16px", background: theme.surface, borderTop: `1px solid ${theme.line}` }}>
+      <div style={{ padding: "16px 20px 32px", background: "var(--theme-card)", borderTop: "1px solid var(--theme-line)" }}>
         <button 
           onClick={handleNext}
           disabled={!hasAnsweredCurrent || saving}
-          style={{ width: "100%", background: theme.primary, color: theme.bg, border: "none", borderRadius: 12, padding: 16, fontSize: 15, fontWeight: 700, cursor: (!hasAnsweredCurrent || saving) ? "not-allowed" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, opacity: (!hasAnsweredCurrent || saving) ? 0.5 : 1 }}
+          style={{ 
+            width: "100%", 
+            background: "var(--theme-primary)", 
+            color: "#000", 
+            border: "none", 
+            borderRadius: 16, 
+            padding: 16, 
+            fontSize: 16, 
+            fontWeight: 700, 
+            cursor: (!hasAnsweredCurrent || saving) ? "not-allowed" : "pointer", 
+            display: "flex", 
+            alignItems: "center", 
+            justifyContent: "center", 
+            opacity: (!hasAnsweredCurrent || saving) ? 0.5 : 1,
+            transition: "opacity 0.2s ease"
+          }}
         >
-          {saving ? "SALVANDO..." : (currentIndex === questions.length - 1 ? "VER RESULTADO" : "PRÓXIMA QUESTÃO")} <ArrowRight size={18} />
+          {saving ? "Salvando..." : (currentIndex === questions.length - 1 && hasAnsweredCurrent ? "Ver Resultado" : "Confirmar")} 
         </button>
       </div>
     </div>

@@ -1,58 +1,105 @@
-import React, { useMemo, useState, useEffect } from "react";
-import { theme } from "../../theme/tokens";
+import React, { useState } from "react";
 import { fetchDisciplinesWithProgress } from "../../services/supabaseService";
 import { useAuth } from "../../state/AuthContext";
 import { useCachedQuery } from "../../state/DataCacheContext";
-import SectionHeader from "../../components/ui/SectionHeader";
 import EmptyState from "../../components/ui/EmptyState";
 import DisciplineCard from "../../components/domain/DisciplineCard";
 import { Search } from "lucide-react";
 
 export default function DisciplinesScreen({ onOpenDiscipline }) {
   const [query, setQuery] = useState("");
+  const [activeFilter, setActiveFilter] = useState("Todas");
   const { user } = useAuth();
 
-  const { data: discData } = useCachedQuery(
+  const { data: discData, loading } = useCachedQuery(
     user ? 'disciplines:' + user.id : null,
     () => fetchDisciplinesWithProgress(user.id)
   );
   
   const disciplines = discData || [];
 
-  const grouped = useMemo(() => {
-    const filtered = disciplines.filter((d) => d.name.toLowerCase().includes(query.toLowerCase()));
-    return filtered.reduce((acc, d) => {
-      const cat = d.category || "Geral";
-      (acc[cat] ||= []).push(d);
-      return acc;
-    }, {});
-  }, [query, disciplines]);
+  const filters = ["Todas", "Básicas", "Clínicas", "Específicas"];
+
+  const filtered = disciplines.filter((d) => {
+    const matchesQuery = d.name.toLowerCase().includes(query.toLowerCase());
+    const cat = d.category || "Geral";
+    const matchesFilter = activeFilter === "Todas" || 
+                         (activeFilter === "Básicas" && cat.toLowerCase().includes("básica")) ||
+                         (activeFilter === "Clínicas" && cat.toLowerCase().includes("clínica")) ||
+                         (activeFilter === "Específicas" && cat.toLowerCase().includes("específica"));
+    
+    // If categorization is incomplete, fallback to showing all when not searching by specific known string
+    return matchesQuery && (activeFilter === "Todas" || matchesFilter || !d.category);
+  });
 
   return (
-    <div style={{ padding: "20px 16px 90px" }}>
-      <h1 className="bs-display" style={{ fontSize: 22, fontWeight: 700, color: theme.text, margin: 0 }}>Disciplinas</h1>
+    <div style={{ padding: "16px 16px 100px", maxWidth: 600, margin: "0 auto" }}>
+      {/* HEADER */}
+      <h1 style={{ fontSize: 24, fontWeight: 700, color: "var(--theme-text)", margin: "0 0 4px" }}>
+        Disciplinas
+      </h1>
+      <div style={{ fontSize: 14, color: "var(--theme-text-secondary)", marginBottom: 24, lineHeight: 1.4 }}>
+        Explore todas as disciplinas e acompanhe seu progresso.
+      </div>
 
-      <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 14, background: theme.surface, border: `1px solid ${theme.line}`, borderRadius: 12, padding: "9px 12px" }}>
-        <Search size={16} color={theme.textSecondary} />
-        <input
+      {/* SEARCH */}
+      <div style={{ position: "relative", marginBottom: 16 }}>
+        <div style={{ position: "absolute", left: 16, top: 0, bottom: 0, display: "flex", alignItems: "center", pointerEvents: "none" }}>
+          <Search size={18} color="var(--theme-muted)" />
+        </div>
+        <input 
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Buscar disciplina"
-          style={{ border: "none", outline: "none", fontSize: 14, flex: 1, color: theme.text, background: "transparent" }}
+          type="text" 
+          placeholder="Buscar disciplina..." 
+          style={{
+            width: "100%",
+            height: 48,
+            background: "var(--theme-surface)",
+            border: "1px solid var(--theme-line)",
+            borderRadius: 16,
+            padding: "0 16px 0 44px",
+            color: "var(--theme-text)",
+            fontSize: 15,
+            outline: "none"
+          }}
         />
       </div>
 
-      {Object.entries(grouped).map(([category, items]) => (
-        <div key={category} style={{ marginTop: 22 }}>
-          <SectionHeader title={category} />
-          <div className="responsive-grid">
-            {items.map((d) => <DisciplineCard key={d.id} discipline={d} onClick={() => onOpenDiscipline(d)} />)}
-          </div>
-        </div>
-      ))}
+      {/* FILTERS */}
+      <div style={{ display: "flex", gap: 8, overflowX: "auto", paddingBottom: 8, marginBottom: 16 }} className="bs-scroll">
+        {filters.map(f => (
+          <button
+            key={f}
+            onClick={() => setActiveFilter(f)}
+            style={{
+              padding: "6px 16px",
+              borderRadius: 20,
+              border: `1px solid ${activeFilter === f ? "var(--theme-primary)" : "var(--theme-line)"}`,
+              background: activeFilter === f ? "rgba(28, 230, 121, 0.15)" : "transparent",
+              color: activeFilter === f ? "var(--theme-primary)" : "var(--theme-text-secondary)",
+              fontWeight: activeFilter === f ? 600 : 500,
+              fontSize: 14,
+              whiteSpace: "nowrap",
+              transition: "all 0.2s ease"
+            }}
+          >
+            {f}
+          </button>
+        ))}
+      </div>
 
-      {Object.keys(grouped).length === 0 && (
-        <EmptyState icon={Search} title="Nenhuma disciplina encontrada" desc="Tente buscar por outro nome." />
+      {/* LIST */}
+      {loading ? (
+        <div style={{ padding: 40, textAlign: "center", color: "var(--theme-text-secondary)" }}>Carregando dados...</div>
+      ) : filtered.length > 0 ? (
+        <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
+          {filtered.map((d, i) => (
+            <DisciplineCard key={d.id} discipline={d} index={i} onClick={() => onOpenDiscipline(d)} />
+          ))}
+        </div>
+      ) : (
+        <EmptyState icon={Search} title="Nenhuma disciplina" desc="Não encontramos nada com esse nome." />
       )}
     </div>
   );
