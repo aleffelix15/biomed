@@ -19,7 +19,25 @@
           "objective": "Introdução à Glicose",
           "difficulty": "Médio",
           "estimated_minutes": 15,
-          "content_markdown": "> **[DRAFT - PENDENTE DE REVISÃO MÉDICA/CIENTÍFICA]** Este conteúdo está em elaboração e não foi validado clinicamente.\n\nA glicose é um carboidrato simples...",
+          "content_blocks": [
+            {
+              "type": "markdown",
+              "value": "> **[DRAFT - PENDENTE DE REVISÃO MÉDICA/CIENTÍFICA]** Este conteúdo está em elaboração e não foi validado clinicamente.\n\nA **glicose** é um carboidrato simples (monossacarídeo) fundamental para o metabolismo energético humano. É a principal fonte de energia para o cérebro e eritrócitos."
+            },
+            {
+              "type": "scientific_image",
+              "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/D-glucose_color_coded.png/400px-D-glucose_color_coded.png",
+              "alt": "Estrutura Molecular da Glicose",
+              "caption": "Estrutura da D-Glicose demonstrando sua cadeia carbônica e grupamentos hidroxila.",
+              "credit": "Wikimedia Commons",
+              "zoomable": true,
+              "type_img": "diagram"
+            },
+            {
+              "type": "markdown",
+              "value": "Em contexto laboratorial, a medição da **glicemia** (nível de glicose no sangue) é um dos exames mais solicitados na prática clínica, sendo o pilar para o diagnóstico e acompanhamento do *Diabetes Mellitus*."
+            }
+          ],
           "clinical_application": "Essencial cerebral",
           "summary": "Glicose é energia.",
           "key_points": [
