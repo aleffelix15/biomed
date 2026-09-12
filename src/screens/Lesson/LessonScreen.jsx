@@ -7,6 +7,7 @@ import { marked } from "marked";
 import { ChevronLeft, Check, BookOpen, AlertTriangle, ListChecks, Play } from "lucide-react";
 import QuizScreen from "../Quiz/QuizScreen";
 import AiAssistant from "../../components/domain/AiAssistant";
+import ContentRenderer from "../../components/common/ContentRenderer";
 
 export default function LessonScreen({ lesson, topic, discipline, onBack }) {
   const [submitting, setSubmitting] = useState(false);
@@ -33,8 +34,6 @@ export default function LessonScreen({ lesson, topic, discipline, onBack }) {
     return <QuizScreen topicId={topic.id} disciplineId={discipline.id} lessonId={lesson.id} isSimulado={false} onBack={() => setActiveQuiz(false)} />;
   }
 
-  const htmlContent = lesson.content_markdown ? marked.parse(lesson.content_markdown) : "<p>Sem conteúdo cadastrado.</p>";
-
   return (
     <div style={{ position: "absolute", inset: 0, background: theme.bg, zIndex: 60, overflowY: "auto" }} className="bs-scroll">
       <div style={{ padding: "20px 16px 120px" }}>
@@ -50,20 +49,21 @@ export default function LessonScreen({ lesson, topic, discipline, onBack }) {
           <span style={{ fontSize: 12, color: theme.textSecondary }}>{lesson.estimated_minutes} min</span>
         </div>
 
-        <h1 className="bs-display" style={{ fontSize: 26, fontWeight: 700, color: theme.text, margin: "0 0 16px 0", lineHeight: 1.2 }}>{lesson.title}</h1>
+        <h1 style={{ fontSize: 24, fontWeight: 800, color: theme.text, marginBottom: 8, lineHeight: 1.3 }}>
+          {lesson.title}
+        </h1>
+        
+        <p style={{ fontSize: 15, color: theme.textSecondary, marginBottom: 24, lineHeight: 1.5 }}>
+          {lesson.description}
+        </p>
 
-        <Card padding={16} style={{ background: theme.surface, border: "none", marginBottom: 24 }}>
-          <div style={{ display: "flex", gap: 12 }}>
-            <BookOpen size={20} color={theme.textSecondary} style={{ flexShrink: 0, marginTop: 2 }} />
-            <div>
-              <div style={{ fontSize: 12, fontWeight: 700, color: theme.textSecondary, textTransform: "uppercase", marginBottom: 4 }}>Objetivo da aula</div>
-              <div style={{ fontSize: 14, color: theme.text, lineHeight: 1.5 }}>{lesson.objective}</div>
-            </div>
-          </div>
+        {/* AI Assistant Contextual */}
+        <Card padding={16} style={{ marginBottom: 24, background: alpha(theme.primary, '10'), borderColor: alpha(theme.primary, '20') }}>
+          <AiAssistant context={`Aula: ${lesson.title}. Disciplina: ${discipline.name}. Tópico: ${topic.title}`} compact />
         </Card>
 
-        {/* Conteúdo Principal */}
-        <div className="markdown-content" dangerouslySetInnerHTML={{ __html: htmlContent }} style={{ color: theme.text, fontSize: 16, lineHeight: 1.7 }} />
+        {/* Conteúdo Principal Renderizado */}
+        <ContentRenderer blocks={lesson.content_blocks} fallbackMarkdown={lesson.content_markdown} />
 
         {/* Imagens (se existirem) */}
         {lesson.images && lesson.images.length > 0 && (

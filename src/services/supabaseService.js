@@ -75,24 +75,47 @@ export async function fetchTopicProgress(userId, disciplineId) {
 }
 
 export async function fetchDisciplinesWithProgress(userId) {
-  const disciplines = content.getDisciplines();
-  if (!supabase || !userId) return disciplines.map(d => ({ ...d, progress: 0, topicsCount: d.topics_count }));
+  if (!supabase) return [];
 
-  const { data: progress, error: progError } = await supabase
-    .from('user_progress')
+  // 1. Buscamos todas as disciplinas direto da fonte da verdade (Banco)
+  const { data: disciplines, error: discErr } = await supabase
+    .from('disciplines')
     .select('*')
+    .order('created_at', { ascending: true });
+
+  if (discErr) {
+    console.error("Erro ao buscar disciplinas", discErr);
+    return content.getDisciplines().map(d => ({ ...d, progress_percent: 0 })); // fallback local
+  }
+
+  // Se não houver usuário logado, retorna 0%
+  if (!userId) {
+    return disciplines.map(d => ({ ...d, progress_percent: 0, topicsCount: 0 }));
+  }
+
+  // 2. Buscamos a View Agregada
+  const { data: progressView, error: progErr } = await supabase
+    .from('user_discipline_progress')
+    .select('discipline_id, progress_percent')
     .eq('user_id', userId);
 
-  if (progError) throw progError;
+  if (progErr) {
+    console.error("Erro ao buscar progresso", progErr);
+  }
 
-  return disciplines.map(d => {
-    const userProg = progress?.find(p => p.discipline_id === d.id);
-    return {
-      ...d,
-      progress: userProg?.percent_complete || 0,
-      topicsCount: d.topics_count
-    };
-  });
+  const progressMap = (progressView || []).reduce((acc, curr) => {
+    acc[curr.discipline_id] = curr.progress_percent;
+    return acc;
+  }, {});
+
+  return disciplines.map(d => ({
+    id: d.id,
+    slug: d.slug,
+    name: d.name,
+    description: d.description,
+    progress_percent: progressMap[d.id] || 0,
+    topicsCount: 0 // Will map properly when topics count logic is fully implemented, for now UI handles it.
+  }));
 }
 
 

@@ -19,3 +19,4 @@ BEGIN
         ALTER TABLE public.study_sessions ADD COLUMN total_count int;
     END IF;
 END $$;
+
