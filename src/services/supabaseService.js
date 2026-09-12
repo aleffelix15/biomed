@@ -24,7 +24,7 @@ export async function toggleTopicCompletion(userId, topicId, disciplineId) {
       completed: newStatus,
       completed_at: newStatus ? new Date().toISOString() : null,
       updated_at: new Date().toISOString(),
-    });
+    }, { onConflict: 'user_id,topic_id' });
 
   if (progressError) throw progressError;
 
@@ -56,7 +56,7 @@ export async function toggleTopicCompletion(userId, topicId, disciplineId) {
       discipline_id: disciplineId,
       percent_complete: newPercent,
       updated_at: new Date().toISOString(),
-    });
+    }, { onConflict: 'user_id,discipline_id' });
 
   invalidateCache(`disciplines:${userId}`);
   return { completed: newStatus, percent_complete: newPercent };
@@ -251,7 +251,7 @@ export async function completeLesson(userId, lessonId, topicId) {
       lesson_id: lessonId,
       completed: true,
       completed_at: new Date().toISOString()
-    });
+    }, { onConflict: 'user_id,lesson_id' });
   if (upsertError) throw upsertError;
 
   // 2. Atualiza plano de estudos (percentual)
@@ -577,7 +577,7 @@ export async function updateFlashcardProgress(userId, flashcardId, evaluation) {
       status: evaluation,
       next_review_at: nextReview.toISOString(),
       last_reviewed_at: new Date().toISOString(),
-    })
+    }, { onConflict: 'user_id,flashcard_id' })
     .select()
     .single();
 
@@ -793,7 +793,7 @@ export async function toggleLabItemCompletion(userId, itemId) {
       completed: newStatus,
       completed_at: newStatus ? new Date().toISOString() : null,
       updated_at: new Date().toISOString(),
-    });
+    }, { onConflict: 'user_id,item_id' });
 
   if (error) throw error;
   return newStatus;
