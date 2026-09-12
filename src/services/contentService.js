@@ -1,24 +1,26 @@
-// Auto-discovery of all discipline files
-const disciplineFiles = import.meta.glob('../content/disciplines/*/discipline.json', { eager: true });
-const topicFiles = import.meta.glob('../content/disciplines/*/topics/*/topic.json', { eager: true });
-const questionFiles = import.meta.glob('../content/disciplines/*/topics/*/questions.json', { eager: true });
+﻿const disciplineFiles = import.meta.glob('../content/disciplines/*/discipline.json');
+const topicFiles = import.meta.glob('../content/disciplines/*/topics/*/topic.json');
+const questionFiles = import.meta.glob('../content/disciplines/*/topics/*/questions.json');
 
-export function getDisciplines() {
+export async function getDisciplines() {
   const discs = [];
   for (const path in disciplineFiles) {
-    discs.push(disciplineFiles[path].default);
+    const mod = await disciplineFiles[path]();
+    discs.push(mod.default || mod);
   }
   return discs.sort((a, b) => a.name.localeCompare(b.name));
 }
 
-export function getDisciplineById(id) {
-  return getDisciplines().find(d => d.id === id);
+export async function getDisciplineById(id) {
+  const discs = await getDisciplines();
+  return discs.find(d => d.id === id);
 }
 
-export function getTopicsByDiscipline(disciplineId) {
+export async function getTopicsByDiscipline(disciplineId) {
   const topics = [];
   for (const path in topicFiles) {
-    const topic = topicFiles[path].default;
+    const mod = await topicFiles[path]();
+    const topic = mod.default || mod;
     if (topic.discipline_id === disciplineId) {
       topics.push(topic);
     }
@@ -26,21 +28,24 @@ export function getTopicsByDiscipline(disciplineId) {
   return topics.sort((a, b) => a.order_index - b.order_index);
 }
 
-export function getTopicModulesAndLessons(topicId) {
-  // In the nested structure, we bundled modules and lessons into the topic.json
-  const topicFilesArray = Object.values(topicFiles);
-  for (const file of topicFilesArray) {
-    if (file.default.id === topicId) {
-      return file.default.modules || [];
+export async function getTopicModulesAndLessons(topicId) {
+  for (const path in topicFiles) {
+    const mod = await topicFiles[path]();
+    const topic = mod.default || mod;
+    if (topic.id === topicId) {
+      return topic.modules;
     }
   }
   return [];
 }
 
-export function getQuizQuestions(topicId, isSimulado = false, count = 10) {
-  const allQs = Object.values(questionFiles)
-    .flatMap(f => f.default)
-    .filter(q => q.topic_id === topicId);
+export async function getQuizQuestions(topicId, isSimulado = false, count = 10) {
+  const allQs = [];
+  for (const path in questionFiles) {
+    const mod = await questionFiles[path]();
+    const qs = mod.default || mod;
+    allQs.push(...qs.filter(q => q.topic_id === topicId));
+  }
 
   if (isSimulado) {
     return allQs.sort(() => Math.random() - 0.5).slice(0, count);
@@ -48,11 +53,13 @@ export function getQuizQuestions(topicId, isSimulado = false, count = 10) {
   return allQs.slice(0, count);
 }
 
-export function getAllQuestionsByDiscipline(disciplineId) {
-  let allQs = [];
+export async function getAllQuestionsByDiscipline(disciplineId) {
+  const allQs = [];
   for (const path in questionFiles) {
-    const qs = questionFiles[path].default;
-    allQs = allQs.concat(qs.filter(q => q.discipline_id === disciplineId));
+    const mod = await questionFiles[path]();
+    const qs = mod.default || mod;
+    allQs.push(...qs.filter(q => q.discipline_id === disciplineId));
   }
   return allQs;
 }
+export async function getAllTopics() { const topics = []; for (const path in topicFiles) { const mod = await topicFiles[path](); topics.push(mod.default || mod); } return topics; }

@@ -73,7 +73,7 @@ export async function fetchTopicProgress(userId, disciplineId) {
 }
 
 export async function fetchDisciplinesWithProgress(userId) {
-  const disciplines = content.getDisciplines();
+  const disciplines = await content.getDisciplines();
   if (!supabase || !userId) return disciplines.map(d => ({ ...d, progress: 0, topicsCount: d.topics_count }));
 
   const { data: progress, error: progError } = await supabase
@@ -99,7 +99,7 @@ export async function fetchDisciplinesWithProgress(userId) {
 
 export async function fetchTopicsByDiscipline(discipline) {
   const dId = discipline.id || discipline;
-  const topics = content.getTopicsByDiscipline(dId);
+  const topics = await content.getTopicsByDiscipline(dId);
   return topics;
 }
 
@@ -136,7 +136,7 @@ export async function getOrCreateStudyPlan(userId, topicId) {
 }
 
 export async function fetchModulesAndLessons(topicId, userId) {
-  const modules = content.getTopicModulesAndLessons(topicId);
+  const modules = await content.getTopicModulesAndLessons(topicId);
   
   if (!supabase || !userId) return modules;
   
@@ -175,7 +175,7 @@ export async function completeLesson(userId, lessonId, topicId) {
 
   // 2. Atualiza plano de estudos (percentual)
   // Busca todas as aulas do topicId via conteúdo local
-  const modules = content.getTopicModulesAndLessons(topicId);
+  const modules = await content.getTopicModulesAndLessons(topicId);
   const allLessonIds = modules.flatMap(m => m.lessons.map(l => l.id));
   const totalLessons = allLessonIds.length;
 
@@ -225,11 +225,11 @@ export async function fetchLessonQuiz(lessonId) {
   if (!targetTopicId) return [];
 
   // Return a subset of questions from that topic as a "mini-quiz"
-  return content.getQuizQuestions(targetTopicId, false, 5);
+  return await content.getQuizQuestions(targetTopicId, false, 5);
 }
 
 export async function fetchTopicSimulado(topicId) {
-  return content.getQuizQuestions(topicId, true, 10);
+  return await content.getQuizQuestions(topicId, true, 10);
 }
 
 
@@ -385,7 +385,7 @@ export async function fetchFlashcards(disciplineId, topicId = null) {
     }
   }
 
-  let questions = content.getAllQuestionsByDiscipline(disciplineId);
+  let questions = await content.getAllQuestionsByDiscipline(disciplineId);
   if (topicId) {
     questions = questions.filter(q => q.topic_id === topicId);
   }
@@ -473,7 +473,7 @@ export async function fetchUserFlashcardProgress(userId) {
 }
 
 export async function fetchQuestions(disciplineId, topicId = null, isSimulado = false, limit = null) {
-  let all = content.getAllQuestionsByDiscipline(disciplineId);
+  let all = await content.getAllQuestionsByDiscipline(disciplineId);
   if (topicId) {
     all = all.filter(q => q.topic_id === topicId);
   }

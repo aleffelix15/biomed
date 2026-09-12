@@ -209,7 +209,7 @@ export default function StudyScreen() {
 
         <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 24 }}>
           {disciplines.map((d) => (
-            <Card key={d.id} padding={16} onClick={() => { setSelectedDisc(d); setTopics(content.getTopicsByDiscipline(d.id)); setStep("topic-selection"); }} style={{ cursor: "pointer", transition: "transform 0.2s" }}>
+            <Card key={d.id} padding={16} onClick={async () => { setSelectedDisc(d); setTopics(await content.getTopicsByDiscipline(d.id)); setStep("topic-selection"); }} style={{ cursor: "pointer", transition: "transform 0.2s" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                   <div style={{ width: 32, height: 32, borderRadius: 8, background: theme.surface, display: "flex", alignItems: "center", justifyContent: "center" }}>

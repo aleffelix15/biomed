@@ -1,9 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import GlobalStyles from "../theme/GlobalStyles";
 import { theme } from "../theme/tokens";
 import { useAppNavigation } from "../state/useAppNavigation";
 import { AuthProvider, useAuth } from "../state/AuthContext";
-
 import { ThemeProvider } from "../state/ThemeContext";
 
 import BottomTabBar from "./navigation/BottomTabBar";
@@ -32,28 +31,23 @@ export default function App() {
 function AppContent() {
   const nav = useAppNavigation();
   const { user, loading, isOfflineMode } = useAuth();
+  
+  const [visitedTabs, setVisitedTabs] = useState(new Set(["home"]));
 
+  useEffect(() => {
+    if (nav.tab && !visitedTabs.has(nav.tab)) {
+      setVisitedTabs(prev => new Set(prev).add(nav.tab));
+    }
+  }, [nav.tab, visitedTabs]);
 
-  let content;
-  if (nav.selectedDiscipline) {
-    content = <DisciplineDetailScreen discipline={nav.selectedDiscipline} onBack={nav.closeDiscipline} />;
-  } else if (nav.selectedBook) {
-    content = <BookDetailScreen book={nav.selectedBook} onBack={nav.closeBook} />;
-  } else if (nav.showLeaderboard) {
-    content = <LeaderboardScreen onBack={nav.closeLeaderboard} />;
-  } else if (nav.tab === "home") {
-    content = <HomeScreen onOpenDiscipline={nav.openDiscipline} onOpenProgress={nav.openProgress} onGoTab={nav.goTab} />;
-  } else if (nav.tab === "disciplines") {
-    content = <DisciplinesScreen onOpenDiscipline={nav.openDiscipline} />;
-  } else if (nav.tab === "study") {
-    content = <StudyScreen />;
-  } else if (nav.tab === "lab") {
-    content = <LabScreen />;
-  } else if (nav.tab === "library") {
-    content = <LibraryScreen onOpenBook={nav.openBook} />;
-  } else if (nav.tab === "profile") {
-    content = <ProfileScreen onOpenLeaderboard={nav.openLeaderboard} />;
-  }
+  const showOverlay = nav.selectedDiscipline || nav.selectedBook || nav.showLeaderboard;
+
+  const showHome = !showOverlay && nav.tab === "home";
+  const showDisc = !showOverlay && nav.tab === "disciplines";
+  const showStudy = !showOverlay && nav.tab === "study";
+  const showLab = !showOverlay && nav.tab === "lab";
+  const showLib = !showOverlay && nav.tab === "library";
+  const showProf = !showOverlay && nav.tab === "profile";
 
   return (
     <div className="app-container">
@@ -69,7 +63,43 @@ function AppContent() {
               {isOfflineMode && (
                 <div style={{ background: theme.surface, color: theme.textSecondary, fontSize: 11, textAlign: "center", padding: "4px 0", borderBottom: `1px solid ${theme.line}` }}>Modo offline/demo</div>
               )}
-              {content}
+              
+              {/* Overlays */}
+              {nav.selectedDiscipline && <DisciplineDetailScreen discipline={nav.selectedDiscipline} onBack={nav.closeDiscipline} />}
+              {nav.selectedBook && <BookDetailScreen book={nav.selectedBook} onBack={nav.closeBook} />}
+              {nav.showLeaderboard && <LeaderboardScreen onBack={nav.closeLeaderboard} />}
+
+              {/* Tabs with Keep-Alive (display: none when inactive) */}
+              {visitedTabs.has("home") && (
+                <div style={{ display: showHome ? "block" : "none", height: "100%" }}>
+                  <HomeScreen onOpenDiscipline={nav.openDiscipline} onOpenProgress={nav.openProgress} onGoTab={nav.goTab} />
+                </div>
+              )}
+              {visitedTabs.has("disciplines") && (
+                <div style={{ display: showDisc ? "block" : "none", height: "100%" }}>
+                  <DisciplinesScreen onOpenDiscipline={nav.openDiscipline} />
+                </div>
+              )}
+              {visitedTabs.has("study") && (
+                <div style={{ display: showStudy ? "block" : "none", height: "100%" }}>
+                  <StudyScreen />
+                </div>
+              )}
+              {visitedTabs.has("lab") && (
+                <div style={{ display: showLab ? "block" : "none", height: "100%" }}>
+                  <LabScreen />
+                </div>
+              )}
+              {visitedTabs.has("library") && (
+                <div style={{ display: showLib ? "block" : "none", height: "100%" }}>
+                  <LibraryScreen onOpenBook={nav.openBook} />
+                </div>
+              )}
+              {visitedTabs.has("profile") && (
+                <div style={{ display: showProf ? "block" : "none", height: "100%" }}>
+                  <ProfileScreen onOpenLeaderboard={nav.openLeaderboard} />
+                </div>
+              )}
             </div>
             {!nav.showProgress && <BottomTabBar active={nav.tab} onChange={nav.goTab} />}
             {nav.showProgress && <ProgressOverlay onClose={nav.closeProgress} />}
