@@ -77,10 +77,14 @@ export async function fetchTopicProgress(userId, disciplineId) {
 export async function fetchDisciplinesWithProgress(userId) {
   if (!supabase) return [];
 
-  // Fallback map para pegar contagem real (evitar NaN)
+  // Fallback map para pegar contagem real (evitar NaN) e categoria
   const localDisciplines = content.getDisciplines();
   const localTopicCountMap = localDisciplines.reduce((acc, d) => {
     acc[d.id] = d.topics_count || d.topicsCount || 0;
+    return acc;
+  }, {});
+  const localCategoryMap = localDisciplines.reduce((acc, d) => {
+    acc[d.id] = d.category || 'Sem Categoria';
     return acc;
   }, {});
 
@@ -92,12 +96,12 @@ export async function fetchDisciplinesWithProgress(userId) {
 
   if (discErr) {
     console.error("Erro ao buscar disciplinas", discErr);
-    return localDisciplines.map(d => ({ ...d, progress_percent: 0, topicsCount: localTopicCountMap[d.id] || 0 })); // fallback local
+    return localDisciplines.map(d => ({ ...d, category: localCategoryMap[d.id] || 'Sem Categoria', progress_percent: 0, topicsCount: localTopicCountMap[d.id] || 0 })); // fallback local
   }
 
   // Se não houver usuário logado, retorna 0%
   if (!userId) {
-    return disciplines.map(d => ({ ...d, progress_percent: 0, topicsCount: localTopicCountMap[d.slug] || 0 }));
+    return disciplines.map(d => ({ ...d, category: localCategoryMap[d.slug] || 'Sem Categoria', progress_percent: 0, topicsCount: localTopicCountMap[d.slug] || 0 }));
   }
 
   // 2. Buscamos a View Agregada
@@ -120,6 +124,7 @@ export async function fetchDisciplinesWithProgress(userId) {
     slug: d.slug,
     name: d.name,
     description: d.description,
+    category: localCategoryMap[d.slug] || 'Sem Categoria',
     progress_percent: progressMap[d.id] || 0,
     topicsCount: localTopicCountMap[d.slug] || 0 // Mapeado pelo slug porque ID local pode diferir do UUID
   }));
@@ -130,7 +135,7 @@ export async function fetchDisciplinesWithProgress(userId) {
 
 
 export async function fetchTopicsByDiscipline(discipline) {
-  const dId = discipline.id || discipline;
+  const dId = discipline.slug || discipline.id || discipline;
   const topics = content.getTopicsByDiscipline(dId);
   return topics;
 }
@@ -189,7 +194,51 @@ export async function fetchModulesAndLessons(topicId, userId) {
   return modules;
 }
 
-export async function fetchLesson(lessonId) { return null; }
+export async function fetchLesson(lessonId) {
+  if (!supabase) return null;
+  const { data: lesson, error } = await supabase
+    .from('lessons')
+    .select('*')
+    .eq('id', lessonId)
+    .single();
+
+  if (error) {
+    // Tenta por slug se não achar por id
+    const { data: lessonSlug, error: errSlug } = await supabase
+      .from('lessons')
+      .select('*')
+      .eq('slug', lessonId)
+      .single();
+    if (errSlug || !lessonSlug) return null;
+    return normalizeLesson(lessonSlug);
+  }
+  return normalizeLesson(lesson);
+}
+
+function normalizeLesson(lesson) {
+  if (!lesson) return null;
+  
+  // Normalize content
+  lesson.content = lesson.content || lesson.content_markdown || '';
+  
+  // Normalize key_points
+  if (lesson.key_points) {
+    if (typeof lesson.key_points === 'string') {
+      try {
+        lesson.key_points = JSON.parse(lesson.key_points);
+      } catch (e) {
+        lesson.key_points = [lesson.key_points];
+      }
+    }
+    if (!Array.isArray(lesson.key_points)) {
+      lesson.key_points = [lesson.key_points];
+    }
+  } else {
+    lesson.key_points = [];
+  }
+  
+  return lesson;
+}
 
 export async function completeLesson(userId, lessonId, topicId) {
   if (!supabase) return;
@@ -236,34 +285,58 @@ export async function completeLesson(userId, lessonId, topicId) {
 
 export async function fetchLessonQuiz(lessonId) {
   if (!supabase) return [];
+  
+  let lesson = null;
+  const { data: lessonById, error } = await supabase
+    .from('lessons')
+    .select('id, topic_id, topics(module_id)')
+    .eq('id', lessonId)
+    .single();
 
-  // Since local questions don't have a lesson_id, we derive the topicId from the lessonId.
-  // Local lesson IDs follow pattern: "les_{discipline}_{topic}_{index}"
-  // Example: "les_g1_1" -> we need to find the topic this belongs to.
-  // A better way: find the topic that contains this lessonId.
-
-  const allTopicIds = [];
-  // We search through all topics in the local content system
-  const topicFiles = import.meta.glob('../content/disciplines/*/topics/*/topic.json', { eager: true });
-
-  let targetTopicId = null;
-  for (const path in topicFiles) {
-    const topic = topicFiles[path].default;
-    const hasLesson = topic.modules?.some(m => m.lessons?.some(l => l.id === lessonId));
-    if (hasLesson) {
-      targetTopicId = topic.id;
-      break;
-    }
+  if (error) {
+    const { data: lessonBySlug, error: errSlug } = await supabase
+      .from('lessons')
+      .select('id, topic_id, topics(module_id)')
+      .eq('slug', lessonId)
+      .single();
+    if (!errSlug && lessonBySlug) lesson = lessonBySlug;
+  } else {
+    lesson = lessonById;
   }
 
-  if (!targetTopicId) return [];
+  if (!lesson || !lesson.topics) return [];
 
-  // Return a subset of questions from that topic as a "mini-quiz"
-  return await content.getQuizQuestions(targetTopicId, false, 5);
+  const moduleId = lesson.topics.module_id;
+
+  const { data: questions, error: qErr } = await supabase
+    .from('questions')
+    .select('*')
+    .eq('module_id', moduleId)
+    .limit(5);
+    
+  if (qErr || !questions) return [];
+
+  const letters = ['a', 'b', 'c', 'd', 'e'];
+  return questions.map(q => {
+    const mapped = {
+      id: q.slug, 
+      discipline_id: q.discipline_id || '', // can be populated if needed
+      topic_id: q.module_id,
+      question: q.content,
+      correct_option: letters[q.correct_option_index],
+      explanation: q.explanation
+    };
+    if (q.options && Array.isArray(q.options)) {
+      q.options.forEach((opt, idx) => {
+        mapped[`option_${letters[idx]}`] = opt;
+      });
+    }
+    return mapped;
+  });
 }
 
 export async function fetchTopicSimulado(topicId) {
-  return await content.getQuizQuestions(topicId, true, 10);
+  return await fetchQuestions(null, topicId, true, 10);
 }
 
 
@@ -439,12 +512,9 @@ export async function fetchFlashcards(disciplineId, topicId = null) {
     }
   }
 
-  let questions = await content.getAllQuestionsByDiscipline(disciplineId);
-  if (topicId && topicId !== 'all') {
-    questions = questions.filter(q => q.topic_id === topicId);
-  }
-  
+  let questions = await fetchQuestions(disciplineId, topicId);
   const realReviewQuestionIds = new Set(
+
     realFlashcards
       .filter(f => f.id.startsWith('review_'))
       .map(f => f.id.replace('review_', ''))
@@ -527,15 +597,49 @@ export async function fetchUserFlashcardProgress(userId) {
 }
 
 export async function fetchQuestions(disciplineId, topicId = null, isSimulado = false, limit = null) {
-  let all = await content.getAllQuestionsByDiscipline(disciplineId);
+  if (!supabase) return [];
+  
+  // No Supabase, questions estão vinculadas ao module_id (topic_id do frontend).
+  // Se não temos topicId, precisamos buscar todos os modules da disciplina
+  let query = supabase.from('questions').select('*, modules!inner(discipline_id)');
+  
   if (topicId && topicId !== 'all') {
-    all = all.filter(q => q.topic_id === topicId);
+    query = query.eq('module_id', topicId);
+  } else {
+    // Buscar id da disciplina para poder filtrar modules
+    const { data: dbDisc } = await supabase.from('disciplines').select('id').eq('slug', disciplineId).single();
+    if (dbDisc) {
+      query = query.eq('modules.discipline_id', dbDisc.id);
+    }
   }
+
+  const { data: questions, error } = await query;
+  if (error || !questions) return [];
+
+  const letters = ['a', 'b', 'c', 'd', 'e'];
+  let mapped = questions.map(q => {
+    const obj = {
+      id: q.slug,
+      discipline_id: disciplineId,
+      topic_id: q.module_id,
+      question: q.content,
+      correct_option: letters[q.correct_option_index],
+      explanation: q.explanation
+    };
+    if (q.options && Array.isArray(q.options)) {
+      q.options.forEach((opt, idx) => {
+        obj[`option_${letters[idx]}`] = opt;
+      });
+    }
+    return obj;
+  });
+
   if (isSimulado) {
-    all = [...all].sort(() => Math.random() - 0.5);
-    if (limit) all = all.slice(0, limit);
+    mapped = mapped.sort(() => Math.random() - 0.5);
+    if (limit) mapped = mapped.slice(0, limit);
   }
-  return Promise.resolve(all);
+
+  return mapped;
 }
 
 export async function saveQuestionAttempt(userId, question, selectedOption) {

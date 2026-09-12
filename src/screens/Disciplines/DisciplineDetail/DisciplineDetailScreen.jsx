@@ -24,7 +24,7 @@ export default function DisciplineDetailScreen({ discipline, onBack }) {
   const [selectedTopic, setSelectedTopic] = useState(null);
   const [lastTopicId, setLastTopicId] = useState(null);
   const [topicProgress, setTopicProgress] = useState([]);
-  const [disciplineProgress, setDisciplineProgress] = useState(discipline.progress);
+  const [disciplineProgress, setDisciplineProgress] = useState(discipline.progress_percent || 0);
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
 

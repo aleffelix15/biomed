@@ -23,16 +23,16 @@ export default function DisciplineCard({ discipline, onClick }) {
           </div>
           <div style={{ fontSize: 12, color: theme.textSecondary, marginTop: 1 }}>{d.topicsCount} tópicos</div>
         </div>
-        {d.progress > 0 && (
+        {d.progress_percent > 0 && (
            <div style={{ display: "flex", alignItems: "center", gap: 4, background: theme.primary, color: theme.bg, padding: "4px 8px", borderRadius: 8, fontSize: 11, fontWeight: 600 }}>
              Continuar
            </div>
         )}
-        {d.progress === 0 && <ChevronRight size={16} color={theme.textSecondary} />}
+        {d.progress_percent === 0 && <ChevronRight size={16} color={theme.textSecondary} />}
       </div>
       <div style={{ marginTop: 12 }}>
-        <ProgressBar value={d.progress} />
-        <div style={{ fontSize: 11, color: theme.textSecondary, marginTop: 4 }}>{d.progress}% concluído</div>
+        <ProgressBar value={d.progress_percent} />
+        <div style={{ fontSize: 11, color: theme.textSecondary, marginTop: 4 }}>{d.progress_percent}% concluído</div>
       </div>
     </Card>
   );

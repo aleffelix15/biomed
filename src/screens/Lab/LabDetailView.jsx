@@ -75,24 +75,59 @@ export default function LabDetailView({ item, onBack, initialCompleted, initialF
         <h1 style={{ fontSize: 26, fontWeight: 800, color: theme.text, margin: '0 0 12px', lineHeight: 1.2 }}>{item.title}</h1>
         <p style={{ fontSize: 15, color: theme.textSecondary, margin: '0 0 24px', lineHeight: 1.5 }}>{item.description}</p>
 
-        {/* Content Sections */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-          {item.content.map((sec, idx) => (
-            <div key={idx}>
+        {item.scenario ? (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+            <div>
               <h3 style={{ fontSize: 16, fontWeight: 700, color: theme.text, margin: '0 0 12px', paddingBottom: 8, borderBottom: `1px solid ${theme.line}` }}>
-                {sec.title}
+                Cenário Clínico
               </h3>
-              {sec.text && <p style={{ fontSize: 15, color: theme.text, lineHeight: 1.6, margin: 0 }}>{sec.text}</p>}
-              {sec.list && (
-                <ul style={{ margin: 0, paddingLeft: 20, color: theme.text, fontSize: 15, lineHeight: 1.6, display: 'flex', flexDirection: 'column', gap: 8 }}>
-                  {sec.list.map((li, i) => (
-                    <li key={i}>{li}</li>
-                  ))}
-                </ul>
-              )}
+              <p style={{ fontSize: 15, color: theme.text, lineHeight: 1.6, margin: 0 }}>{item.scenario}</p>
             </div>
-          ))}
-        </div>
+            <div>
+              <h3 style={{ fontSize: 16, fontWeight: 700, color: theme.text, margin: '0 0 12px', paddingBottom: 8, borderBottom: `1px solid ${theme.line}` }}>
+                Desafio
+              </h3>
+              <p style={{ fontSize: 15, color: theme.text, lineHeight: 1.6, margin: 0, fontWeight: 600 }}>{item.question}</p>
+            </div>
+            
+            {!quizScore && !completed ? (
+              <div style={{ marginTop: 16, padding: 24, background: theme.surface, borderRadius: 16, border: `2px dashed ${theme.line}`, textAlign: 'center' }}>
+                <p style={{ fontSize: 14, color: theme.textSecondary, marginBottom: 16 }}>Raciocine sobre o caso antes de ver a resposta.</p>
+                <button
+                  onClick={handleToggleComplete}
+                  style={{ background: theme.primary, color: theme.bg, border: 'none', padding: '12px 24px', borderRadius: 8, fontWeight: 700, fontSize: 14, cursor: 'pointer' }}
+                >
+                  Revelar Diagnóstico
+                </button>
+              </div>
+            ) : (
+              <div style={{ marginTop: 16, padding: 20, background: theme.surface, borderRadius: 16, border: `1px solid ${theme.primary}` }}>
+                <h4 style={{ margin: '0 0 12px', color: theme.primary, fontSize: 15, display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <BrainCircuit size={18} /> Resolução
+                </h4>
+                <p style={{ fontSize: 15, color: theme.text, lineHeight: 1.6, margin: 0 }}>{item.reveal}</p>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+            {item.content && item.content.map((sec, idx) => (
+              <div key={idx}>
+                <h3 style={{ fontSize: 16, fontWeight: 700, color: theme.text, margin: '0 0 12px', paddingBottom: 8, borderBottom: `1px solid ${theme.line}` }}>
+                  {sec.title}
+                </h3>
+                {sec.text && <p style={{ fontSize: 15, color: theme.text, lineHeight: 1.6, margin: 0 }}>{sec.text}</p>}
+                {sec.list && (
+                  <ul style={{ margin: 0, paddingLeft: 20, color: theme.text, fontSize: 15, lineHeight: 1.6, display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    {sec.list.map((li, i) => (
+                      <li key={i}>{li}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
 
         {quizScore && (
           <div style={{ marginTop: 32, padding: 20, background: theme.surface, borderRadius: 16, border: `1px solid ${theme.primary}`, textAlign: 'center' }}>

@@ -28,9 +28,9 @@ export default function HomeScreen({ onOpenDiscipline, onOpenProgress, onGoTab }
   const stats = statsData || null;
   const loading = loadingDisc || loadingStats;
 
-  const recent = [...disciplines].filter((d) => d.progress > 0).sort((a, b) => b.progress - a.progress).slice(0, 3);
-  const next = disciplines.filter((d) => d.progress === 0).slice(0, 2);
-  const overall = disciplines.length ? Math.round(disciplines.reduce((s, d) => s + d.progress, 0) / disciplines.length) : 0;
+  const recent = [...disciplines].filter((d) => d.progress_percent > 0).sort((a, b) => b.progress_percent - a.progress_percent).slice(0, 3);
+  const next = disciplines.filter((d) => d.progress_percent === 0).slice(0, 2);
+  const overall = disciplines.length ? Math.round(disciplines.reduce((s, d) => s + (d.progress_percent || 0), 0) / disciplines.length) : 0;
 
   const userName = profile?.full_name || user?.email?.split('@')[0] || 'Estudante';
 

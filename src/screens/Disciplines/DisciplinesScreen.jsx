@@ -22,7 +22,8 @@ export default function DisciplinesScreen({ onOpenDiscipline }) {
   const grouped = useMemo(() => {
     const filtered = disciplines.filter((d) => d.name.toLowerCase().includes(query.toLowerCase()));
     return filtered.reduce((acc, d) => {
-      (acc[d.category] ||= []).push(d);
+      const cat = d.category || "Geral";
+      (acc[cat] ||= []).push(d);
       return acc;
     }, {});
   }, [query, disciplines]);
