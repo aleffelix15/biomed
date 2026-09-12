@@ -10,15 +10,23 @@ import AiAssistant from "../../components/domain/AiAssistant";
 
 export default function LessonScreen({ lesson, topic, discipline, onBack }) {
   const [submitting, setSubmitting] = useState(false);
+  const [errorMsg, setErrorMsg] = useState(null);
   const [activeQuiz, setActiveQuiz] = useState(false);
   const { user } = useAuth();
 
   const handleComplete = async () => {
     if (!user || submitting) return;
     setSubmitting(true);
-    await completeLesson(user.id, lesson.id, topic.id);
-    setSubmitting(false);
-    onBack(); // Voltar para o plano
+    setErrorMsg(null);
+    try {
+      await completeLesson(user.id, lesson.id, topic.id);
+      onBack(); // Voltar para o plano
+    } catch (err) {
+      console.error("Erro ao salvar conclusão da aula:", err);
+      setErrorMsg("Não foi possível salvar. Tente novamente.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   if (activeQuiz) {
@@ -137,6 +145,11 @@ export default function LessonScreen({ lesson, topic, discipline, onBack }) {
 
       {/* Fixed Bottom Bar for Completion */}
       <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, padding: "16px", background: theme.card, borderTop: `1px solid ${theme.line}`, zIndex: 10 }}>
+        {errorMsg && (
+          <div style={{ background: alpha(theme.danger, '22'), color: theme.danger, padding: 12, borderRadius: 8, fontSize: 13, fontWeight: 500, marginBottom: 12, textAlign: "center" }}>
+            {errorMsg}
+          </div>
+        )}
         <button 
           onClick={handleComplete}
           disabled={submitting}

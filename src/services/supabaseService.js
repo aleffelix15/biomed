@@ -252,6 +252,26 @@ export async function getUserProfile(userId) {
   return data;
 }
 
+export async function uploadAvatar(userId, file) {
+  if (!supabase) return null;
+  const fileExt = file.name.split('.').pop();
+  const fileName = `${userId}/${Date.now()}.${fileExt}`;
+  
+  const { error: uploadError } = await supabase.storage
+    .from('avatars')
+    .upload(fileName, file, { upsert: true });
+
+  if (uploadError) {
+    throw uploadError;
+  }
+
+  const { data: publicUrlData } = supabase.storage
+    .from('avatars')
+    .getPublicUrl(fileName);
+
+  return publicUrlData.publicUrl;
+}
+
 export async function updateUserProfile(userId, profileData) {
   if (!supabase) return null;
   // Usa update() e nÃ£o upsert(): o profile jÃ¡ existe nesse ponto (criado

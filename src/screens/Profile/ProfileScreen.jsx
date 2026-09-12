@@ -1,54 +1,34 @@
-import React, { useState, useEffect } from "react";
-import { theme } from "../../theme/tokens";
+import React, { useState, useRef, useEffect } from "react";
+import { theme, alpha } from "../../theme/tokens";
 import { useAuth } from "../../state/AuthContext";
 import { useAppTheme } from "../../state/ThemeContext";
-import { updateUserProfile, fetchGlobalStats } from "../../services/supabaseService";
+import { updateUserProfile, fetchGlobalStats, uploadAvatar } from "../../services/supabaseService";
 import { useCachedQuery } from "../../state/DataCacheContext";
-import Card from "../../components/ui/Card";
-import SectionHeader from "../../components/ui/SectionHeader";
-import { Moon, Sun, User, BookOpen, GraduationCap, Save, X, Edit2, LogOut, Clock, Target, Star, TrendingUp, Trophy } from "lucide-react";
+import { Moon, Sun, User, Camera, BookOpen, GraduationCap, Clock, Target, Star, TrendingUp, Trophy, LogOut, ChevronRight, Edit2, Mail, Lock, Settings, Bell, ChevronLeft, Loader2, Trash2 } from "lucide-react";
+import EditProfileModal from "./EditProfileModal";
+import AuthSettingsModal from "./AuthSettingsModal";
 
 export default function ProfileScreen({ onOpenLeaderboard }) {
   const { themeMode, toggleTheme } = useAppTheme();
   const { user, profile, signOut, refreshProfile, isOfflineMode, updateLocalProfile } = useAuth();
-  const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState({
-    full_name: profile?.full_name || "",
-    course: profile?.course || "",
-    period: profile?.period || "",
-  });
-  const [loading, setLoading] = useState(false);
-  const [successMsg, setSuccessMsg] = useState(false);
-  const [errorMsg, setErrorMsg] = useState('');
   
+  const [isEditingProfile, setIsEditingProfile] = useState(false);
+  const [isSavingProfile, setIsSavingProfile] = useState(false);
+  const [authModalType, setAuthModalType] = useState(null); // 'email' | 'password' | null
+  
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [imageError, setImageError] = useState('');
+  
+  const fileInputRef = useRef(null);
+
   const { data: statsData, loading: statsLoading } = useCachedQuery(
     user ? 'stats:' + user.id : null, 
     () => fetchGlobalStats(user.id)
   );
   const stats = statsData || null;
 
-  // Sync form data when profile changes
-  useEffect(() => {
-    if (profile) {
-      setFormData({
-        full_name: profile.full_name || "",
-        course: profile.course || "",
-        period: profile.period || "",
-      });
-    }
-  }, [profile]);
-
-  useEffect(() => {
-    if (successMsg) {
-      const t = setTimeout(() => setSuccessMsg(false), 4000);
-      return () => clearTimeout(t);
-    }
-  }, [successMsg]);
-
-  const handleSave = async () => {
-    setLoading(true);
-    setSuccessMsg(false);
-    setErrorMsg('');
+  const handleSaveProfile = async (formData) => {
+    setIsSavingProfile(true);
     try {
       if (isOfflineMode) {
         updateLocalProfile(formData);
@@ -56,25 +36,60 @@ export default function ProfileScreen({ onOpenLeaderboard }) {
         await updateUserProfile(user.id, formData);
         if (refreshProfile) await refreshProfile();
       }
-      setSuccessMsg(true);
-      setIsEditing(false);
+      setIsEditingProfile(false);
     } catch (err) {
       console.error("Error updating profile:", err);
-      setErrorMsg("Não foi possível salvar as alterações. Tente novamente.");
+      alert("Não foi possível salvar as alterações. Tente novamente.");
     } finally {
-      setLoading(false);
+      setIsSavingProfile(false);
     }
   };
 
-  const handleCancel = () => {
-    setFormData({
-      full_name: profile?.full_name || "",
-      course: profile?.course || "",
-      period: profile?.period || "",
-    });
-    setIsEditing(false);
-    setErrorMsg('');
-    setSuccessMsg(false);
+  const handleImageUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+      setImageError("A imagem deve ter no máximo 5MB.");
+      return;
+    }
+
+    setUploadingImage(true);
+    setImageError('');
+
+    try {
+      if (isOfflineMode) {
+        throw new Error("Não é possível alterar foto offline.");
+      }
+      
+      const publicUrl = await uploadAvatar(user.id, file);
+      
+      await updateUserProfile(user.id, { avatar_url: publicUrl });
+      if (refreshProfile) await refreshProfile();
+      
+    } catch (err) {
+      console.error("Error uploading image:", err);
+      setImageError("Erro ao enviar a imagem. Tente novamente.");
+    } finally {
+      setUploadingImage(false);
+      if (fileInputRef.current) fileInputRef.current.value = ""; // Reset input
+    }
+  };
+
+  const handleRemoveImage = async () => {
+    if (!window.confirm("Deseja realmente remover sua foto de perfil?")) return;
+    
+    setUploadingImage(true);
+    setImageError('');
+    try {
+      await updateUserProfile(user.id, { avatar_url: null });
+      if (refreshProfile) await refreshProfile();
+    } catch (err) {
+      console.error("Error removing image:", err);
+      setImageError("Erro ao remover a imagem.");
+    } finally {
+      setUploadingImage(false);
+    }
   };
 
   const formatHours = (val) => {
@@ -84,201 +99,225 @@ export default function ProfileScreen({ onOpenLeaderboard }) {
     return h > 0 ? `${h}h ${m}m` : `${m}m`;
   };
 
+  const getHandle = () => {
+    if (profile?.display_name) {
+      return '@' + profile.display_name.toLowerCase().replace(/\s+/g, '');
+    }
+    if (user?.email) {
+      return '@' + user.email.split('@')[0];
+    }
+    return '';
+  };
+
+  const MenuItem = ({ icon, title, subtitle, onClick, danger, value }) => (
+    <button
+      onClick={onClick}
+      style={{
+        width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        padding: '16px', background: theme.card, border: 'none', borderBottom: `1px solid ${theme.line}`,
+        cursor: 'pointer', textAlign: 'left'
+      }}
+    >
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <div style={{ color: danger ? theme.danger : theme.textSecondary }}>{icon}</div>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <span style={{ fontSize: 16, fontWeight: 500, color: danger ? theme.danger : theme.text }}>{title}</span>
+          {subtitle && <span style={{ fontSize: 13, color: theme.textSecondary }}>{subtitle}</span>}
+        </div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        {value && <span style={{ fontSize: 14, color: theme.textSecondary }}>{value}</span>}
+        <ChevronRight size={18} color={theme.textSecondary} opacity={0.5} />
+      </div>
+    </button>
+  );
+
+  const SectionTitle = ({ title }) => (
+    <div style={{ fontSize: 13, fontWeight: 700, color: theme.textSecondary, textTransform: 'uppercase', letterSpacing: 0.5, padding: '24px 16px 8px' }}>
+      {title}
+    </div>
+  );
+
   return (
-    <div style={{ padding: "20px 16px 90px" }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-        <h1 className="bs-display" style={{ fontSize: 22, fontWeight: 700, color: theme.text, margin: 0 }}>Meu Perfil</h1>
-        <button
-          onClick={toggleTheme}
-          aria-label="Alternar Tema"
-          style={{ background: 'none', border: 'none', color: theme.text, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-        >
-          {themeMode === 'light' ? <Moon size={24} /> : <Sun size={24} />}
-        </button>
+    <div style={{ paddingBottom: 90, background: theme.bg, minHeight: '100vh' }}>
+      {/* App Header (simulated) */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px', position: 'sticky', top: 0, background: alpha(theme.bg, '90'), backdropFilter: 'blur(8px)', zIndex: 10 }}>
+        <h1 className="bs-display" style={{ fontSize: 18, fontWeight: 700, color: theme.text, margin: 0 }}>Perfil</h1>
       </div>
 
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 24 }}>
-        <div style={{ width: 100, height: 100, borderRadius: 50, background: theme.surface, border: `2px solid ${theme.primary}`, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
-          {profile?.avatar_url ? (
-            <img src={profile.avatar_url} alt="Avatar" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-          ) : (
-            <User size={48} color={theme.primary} />
-          )}
-        </div>
-      </div>
-
-      <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 16 }}>
-        <button
-          onClick={isEditing ? handleCancel : () => { setIsEditing(true); setErrorMsg(''); setSuccessMsg(false); }}
-          style={{ display: "flex", alignItems: "center", gap: 6, background: "none", border: "none", color: theme.primary, cursor: "pointer", fontSize: 14, fontWeight: 600 }}
-        >
-          {isEditing ? <><X size={16} /> Cancelar</> : <><Edit2 size={16} /> Editar Perfil</>}
-        </button>
-      </div>
-
-      <Card padding={20} style={{ background: theme.card, border: "none" }}>
-        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-
-          {/* Nome */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-            <label style={{ fontSize: 12, color: theme.textSecondary, fontWeight: 600 }}>Nome Completo</label>
-            {isEditing ? (
-              <input
-                value={formData.full_name}
-                onChange={e => setFormData({...formData, full_name: e.target.value})}
-                style={{ padding: 12, borderRadius: 8, border: `1px solid ${theme.line}`, background: theme.surface, color: theme.text }}
-              />
+      {/* Header Profile Area */}
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "16px 16px 24px" }}>
+        
+        <div style={{ position: 'relative', marginBottom: 16 }}>
+          <div style={{ 
+            width: 110, height: 110, borderRadius: 55, background: theme.surface, 
+            border: `3px solid ${theme.primary}`, display: "flex", alignItems: "center", 
+            justifyContent: "center", overflow: "hidden", position: 'relative'
+          }}>
+            {uploadingImage ? (
+              <Loader2 size={32} color={theme.primary} style={{ animation: 'spin 2s linear infinite' }} />
+            ) : profile?.avatar_url ? (
+              <img src={profile.avatar_url} alt="Avatar" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
             ) : (
-              <div style={{ fontSize: 16, color: theme.text, fontWeight: 500 }}>{profile?.full_name || "Não informado"}</div>
+              <User size={48} color={theme.primary} />
             )}
           </div>
-
-          {/* Email (Read-only) */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-            <label style={{ fontSize: 12, color: theme.textSecondary, fontWeight: 600 }}>E-mail</label>
-            <div style={{ fontSize: 16, color: theme.text, fontWeight: 500 }}>{user?.email}</div>
-          </div>
-
-          {/* Curso */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-            <label style={{ fontSize: 12, color: theme.textSecondary, fontWeight: 600 }}>Curso</label>
-            {isEditing ? (
-              <input
-                value={formData.course}
-                onChange={e => setFormData({...formData, course: e.target.value})}
-                style={{ padding: 12, borderRadius: 8, border: `1px solid ${theme.line}`, background: theme.surface, color: theme.text }}
-              />
-            ) : (
-              <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 16, color: theme.text, fontWeight: 500 }}>
-                <BookOpen size={16} color={theme.primary} /> {profile?.course || "Não informado"}
-              </div>
-            )}
-          </div>
-
-          {/* Período */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-            <label style={{ fontSize: 12, color: theme.textSecondary, fontWeight: 600 }}>Período</label>
-            {isEditing ? (
-              <input
-                value={formData.period}
-                onChange={e => setFormData({...formData, period: e.target.value})}
-                style={{ padding: 12, borderRadius: 8, border: `1px solid ${theme.line}`, background: theme.surface, color: theme.text }}
-              />
-            ) : (
-              <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 16, color: theme.text, fontWeight: 500 }}>
-                <GraduationCap size={16} color={theme.primary} /> {profile?.period || "Não informado"}
-              </div>
-            )}
-          </div>
-
-        </div>
-
-        {isEditing && (
-          <button
-            onClick={handleSave}
-            disabled={loading}
-            style={{ width: "100%", marginTop: 24, padding: 14, borderRadius: 12, background: theme.primary, color: theme.bg, border: "none", fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, opacity: loading ? 0.7 : 1 }}
+          
+          <button 
+            onClick={() => fileInputRef.current?.click()}
+            disabled={uploadingImage}
+            style={{
+              position: 'absolute', bottom: 0, right: 0, width: 36, height: 36, borderRadius: 18,
+              background: theme.primary, border: `3px solid ${theme.bg}`, display: 'flex',
+              alignItems: 'center', justifyContent: 'center', color: theme.bg, cursor: 'pointer',
+              padding: 0
+            }}
           >
-            {loading ? "Salvando..." : <><Save size={18} /> Salvar Alterações</>}
+            <Camera size={18} />
           </button>
-        )}
+          
+          {profile?.avatar_url && (
+            <button 
+              onClick={handleRemoveImage}
+              disabled={uploadingImage}
+              style={{
+                position: 'absolute', bottom: 0, left: 0, width: 32, height: 32, borderRadius: 16,
+                background: theme.card, border: `2px solid ${theme.bg}`, display: 'flex',
+                alignItems: 'center', justifyContent: 'center', color: theme.danger, cursor: 'pointer',
+                padding: 0
+              }}
+            >
+              <Trash2 size={14} />
+            </button>
+          )}
 
-        {errorMsg && (
-          <div style={{ marginTop: 16, padding: 12, borderRadius: 8, background: `rgba(239, 68, 68, 0.22)`, color: theme.danger, textAlign: "center", fontSize: 13, fontWeight: 500 }}>
-            {errorMsg}
+          <input 
+            type="file" 
+            ref={fileInputRef} 
+            onChange={handleImageUpload} 
+            accept="image/jpeg,image/png,image/webp" 
+            style={{ display: 'none' }} 
+          />
+        </div>
+
+        {imageError && <div style={{ color: theme.danger, fontSize: 13, marginBottom: 12 }}>{imageError}</div>}
+
+        <h2 style={{ fontSize: 22, fontWeight: 800, color: theme.text, margin: '0 0 4px', textAlign: 'center' }}>
+          {profile?.display_name || profile?.full_name || "Estudante"}
+        </h2>
+        <div style={{ fontSize: 15, color: theme.primary, fontWeight: 600, marginBottom: 12 }}>
+          {getHandle()}
+        </div>
+
+        {(profile?.course || profile?.institution) && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 14, color: theme.textSecondary, marginBottom: profile?.bio ? 12 : 0 }}>
+            {profile.course && <span>{profile.course}</span>}
+            {profile.course && profile.institution && <span>•</span>}
+            {profile.institution && <span>{profile.institution}</span>}
           </div>
         )}
-
-        {successMsg && (
-          <div style={{ marginTop: 16, textAlign: "center", fontSize: 13, color: theme.primary, fontWeight: 600 }}>
-            Perfil atualizado com sucesso!
-          </div>
-        )}
-      </Card>
-
-      <div style={{ marginTop: 24 }}>
-        <SectionHeader title="Estatísticas Acadêmicas" />
-        {statsLoading ? (
-          <div style={{ textAlign: "center", padding: 20, color: theme.textSecondary, fontSize: 13 }}>Carregando estatísticas...</div>
-        ) : (
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-            <Card padding={16}>
-              <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
-                <Clock size={14} color={theme.primary} />
-                <span style={{ fontSize: 12, color: theme.textSecondary }}>Horas Estudadas</span>
-              </div>
-              <div style={{ fontSize: 20, fontWeight: 700, color: theme.text }}>{formatHours(stats?.totalStudySeconds || 0)}</div>
-            </Card>
-            <Card padding={16}>
-              <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
-                <Target size={14} color={theme.primary} />
-                <span style={{ fontSize: 12, color: theme.textSecondary }}>Questões Respondidas</span>
-              </div>
-              <div style={{ fontSize: 20, fontWeight: 700, color: theme.text }}>{stats?.totalQuestions || 0}</div>
-            </Card>
-            <Card padding={16}>
-              <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
-                <Star size={14} color={theme.primary} />
-                <span style={{ fontSize: 12, color: theme.textSecondary }}>Taxa de Acerto</span>
-              </div>
-              <div style={{ fontSize: 20, fontWeight: 700, color: theme.text }}>{stats?.accuracyRate || 0}%</div>
-            </Card>
-            <Card padding={16}>
-              <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
-                <TrendingUp size={14} color={theme.primary} />
-                <span style={{ fontSize: 12, color: theme.textSecondary }}>Sequência</span>
-              </div>
-              <div style={{ fontSize: 20, fontWeight: 700, color: theme.text }}>{stats?.currentStreak || 0} dias</div>
-            </Card>
+        
+        {profile?.bio && (
+          <div style={{ fontSize: 14, color: theme.text, textAlign: 'center', maxWidth: 300, lineHeight: 1.5 }}>
+            {profile.bio}
           </div>
         )}
       </div>
 
-      {/* Botão Ranking */}
-      <button
-        onClick={onOpenLeaderboard}
-        style={{
-          width: "100%",
-          marginBottom: 12,
-          padding: 14,
-          borderRadius: 12,
-          background: theme.surface,
-          color: theme.text,
-          border: `1px solid ${theme.line}`,
-          fontWeight: 700,
-          fontSize: 15,
-          cursor: "pointer",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: 8,
-        }}
-      >
-        <Trophy size={18} color={theme.primary} /> Ver Ranking Global
-      </button>
+      {/* Sections */}
+      <div style={{ background: theme.card, borderTop: `1px solid ${theme.line}`, borderBottom: `1px solid ${theme.line}` }}>
+        <SectionTitle title="Minha Conta" />
+        <MenuItem icon={<Edit2 size={20} />} title="Editar Perfil" onClick={() => setIsEditingProfile(true)} />
+        <MenuItem icon={<Mail size={20} />} title="E-mail" value={user?.email} onClick={() => setAuthModalType('email')} />
+        <MenuItem icon={<Lock size={20} />} title="Senha" onClick={() => setAuthModalType('password')} />
+      </div>
 
-      {/* Botão de Logout */}
-      <button
-        onClick={signOut}
-        style={{
-          width: "100%",
-          marginTop: 0,
-          padding: 14,
-          borderRadius: 12,
-          background: "transparent",
-          color: theme.danger,
-          border: `1px solid ${theme.danger}`,
-          fontWeight: 700,
-          fontSize: 15,
-          cursor: "pointer",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: 8,
-        }}
-      >
-        <LogOut size={18} /> Sair da Conta
-      </button>
+      <div style={{ marginTop: 16, background: theme.card, borderTop: `1px solid ${theme.line}`, borderBottom: `1px solid ${theme.line}` }}>
+        <SectionTitle title="Estudos & Progresso" />
+        <div style={{ padding: '0 16px 16px' }}>
+          {statsLoading ? (
+            <div style={{ textAlign: "center", padding: 20, color: theme.textSecondary, fontSize: 13 }}>Carregando estatísticas...</div>
+          ) : (
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+              <div style={{ background: theme.surface, padding: 16, borderRadius: 12, border: `1px solid ${theme.line}` }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
+                  <Clock size={14} color={theme.primary} />
+                  <span style={{ fontSize: 12, color: theme.textSecondary }}>Horas Estudadas</span>
+                </div>
+                <div style={{ fontSize: 20, fontWeight: 700, color: theme.text }}>{formatHours(stats?.totalStudySeconds || 0)}</div>
+              </div>
+              <div style={{ background: theme.surface, padding: 16, borderRadius: 12, border: `1px solid ${theme.line}` }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
+                  <Target size={14} color={theme.primary} />
+                  <span style={{ fontSize: 12, color: theme.textSecondary }}>Questões (Corretas)</span>
+                </div>
+                <div style={{ fontSize: 20, fontWeight: 700, color: theme.text }}>{stats?.correctQuestions || 0} <span style={{fontSize: 14, color: theme.textSecondary, fontWeight: 500}}>de {stats?.totalQuestions || 0}</span></div>
+              </div>
+              <div style={{ background: theme.surface, padding: 16, borderRadius: 12, border: `1px solid ${theme.line}` }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
+                  <Star size={14} color={theme.primary} />
+                  <span style={{ fontSize: 12, color: theme.textSecondary }}>Taxa de Acerto</span>
+                </div>
+                <div style={{ fontSize: 20, fontWeight: 700, color: theme.text }}>{stats?.accuracyRate || 0}%</div>
+              </div>
+              <div style={{ background: theme.surface, padding: 16, borderRadius: 12, border: `1px solid ${theme.line}` }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
+                  <TrendingUp size={14} color={theme.primary} />
+                  <span style={{ fontSize: 12, color: theme.textSecondary }}>Sequência</span>
+                </div>
+                <div style={{ fontSize: 20, fontWeight: 700, color: theme.text }}>{stats?.streak || 0} dias</div>
+              </div>
+            </div>
+          )}
+          <button
+            onClick={onOpenLeaderboard}
+            style={{
+              width: "100%", marginTop: 12, padding: 14, borderRadius: 12, background: theme.bg, color: theme.text,
+              border: `1px solid ${theme.line}`, fontWeight: 600, fontSize: 14, cursor: "pointer",
+              display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+            }}
+          >
+            <Trophy size={18} color={theme.primary} /> Ver Ranking Global
+          </button>
+        </div>
+      </div>
+
+      <div style={{ marginTop: 16, background: theme.card, borderTop: `1px solid ${theme.line}`, borderBottom: `1px solid ${theme.line}` }}>
+        <SectionTitle title="Preferências" />
+        <MenuItem 
+          icon={themeMode === 'light' ? <Sun size={20} /> : <Moon size={20} />} 
+          title="Modo Escuro" 
+          value={themeMode === 'dark' ? 'Ligado' : 'Desligado'}
+          onClick={toggleTheme} 
+        />
+      </div>
+
+      <div style={{ marginTop: 16, background: theme.card, borderTop: `1px solid ${theme.line}`, borderBottom: `1px solid ${theme.line}` }}>
+        <SectionTitle title="Conta" />
+        <MenuItem icon={<LogOut size={20} />} title="Sair da Conta" danger onClick={signOut} />
+      </div>
+
+      {isEditingProfile && (
+        <EditProfileModal 
+          profile={profile} 
+          onClose={() => setIsEditingProfile(false)} 
+          onSave={handleSaveProfile}
+          loading={isSavingProfile}
+        />
+      )}
+
+      {authModalType && (
+        <AuthSettingsModal
+          type={authModalType}
+          user={user}
+          onClose={() => setAuthModalType(null)}
+        />
+      )}
+
+      {/* Global CSS for spinner */}
+      <style>{`
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+      `}</style>
     </div>
   );
 }
