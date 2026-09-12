@@ -92,6 +92,7 @@ export default function StudyScreen() {
   const handleFlashcardEval = async (evaluation) => {
     const card = items[currentIndex];
     try {
+      await ensureFlashcardExists(card);
       await updateFlashcardProgress(user.id, card.id, evaluation);
       if (currentIndex < items.length - 1) {
         setCurrentIndex(prev => prev + 1);
