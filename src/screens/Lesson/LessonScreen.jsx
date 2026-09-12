@@ -57,6 +57,26 @@ export default function LessonScreen({ lesson, topic, discipline, onBack }) {
         {/* Conteúdo Principal */}
         <div className="markdown-content" dangerouslySetInnerHTML={{ __html: htmlContent }} style={{ color: theme.text, fontSize: 16, lineHeight: 1.7 }} />
 
+        {/* Imagens (se existirem) */}
+        {lesson.images && lesson.images.length > 0 && (
+          <div style={{ marginTop: 24, display: "flex", flexDirection: "column", gap: 16 }}>
+            {lesson.images.map((img, idx) => (
+              <figure key={idx} style={{ margin: 0 }}>
+                <img
+                  src={img.url}
+                  alt={img.caption}
+                  loading="lazy"
+                  style={{ width: "100%", borderRadius: 12, border: `1px solid ${theme.line}` }}
+                />
+                <figcaption style={{ fontSize: 12, color: theme.textSecondary, marginTop: 6, lineHeight: 1.4 }}>
+                  {img.caption}
+                  {img.source && <span> — Fonte: {img.source} ({img.license})</span>}
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        )}
+
         {/* Aplicação Clínica */}
         {lesson.clinical_application && (
           <Card padding={16} style={{ background: alpha(theme.danger, '15'), border: `1px solid ${alpha(theme.danger, '40')}`, marginTop: 32 }}>
