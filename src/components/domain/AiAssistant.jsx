@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { theme, alpha } from '../../theme/tokens';
+import { marked } from 'marked';
 import { aiService } from '../../services/aiService';
 import { Brain, Send, X, Loader2, AlertCircle } from 'lucide-react';
 import Card from '../ui/Card';
@@ -186,19 +187,17 @@ export default function AiAssistant({ topic }) {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           <div
             className="markdown-content"
+            dangerouslySetInnerHTML={{ __html: marked.parse(answer) }}
             style={{
               fontSize: 14,
               color: theme.text,
               lineHeight: 1.6,
-              whiteSpace: 'pre-wrap',
               background: theme.bg,
               padding: 12,
               borderRadius: 8,
               border: `1px solid ${theme.line}`
             }}
-          >
-            {answer}
-          </div>
+          />
           <button
             onClick={() => { setStatus('idle'); setAnswer(''); setQuestion(''); }}
             style={{ alignSelf: 'flex-end', background: 'none', border: 'none', color: theme.primary, fontSize: 13, fontWeight: 600, cursor: 'pointer' }}
