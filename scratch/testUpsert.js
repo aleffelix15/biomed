@@ -7,3 +7,4 @@ import path from 'path';
 const supabaseUrl = process.env.VITE_SUPABASE_URL || 'YOUR_SUPABASE_URL';
 const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY || 'YOUR_SUPABASE_ANON_KEY';
 // We can just import supabaseService directly since it's already set up
+
