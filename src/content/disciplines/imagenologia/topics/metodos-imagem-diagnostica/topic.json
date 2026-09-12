@@ -22,7 +22,12 @@
           "content_markdown": "O Raio-X baseia-se na atenuação diferencial de fótons de radiação ionizante ao atravessar tecidos. As cinco densidades básicas são: **Ar** (preto/radiolucente), **Gordura** (cinza escuro), **Água/Tecidos moles** (cinza), **Cálcio/Osso** (branco/radiopaco) e **Metal** (branco brilhante). A qualidade da imagem depende da kVp (penetrabilidade) e mAs (quantidade de fótons).",
           "clinical_application": "A identificação de um pneumotórax baseia-se na visualização de ar (preto) no espaço pleural, onde não deve haver ar.",
           "summary": "Imagens baseadas em atenuação por densidade tecidual.",
-          "key_points": "[\"Radiolucente\", \"Radiopaco\", \"Atenuação\", \"kVp/mAs\"]",
+          "key_points": [
+            "Radiolucente",
+            "Radiopaco",
+            "Atenuação",
+            "kVp/mAs"
+          ],
           "order_index": 0
         },
         {
@@ -35,7 +40,11 @@
           "content_markdown": "A TC utiliza a emissão de raios-X em rotação para criar imagens transversais (cortes). a imagem é quantificada em **Unidades Hounsfield (HU)**, onde água = 0 HU, ar = -1000 HU e osso > +400 HU. O uso de contraste iodado intravenoso permite realçar a vascularização de órgãos e a captação por tumores.",
           "clinical_application": "A TC de crânio é o exame de escolha para diagnóstico rápido de AVC hemorrágico devido à alta sensibilidade para sangue agudo.",
           "summary": "Imagens transversais quantificadas por Unidades Hounsfield.",
-          "key_points": "[\"Unidades Hounsfield\", \"Contraste Iodado\", \"Imagem Seccional\"]",
+          "key_points": [
+            "Unidades Hounsfield",
+            "Contraste Iodado",
+            "Imagem Seccional"
+          ],
           "order_index": 1
         },
         {
@@ -48,7 +57,11 @@
           "content_markdown": "Os contrastes iodados são classificados em iônicos e não iônicos (estes últimos têm menor osmolaridade e menos reações adversas). O principal risco é a **Nefropatia induzida por contraste**, especialmente em pacientes com insuficiência renal prévia. Reações alérgicas podem variar de urticária a choque anafilático.",
           "clinical_application": "A medição da creatinina e a taxa de filtração glomerular (TFG) são obrigatórias antes de exames com contraste para evitar falência renal aguda.",
           "summary": "Contraste iodado realça estruturas, mas exige cautela renal.",
-          "key_points": "[\"Nefropatia por Contraste\", \"Osmolaridade\", \"Creatinina\"]",
+          "key_points": [
+            "Nefropatia por Contraste",
+            "Osmolaridade",
+            "Creatinina"
+          ],
           "order_index": 2
         }
       ]
@@ -69,7 +82,11 @@
           "content_markdown": "A RM não usa radiação ionizante. Ela utiliza a ressonância de núcleos de hidrogênio (prótons) sob um forte campo magnético. Quando um pulso de radiofrequência é aplicado, os prótons são excitados; ao retornarem ao estado original, emitem um sinal que é processado. O tempo de retorno é chamado de **Relaxamento T1 e T2**.",
           "clinical_application": "A RM é superior ao Raio-X e TC para avaliar tecidos moles, como medula espinhal, ligamentos e encéfalo.",
           "summary": "Uso de magnetismo e radiofrequência para mapear prótons de hidrogênio.",
-          "key_points": "[\"Relaxamento T1/T2\", \"Prótons de Hidrogênio\", \"Campo Magnético\"]",
+          "key_points": [
+            "Relaxamento T1/T2",
+            "Prótons de Hidrogênio",
+            "Campo Magnético"
+          ],
           "order_index": 0
         },
         {
@@ -82,7 +99,12 @@
           "content_markdown": "Na sequência **T1**, a água (líquido cefalorraquidiano - LCR) aparece escura (hipointensa). É excelente para anatomia. Na sequência **T2**, a água aparece branca (hiperintensa). Como a maioria dos processos patológicos (edema, inflamação) aumenta o conteúdo de água, o T2 é a sequência de escolha para detectar patologias.",
           "clinical_application": "Um edema cerebral em RM será visto como uma área branca brilhante em sequências T2.",
           "summary": "T1: Água escura (Anatomia). T2: Água clara (Patologia).",
-          "key_points": "[\"T1\", \"T2\", \"Hipointenso\", \"Hiperintenso\"]",
+          "key_points": [
+            "T1",
+            "T2",
+            "Hipointenso",
+            "Hiperintenso"
+          ],
           "order_index": 1
         },
         {
@@ -95,7 +117,11 @@
           "content_markdown": "Devido ao campo magnético extremamente potente, a RM é contraindicada para pacientes com **implantes metálicos ferromagnéticos** (marcapassos antigos, clipes de aneurisma metálicos, estilhaços metálicos nos olhos). O Gadolínio é o contraste utilizado, podendo causar Fibrose Sistêmica Nefrogênica em pacientes com falência renal grave.",
           "clinical_application": "A triagem rigorosa de metais é a etapa mais importante do protocolo de segurança da RM para evitar acidentes fatais (efeito projétil).",
           "summary": "Metais ferromagnéticos são proibidos; Gadolínio requer função renal.",
-          "key_points": "[\"Ferromagnetismo\", \"Gadolínio\", \"Contraindicações\"]",
+          "key_points": [
+            "Ferromagnetismo",
+            "Gadolínio",
+            "Contraindicações"
+          ],
           "order_index": 2
         }
       ]
@@ -116,7 +142,11 @@
           "content_markdown": "A USG usa ondas sonoras de alta frequência. O transdutor emite o som, que reflete nas interfaces teciduais. A imagem é classificada como: **Anecoica** (preto, como líquidos), **Hipoecogênica** (cinza escuro) e **Hiperecogênica** (branco, como gordura ou cálculos). O Doppler avalia o fluxo sanguíneo via efeito Doppler.",
           "clinical_application": "A USG é o exame de escolha para avaliação obstétrica por ser não ionizante e segura para o feto.",
           "summary": "Eco de ondas sonoras; anecoico (líquido) vs hiperecogênico (denso).",
-          "key_points": "[\"Piezoeletricidade\", \"Anecoico\", \"Doppler\"]",
+          "key_points": [
+            "Piezoeletricidade",
+            "Anecoico",
+            "Doppler"
+          ],
           "order_index": 0
         },
         {
@@ -129,7 +159,11 @@
           "content_markdown": "Diferente dos outros métodos, a Medicina Nuclear avalia a **função** e não a anatomia. A cintilografia usa radiofármacos específicos (ex: Tecnécio-99m). O **PET-Scan** utiliza a FDG (análogo da glicose marcado com Flúor-18) para mapear áreas de alto metabolismo glicolítico, comum em tumores malignos.",
           "clinical_application": "O PET-CT combina a anatomia da TC com a função do PET, permitindo localizar com precisão a metástase de um tumor.",
           "summary": "Imagens funcionais baseadas em captação de radiofármacos.",
-          "key_points": "[\"PET-Scan\", \"FDG\", \"Metabolismo Glicolítico\"]",
+          "key_points": [
+            "PET-Scan",
+            "FDG",
+            "Metabolismo Glicolítico"
+          ],
           "order_index": 1
         },
         {
@@ -142,7 +176,11 @@
           "content_markdown": "A escolha depende do tecido: **Pulmão** -> Raio-X/TC; **Cérebro/Medula** -> RM; **Abdome/Ginecologia** -> USG/TC; **Ossos** -> Raio-X/TC. Deve-se considerar a urgência, o custo, a disponibilidade e a segurança do paciente (radiação vs magnetismo).",
           "clinical_application": "Para suspeita de apendicite em crianças, a USG é preferida para evitar a radiação ionizante da TC.",
           "summary": "Sinergia entre métodos para diagnóstico preciso e seguro.",
-          "key_points": "[\"Indicação Clínica\", \"Custo-Benefício\", \"Proteção Radiológica\"]",
+          "key_points": [
+            "Indicação Clínica",
+            "Custo-Benefício",
+            "Proteção Radiológica"
+          ],
           "order_index": 2
         }
       ]

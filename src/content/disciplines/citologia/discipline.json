@@ -3,5 +3,6 @@
   "name": "Citologia",
   "icon": "Layers",
   "category": "Ciências Básicas",
-  "topics_count": 1
+  "topics_count": 1,
+  "description": "Estudo da estrutura, função e patologia das células."
 }

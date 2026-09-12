@@ -3,5 +3,6 @@
   "name": "Análises Clínicas",
   "icon": "TestTube",
   "category": "Prática Laboratorial",
-  "topics_count": 1
+  "topics_count": 1,
+  "description": "Estudo avançado de conceitos fundamentais para a prática e pesquisa em Biomedicina."
 }

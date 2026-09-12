@@ -16,7 +16,11 @@
           "content_markdown": "1ª Lei: Segregação dos fatores (alelos se separam na gametogênese). 2ª Lei: Segregação independente (genes em cromossomos diferentes segregam de forma independente).",
           "clinical_application": "Doenças monogênicas (ex: Fibrose Cística) seguem a 1ª Lei de Mendel.",
           "summary": "Alelos segregam; genes diferentes combinam aleatoriamente.",
-          "key_points": "[\"1ª Lei\",\"2ª Lei\",\"Alelos\"]",
+          "key_points": [
+            "1ª Lei",
+            "2ª Lei",
+            "Alelos"
+          ],
           "order_index": 0,
           "estimated_minutes": 15
         },
@@ -27,7 +31,11 @@
           "content_markdown": "Alelo dominante expressa o fenótipo mesmo em heterozigose. Alelo recessivo necessita de homozigose. Existem também dominância incompleta e codominância.",
           "clinical_application": "Na acondroplasia (nanismo), a herança é autossômica dominante.",
           "summary": "Relações alélicas definem o fenótipo.",
-          "key_points": "[\"Dominante\",\"Recessivo\",\"Codominância\"]",
+          "key_points": [
+            "Dominante",
+            "Recessivo",
+            "Codominância"
+          ],
           "order_index": 1,
           "estimated_minutes": 15
         }
@@ -45,7 +53,11 @@
           "content_markdown": "Representação gráfica das relações de parentesco. Permite identificar se a herança é autossômica (afeta ambos os sexos igualmente) ou ligada ao X.",
           "clinical_application": "A hemofilia A é ligada ao cromossomo X recessiva (afeta mais homens).",
           "summary": "Análise de herança em famílias.",
-          "key_points": "[\"Heredograma\",\"Autossômica\",\"Ligada ao X\"]",
+          "key_points": [
+            "Heredograma",
+            "Autossômica",
+            "Ligada ao X"
+          ],
           "order_index": 0,
           "estimated_minutes": 15
         }

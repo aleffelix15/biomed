@@ -3,5 +3,6 @@
   "name": "Epidemiologia",
   "icon": "Activity",
   "category": "Saúde Coletiva",
-  "topics_count": 1
+  "topics_count": 1,
+  "description": "Análise da distribuição e dos determinantes de saúde e doenças nas populações."
 }

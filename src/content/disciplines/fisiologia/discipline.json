@@ -3,5 +3,6 @@
   "name": "Fisiologia",
   "icon": "HeartPulse",
   "category": "Ciências Básicas",
-  "topics_count": 2
+  "topics_count": 2,
+  "description": "Compreensão do funcionamento normal do corpo humano e seus mecanismos de regulação."
 }

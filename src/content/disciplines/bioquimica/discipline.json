@@ -3,5 +3,6 @@
   "name": "Bioquímica",
   "icon": "FlaskConical",
   "category": "Ciências Básicas",
-  "topics_count": 1
+  "topics_count": 1,
+  "description": "Estudo das reações químicas e biológicas nos organismos vivos, essencial para entender o metabolismo."
 }

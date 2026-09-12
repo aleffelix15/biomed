@@ -22,7 +22,11 @@
           "content_markdown": "A meiose é a divisão celular que reduz o número de cromossomos à metade, produzindo gametas haploides (n). Ocorre em duas etapas: Meiose I (reducional), onde ocorre o **Crossing-over** na prófase I, garantindo a variabilidade genética, e Meiose II (equacional).",
           "clinical_application": "Erros na segregação cromossômica durante a meiose (não-disjunção) resultam em aneuploidias, como a Síndrome de Down (Trissomia do 21).",
           "summary": "Divisão reducional que gera variabilidade via crossing-over.",
-          "key_points": "[\"Haploide\", \"Crossing-over\", \"Não-disjunção\"]",
+          "key_points": [
+            "Haploide",
+            "Crossing-over",
+            "Não-disjunção"
+          ],
           "order_index": 0
         },
         {
@@ -36,7 +40,11 @@
           "clinical_//": "A idade materna avançada aumenta a taxa de erros na meiose II do ovócito, correlacionando-se com a incidência de anomalias cromossômicas.",
           "clinical_application": "A idade materna avançada aumenta a taxa de erros na meiose II do ovócito, correlacionando-se com a incidência de anomalias cromossômicas.",
           "summary": "Continuidade masculina vs ciclo interrompido feminino.",
-          "key_points": "[\"Spermatogênese\", \"Oogênese\", \"Corpúsculos Polares\"]",
+          "key_points": [
+            "Spermatogênese",
+            "Oogênese",
+            "Corpúsculos Polares"
+          ],
           "order_index": 1
         },
         {
@@ -49,7 +57,11 @@
           "content_markdown": "A fecundação ocorre geralmente na ampola da tuba uterina. Envolve: a reação acrossômica (enzimas do espermatozoide perfuram a zona pelúcida), a fusão das membranas e a **reação cortical** (evita a poliespermia). O resultado é o Zigoto, uma célula diploide (2n) única.",
           "clinical_application": "A fertilização in vitro (FIV) mimetiza esse processo, permitindo a união dos gametas em ambiente controlado.",
           "summary": "Fusão de núcleos haploides para formar o zigoto diploide.",
-          "key_points": "[\"Zona Pelúcida\", \"Reação Cortical\", \"Zigoto\"]",
+          "key_points": [
+            "Zona Pelúcida",
+            "Reação Cortical",
+            "Zigoto"
+          ],
           "order_index": 2
         }
       ]
@@ -70,7 +82,11 @@
           "content_markdown": "Após a fecundação, o zigoto sofre clivagens sucessivas. A massa de 16 a 32 células é chamada de **Mórula**. Esta evolui para o **Blastocisto**, que possui uma cavidade (blastocele), uma massa celular interna (embrioblasto - futuro embrião) e uma camada externa (trofoblasto - futura placenta).",
           "clinical_application": "A anomalia na formação do trofoblasto pode comprometer a implantação e a nutrição embrionária precoce.",
           "summary": "Zigoto -> Mórula -> Blastocisto.",
-          "key_points": "[\"Clivagem\", \"Mórula\", \"Blastocisto\"]",
+          "key_points": [
+            "Clivagem",
+            "Mórula",
+            "Blastocisto"
+          ],
           "order_index": 0
         },
         {
@@ -83,7 +99,11 @@
           "content_markdown": "A implantação (nidação) ocorre no final da primeira semana. O embrioblasto diferencia-se em duas camadas: **Epiblasto** e **Hipoblasto**, formando o disco bilaminar. Surgem também a cavidade amniótica e o saco vitelino primário.",
           "clinical_application": "A implantação ectópica ocorre quando o blastocisto se fixa fora do útero (ex: tubas uterinas), sendo uma emergência médica.",
           "summary": "Nidação e formação do disco bilaminar.",
-          "key_points": "[\"Nidação\", \"Epiblasto\", \"Hipoblasto\"]",
+          "key_points": [
+            "Nidação",
+            "Epiblasto",
+            "Hipoblasto"
+          ],
           "order_index": 1
         },
         {
@@ -96,7 +116,11 @@
           "content_markdown": "O trofoblasto diferencia-se em **Citotrofoblasto** e **Sincitotrofoblasto**. O sincitotrofoblasto produz hCG (hormônio detectado em testes de gravidez) e invade o endométrio para estabelecer a troca de nutrientes com o sangue materno.",
           "clinical_application": "A detecção de hCG na urina ou sangue é o primeiro marcador bioquímico da gestação.",
           "summary": "Trofoblasto produz hCG e inicia a placentação.",
-          "key_points": "[\"Sincitotrofoblasto\", \"hCG\", \"Placentação\"]",
+          "key_points": [
+            "Sincitotrofoblasto",
+            "hCG",
+            "Placentação"
+          ],
           "order_index": 2
         }
       ]
@@ -117,7 +141,11 @@
           "content_markdown": "A gastrulação é o processo que transforma o disco bilaminar em trilaminar. Através da linha primitiva, células do epiblasto migram para formar: **Ectoderme** (sistema nervoso e pele), **Mesoderme** (músculos, ossos, sistema circulatório) e **Endoderme** (revestimento do trato digestório e respiratório).",
           "clinical_application": "Defeitos na gastrulação podem causar anomalias graves de simetria corporal e formação de órgãos.",
           "summary": "Formação da Ectoderme, Mesoderme e Endoderme.",
-          "key_points": "[\"Linha Primitiva\", \"Gastrulação\", \"Folhetos Embrionários\"]",
+          "key_points": [
+            "Linha Primitiva",
+            "Gastrulação",
+            "Folhetos Embrionários"
+          ],
           "order_index": 0
         },
         {
@@ -130,7 +158,11 @@
           "content_markdown": "A neurulação é o processo onde a notocorda induz a ectoderme a formar a placa neural, que se dobra para formar o **Tubo Neural** (futuro SNC). O fechamento dos neuroporos ocorre no final da quarta semana.",
           "clinical_application": "A deficiência de ácido fólico na dieta materna está fortemente ligada a defeitos no fechamento do tubo neural, como a Espinha Bífida e a Anencefalia.",
           "summary": "Indução da notocorda e formação do sistema nervoso central.",
-          "key_points": "[\"Tubo Neural\", \"Notocorda\", \"Ácido Fólico\"]",
+          "key_points": [
+            "Tubo Neural",
+            "Notocorda",
+            "Ácido Fólico"
+          ],
           "order_index": 1
         },
         {
@@ -143,7 +175,11 @@
           "content_markdown": "A organogênese ocorre principalmente entre a 3ª e a 8ª semana. É o período de maior vulnerabilidade a **teratógenos** (drogas, vírus, radiação), que podem causar malformações congênitas graves durante a diferenciação dos órgãos.",
           "clinical_application": "O pré-natal precoce visa evitar a exposição a substâncias teratogênicas durante a fase crítica de formação dos órgãos.",
           "summary": "Diferenciação tecidual e formação de órgãos (semana 3 a 8).",
-          "key_points": "[\"Organogênese\", \"Teratógenos\", \"Período Embrionário\"]",
+          "key_points": [
+            "Organogênese",
+            "Teratógenos",
+            "Período Embrionário"
+          ],
           "order_index": 2
         }
       ]

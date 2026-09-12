@@ -3,5 +3,6 @@
   "name": "Toxicologia",
   "icon": "Beaker",
   "category": "Ciências Biomédicas",
-  "topics_count": 1
+  "topics_count": 1,
+  "description": "Estudo dos efeitos adversos das substâncias químicas nos organismos vivos."
 }

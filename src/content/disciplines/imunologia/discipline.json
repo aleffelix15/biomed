@@ -3,5 +3,6 @@
   "name": "Imunologia",
   "icon": "ShieldCheck",
   "category": "Ciências Biomédicas",
-  "topics_count": 1
+  "topics_count": 1,
+  "description": "Análise do sistema imune e suas respostas a patógenos e doenças."
 }

@@ -3,5 +3,6 @@
   "name": "Genética",
   "icon": "Dna",
   "category": "Ciências Básicas",
-  "topics_count": 1
+  "topics_count": 1,
+  "description": "Compreensão da hereditariedade e das variações genéticas na biologia humana."
 }

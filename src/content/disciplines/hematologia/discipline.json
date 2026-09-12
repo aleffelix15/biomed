@@ -3,5 +3,6 @@
   "name": "Hematologia",
   "icon": "Droplet",
   "category": "Ciências Biomédicas",
-  "topics_count": 1
+  "topics_count": 1,
+  "description": "Estudo do sangue, seus componentes e distúrbios, fundamental para diagnósticos clínicos."
 }

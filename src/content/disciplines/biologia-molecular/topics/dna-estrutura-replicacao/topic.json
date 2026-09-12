@@ -16,7 +16,11 @@
           "content_markdown": "O DNA é um polímero de nucleotídeos (desoxirribose, grupo fosfato, base nitrogenada). A estrutura de dupla hélice é antiparalela, estabilizada por pontes de hidrogênio (A=T, C≡G).",
           "clinical_application": "Agentes intercalantes de DNA, como o brometo de etídio ou doxorrubicina (quimioterápico), inserem-se entre os pares de bases, alterando a estrutura helicoidal.",
           "summary": "O DNA é uma dupla hélice antiparalela com pareamento específico.",
-          "key_points": "[\"Desoxirribose\",\"Antiparalela\",\"Pontes de Hidrogênio\"]",
+          "key_points": [
+            "Desoxirribose",
+            "Antiparalela",
+            "Pontes de Hidrogênio"
+          ],
           "order_index": 0,
           "estimated_minutes": 15
         },
@@ -27,7 +31,11 @@
           "content_markdown": "O DNA enrola-se ao redor de histonas (octâmero) formando nucleossomos. A cromatina pode estar ativa (eucromatina) ou condensada (heterocromatina).",
           "clinical_application": "A acetilação de histonas é alvo de drogas epigenéticas para reativar genes supressores de tumor.",
           "summary": "O empacotamento do DNA regula o acesso genético.",
-          "key_points": "[\"Histonas\",\"Eucromatina\",\"Heterocromatina\"]",
+          "key_points": [
+            "Histonas",
+            "Eucromatina",
+            "Heterocromatina"
+          ],
           "order_index": 1,
           "estimated_minutes": 15
         }
@@ -45,7 +53,11 @@
           "content_markdown": "A replicação é semiconservativa, iniciada na origem de replicação. A DNA polimerase sintetiza no sentido 5'→3'. Fita contínua e fita retardada (fragmentos de Okazaki) são características.",
           "clinical_application": "Fármacos análogos de nucleosídeos (ex: aciclovir) inibem a DNA polimerase viral.",
           "summary": "Semiconservativa, bidirecional, 5' para 3'.",
-          "key_points": "[\"DNA Polimerase\",\"Semiconservativa\",\"Fragmentos de Okazaki\"]",
+          "key_points": [
+            "DNA Polimerase",
+            "Semiconservativa",
+            "Fragmentos de Okazaki"
+          ],
           "order_index": 0,
           "estimated_minutes": 15
         }

@@ -22,7 +22,12 @@
           "content_markdown": "As células respondem a estresses adaptando-se. **Hipertrofia** é o aumento do tamanho celular (ex: músculo cardíaco na hipertensão). **Hiperplasia** é o aumento do número de células (ex: endométrio na puberdade). **Atrofia** é a redução do tamanho/número (ex: músculo imobilizado). **Metaplasia** é a troca de um tipo celular por outro mais resistente (ex: epitélio respiratório fumante vira escamoso).",
           "clinical_application": "A metaplasia escamosa no trato respiratório protege contra a fumaça, mas predispõe ao carcinoma epidermoide se o estímulo persistir.",
           "summary": "Ajustes celulares ao estresse: tamanho, número ou tipo celular.",
-          "key_points": "[\"Hipertrofia\", \"Hiperplasia\", \"Atrofia\", \"Metaplasia\"]",
+          "key_points": [
+            "Hipertrofia",
+            "Hiperplasia",
+            "Atrofia",
+            "Metaplasia"
+          ],
           "order_index": 0
         },
         {
@@ -35,7 +40,11 @@
           "content_markdown": "A necrose é a morte celular acidental, sempre patológica, acompanhada de inflamação. Tipos principais: **Coagulativa** (isquemia, preserva a arquitetura), **Liquefativa** (infecções bacterianas, pus), **Caseosa** (típica da Tuberculose), **Esteatose** (acúmulo de gordura) e **Gangrena** (necrose isquêmica extensa).",
           "clinical_application": "O infarto do miocárdio apresenta necrose coagulativa, onde a estrutura do tecido é mantida por alguns dias apesar da morte celular.",
           "summary": "Morte celular acidental com inflamação.",
-          "key_points": "[\"Necrose Coagulativa\", \"Necrose Caseosa\", \"Lise Celular\"]",
+          "key_points": [
+            "Necrose Coagulativa",
+            "Necrose Caseosa",
+            "Lise Celular"
+          ],
           "order_index": 1
         },
         {
@@ -48,7 +57,11 @@
           "content_markdown": "A apoptose é a morte celular programada, podendo ser fisiológica (embriogênese) ou patológica (danos ao DNA). Diferente da necrose, não gera inflamação, pois a célula se fragmenta em corpos apoptóticos que são fagocitados rapidamente. Envolve a ativação de enzimas chamadas **Caspases**.",
           "clinical_application": "A falha na apoptose de células danificadas é um mecanismo central no desenvolvimento de neoplasias (câncer).",
           "summary": "Suicídio celular controlado via caspases, sem inflamação.",
-          "key_points": "[\"Morte Programada\", \"Caspases\", \"Corpos Apoptóticos\"]",
+          "key_points": [
+            "Morte Programada",
+            "Caspases",
+            "Corpos Apoptóticos"
+          ],
           "order_index": 2
         }
       ]
@@ -69,7 +82,11 @@
           "content_markdown": "A inflamação aguda é a resposta rápida a injúrias. Envolve a liberação de mediadores (histamina), vasodilatação, aumento da permeabilidade vascular e migração de **neutrófilos**. O resultado final pode ser a resolução completa, a formação de abscesso (pus) ou a progressão para inflamação crônica.",
           "clinical_application": "O edema agudo no local da injúria facilita a chegada de proteínas plasmáticas e células de defesa ao tecido lesionado.",
           "summary": "Resposta rápida mediada por neutrófilos e edema.",
-          "key_points": "[\"Vasodilatação\", \"Neutrófilos\", \"Exsudato\"]",
+          "key_points": [
+            "Vasodilatação",
+            "Neutrófilos",
+            "Exsudato"
+          ],
           "order_index": 0
         },
         {
@@ -82,7 +99,11 @@
           "content_markdown": "A inflamação crônica é prolongada e ocorre simultaneamente à destruição tecidual e tentativa de cura. É caracterizada pela infiltração de **macrófagos, linfócitos e plasmócitos**. Pode formar **granulomas** (coleções de macrófagos epitelioides), comuns na tuberculose e sarcoidose.",
           "clinical_application": "A inflamação crônica persistente pode levar à fibrose, onde o tecido funcional é substituído por colágeno, reduzindo a função do órgão.",
           "summary": "Resposta lenta mediada por macrófagos e linfócitos.",
-          "key_points": "[\"Macrófagos\", \"Linfócitos\", \"Granuloma\"]",
+          "key_points": [
+            "Macrófagos",
+            "Linfócitos",
+            "Granuloma"
+          ],
           "order_index": 1
         },
         {
@@ -95,7 +116,11 @@
           "content_markdown": "O reparo ocorre via **Regeneração** (substituição por células do mesmo tipo) ou **Cicatrização** (substituição por tecido conjuntivo/fibrose). a cicatrização envolve a angiogênese (novos vasos), proliferação de fibroblastos e deposição de colágeno.",
           "clinical_application": "A queloide é uma cicatrização exacerbada com deposição excessiva de colágeno além das margens da ferida.",
           "summary": "Regeneração (funcional) ou Cicatrização (fibrose).",
-          "key_points": "[\"Angiogênese\", \"Fibroblastos\", \"Colágeno\"]",
+          "key_points": [
+            "Angiogênese",
+            "Fibroblastos",
+            "Colágeno"
+          ],
           "order_index": 2
         }
       ]
@@ -116,7 +141,11 @@
           "content_markdown": "Tumores **Benignos** crescem lentamente, são bem delimitados (encapsulados), não invadem tecidos adjacentes nem fazem metástase. Tumores **Malignos** (Câncer) crescem rapidamente, são infiltrativos, rompem a membrana basal e podem se disseminar via sangue ou linfa (metástase).",
           "clinical_application": "Um lipoma (benigno) é removido cirurgicamente com facilidade, enquanto um carcinoma (maligno) requer margens de segurança amplas.",
           "summary": "Benignos (encapsulados) vs Malignos (infiltrativos/metástase).",
-          "key_points": "[\"Metástase\", \"Infiltração\", \"Encapsulamento\"]",
+          "key_points": [
+            "Metástase",
+            "Infiltração",
+            "Encapsulamento"
+          ],
           "order_index": 0
         },
         {
@@ -129,7 +158,11 @@
           "content_markdown": "Sufixos: **-oma** geralmente indica benigno (ex: fibroma), mas há exceções (linfoma, melanoma são malignos). **Carcinoma** (origem epitelial) e **Sarcoma** (origem mesenquimal). O estadiamento **TNM** avalia: T (Tamanho do Tumor), N (Nódulos linfáticos acometidos) e M (Metástase).",
           "clinical_application": "O estadiamento TNM é essencial para definir o prognóstico do paciente e a conduta terapêutica (cirurgia, quimio ou radio).",
           "summary": "Carcinomas, Sarcomas e a classificação TNM.",
-          "key_points": "[\"TNM\", \"Carcinoma\", \"Sarcoma\"]",
+          "key_points": [
+            "TNM",
+            "Carcinoma",
+            "Sarcoma"
+          ],
           "order_index": 1
         },
         {
@@ -142,7 +175,11 @@
           "content_markdown": "O câncer resulta de mutações em: **Proto-oncogenes** (que, ao virarem oncogenes, estimulam a proliferação descontrolada) e **Genes Supressores de Tumor** (como o p53, que induz apoptose em células danificadas). A perda de função do p53 é a mutação mais comum em diversos cânceres.",
           "clinical_application": "Terapias alvo modernas buscam inibir oncogenes específicos (ex: inibidores de EGFR no câncer de pulmão).",
           "summary": "Desequilíbrio entre oncogenes (estímulo) e supressores (freio).",
-          "key_points": "[\"Oncogenes\", \"p53\", \"Terapia Alvo\"]",
+          "key_points": [
+            "Oncogenes",
+            "p53",
+            "Terapia Alvo"
+          ],
           "order_index": 2
         }
       ]

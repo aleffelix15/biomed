@@ -15,7 +15,12 @@
           "title": "Introdução ao Sistema Esquelético",
           "content_markdown": "O sistema esquelético é composto por ossos, cartilagens e articulações. Ele fornece suporte estrutural, proteção de órgãos internos, alavancagem para o movimento, armazenamento de minerais e hematopoiese (produção de células sanguíneas na medula óssea vermelha).",
           "order_index": 0,
-          "estimated_minutes": 15
+          "estimated_minutes": 15,
+          "clinical_application": "[DRAFT - PENDENTE DE REVISÃO MÉDICA] Aplicação clínica em elaboração.",
+          "summary": "[DRAFT - PENDENTE DE REVISÃO MÉDICA] Resumo em elaboração.",
+          "key_points": [
+            "[DRAFT - PENDENTE DE REVISÃO]"
+          ]
         },
         {
           "id": "les_anatomia_0_1",
@@ -23,7 +28,12 @@
           "title": "Tipos de Ossos",
           "content_markdown": "Os ossos são classificados em longos (ex: fêmur), curtos (ex: carpos), planos (ex: escápula), irregulares (ex: vértebras) e sesamoides (ex: patela).",
           "order_index": 1,
-          "estimated_minutes": 15
+          "estimated_minutes": 15,
+          "clinical_application": "[DRAFT - PENDENTE DE REVISÃO MÉDICA] Aplicação clínica em elaboração.",
+          "summary": "[DRAFT - PENDENTE DE REVISÃO MÉDICA] Resumo em elaboração.",
+          "key_points": [
+            "[DRAFT - PENDENTE DE REVISÃO]"
+          ]
         },
         {
           "id": "les_anatomia_0_2",
@@ -31,7 +41,12 @@
           "title": "Histologia Óssea",
           "content_markdown": "O tecido ósseo é conjuntivo denso, contendo osteoblastos (síntese), osteócitos (manutenção) e osteoclastos (reabsorção). A matriz extracelular é rica em cálcio e fósforo (hidroxiapatita).",
           "order_index": 2,
-          "estimated_minutes": 15
+          "estimated_minutes": 15,
+          "clinical_application": "[DRAFT - PENDENTE DE REVISÃO MÉDICA] Aplicação clínica em elaboração.",
+          "summary": "[DRAFT - PENDENTE DE REVISÃO MÉDICA] Resumo em elaboração.",
+          "key_points": [
+            "[DRAFT - PENDENTE DE REVISÃO]"
+          ]
         }
       ]
     },
@@ -46,7 +61,12 @@
           "title": "Crânio e Face",
           "content_markdown": "Composto por 22 ossos, divididos em neurocrânio (protege o encéfalo) e viscerocrânio (ossos da face).",
           "order_index": 0,
-          "estimated_minutes": 15
+          "estimated_minutes": 15,
+          "clinical_application": "[DRAFT - PENDENTE DE REVISÃO MÉDICA] Aplicação clínica em elaboração.",
+          "summary": "[DRAFT - PENDENTE DE REVISÃO MÉDICA] Resumo em elaboração.",
+          "key_points": [
+            "[DRAFT - PENDENTE DE REVISÃO]"
+          ]
         },
         {
           "id": "les_anatomia_1_1",
@@ -54,7 +74,12 @@
           "title": "Coluna Vertebral e Tórax",
           "content_markdown": "A coluna vertebral possui 33 vértebras (7 cervicais, 12 torácicas, 5 lombares, 5 sacrais e 4 coccígeas). O tórax é formado pelo esterno e 12 pares de costelas.",
           "order_index": 1,
-          "estimated_minutes": 15
+          "estimated_minutes": 15,
+          "clinical_application": "[DRAFT - PENDENTE DE REVISÃO MÉDICA] Aplicação clínica em elaboração.",
+          "summary": "[DRAFT - PENDENTE DE REVISÃO MÉDICA] Resumo em elaboração.",
+          "key_points": [
+            "[DRAFT - PENDENTE DE REVISÃO]"
+          ]
         }
       ]
     }

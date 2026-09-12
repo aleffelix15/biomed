@@ -3,5 +3,6 @@
   "name": "Biologia Molecular",
   "icon": "Dna",
   "category": "Ciências Básicas",
-  "topics_count": 1
+  "topics_count": 1,
+  "description": "Estudo das bases moleculares da vida, focando em DNA, RNA e síntese de proteínas."
 }

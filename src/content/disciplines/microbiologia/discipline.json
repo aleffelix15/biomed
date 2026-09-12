@@ -3,5 +3,6 @@
   "name": "Microbiologia",
   "icon": "Bug",
   "category": "Ciências Biomédicas",
-  "topics_count": 1
+  "topics_count": 1,
+  "description": "Estudo dos microrganismos, incluindo bactérias, vírus e fungos, e seu impacto na saúde."
 }

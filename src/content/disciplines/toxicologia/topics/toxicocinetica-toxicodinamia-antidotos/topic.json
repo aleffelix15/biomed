@@ -22,7 +22,11 @@
           "content_markdown": "A **Toxicocinética** estuda o que o organismo faz com a toxina. A absorção depende da via (oral, inalatória, cutânea). A distribuição é influenciada pela lipossolubilidade da substância e a afinidade por tecidos específicos. Toxinas lipofílicas tendem a se acumular no tecido adiposo, prolongando seu efeito.",
           "clinical_application": "A lavagem gástrica é eficaz apenas se realizada pouco tempo após a ingestão oral, antes que a toxina seja absorvida pelo intestino.",
           "summary": "Entrada da toxina e sua distribuição nos tecidos.",
-          "key_points": "[\"Absorção\", \"Lipossolubilidade\", \"Distribuição\"]",
+          "key_points": [
+            "Absorção",
+            "Lipossolubilidade",
+            "Distribuição"
+          ],
           "order_index": 0
         },
         {
@@ -35,7 +39,11 @@
           "content_markdown": "O fígado tenta tornar as toxinas mais hidrossolúveis para facilitar a excreção. A **Fase I** envolve oxidação, redução ou hidrólise (principalmente via Citocromo P450). A **Fase II** envolve a conjugação (ex: com ácido glicurônico ou glutationa). Às vezes, ocorre a **Bioativação**, onde o metabólito é mais tóxico que a substância original.",
           "clinical_application": "O Paracetamol em dose tóxica esgota a glutationa hepática, levando à formação do metabólito tóxico NAPQI, que causa necrose hepática grave.",
           "summary": "Metabolização via CYP450 e conjugação para excreção.",
-          "key_points": "[\"Citocromo P450\", \"Bioativação\", \"Glutationa\"]",
+          "key_points": [
+            "Citocromo P450",
+            "Bioativação",
+            "Glutationa"
+          ],
           "order_index": 1
         },
         {
@@ -48,7 +56,11 @@
           "content_markdown": "A via principal de excreção é a renal, mas também ocorre via biliar, pulmonar e sudorípara. A **Meia-Vida (t1/2)** é o tempo necessário para que a concentração plasmática de uma toxina seja reduzida à metade. Substâncias com meia-vida longa tendem a causar toxicidade cumulativa.",
           "clinical_application": "Em pacientes com insuficiência renal, a dose de certos medicamentos e a duração da toxicidade aumentam significativamente.",
           "summary": "Eliminação da substância e tempo de permanência no corpo.",
-          "key_points": "[\"Excreção Renal\", \"Meia-vida\", \"Acúmulo\"]",
+          "key_points": [
+            "Excreção Renal",
+            "Meia-vida",
+            "Acúmulo"
+          ],
           "order_index": 2
         }
       ]
@@ -69,7 +81,11 @@
           "content_markdown": "A **Toxicodinâmica** estuda a interação da toxina com o alvo biológico. Pode ocorrer via: **Interação com Receptores** (agonismo ou antagonismo), **Inibição Enzimática** (como o cianeto inibindo a citocromo c oxidase) ou **Dano Direto a Membranas** (como detergentes ou solventes orgânicos).",
           "clinical_application": "O monóxido de carbono (CO) compete com o oxigênio pelo sítio de ligação da hemoglobina, causando hipóxia tecidual grave.",
           "summary": "Interação da toxina com receptores, enzimas ou membranas.",
-          "key_points": "[\"Antagonismo\", \"Inibição Enzimática\", \"Sítio de Ligação\"]",
+          "key_points": [
+            "Antagonismo",
+            "Inibição Enzimática",
+            "Sítio de Ligação"
+          ],
           "order_index": 0
         },
         {
@@ -82,7 +98,11 @@
           "content_markdown": "A **Toxicidade Aguda** resulta de uma única exposição ou exposições curtas (até 24h), com efeitos imediatos. A **Toxicidade Crônica** ocorre após exposições repetidas a baixas doses por longos períodos, podendo levar a danos cumulativos, como câncer ou fibrose orgânica.",
           "clinical_application": "A intoxicação aguda por organofosforados causa crise colinérgica imediata; a exposição crônica a metais pesados pode causar neuropatias progressivas.",
           "summary": "Aguda (imediata/dose alta) vs Crônica (acumulada/dose baixa).",
-          "key_points": "[\"Dose Única\", \"Exposição Prolongada\", \"Efeito Cumulativo\"]",
+          "key_points": [
+            "Dose Única",
+            "Exposição Prolongada",
+            "Efeito Cumulativo"
+          ],
           "order_index": 1
         },
         {
@@ -95,7 +115,11 @@
           "content_markdown": "A relação dose-resposta define a potência de uma toxina. A **DL50 (Dose Letal 50%)** é a dose que mata 50% de uma população teste. Quanto menor a DL50, mais tóxica é a substância. O **NOAEL (No-Observed-Adverse-Effect Level)** é a maior dose que não causa efeito adverso observável.",
           "clinical_application": "O cálculo da DL50 é fundamental para classificar a periculosidade de substâncias químicas em rótulos de segurança.",
           "summary": "DL50 mede a letalidade; NOAEL define a dose segura.",
-          "key_points": "[\"DL50\", \"Dose-Resposta\", \"NOAEL\"]",
+          "key_points": [
+            "DL50",
+            "Dose-Resposta",
+            "NOAEL"
+          ],
           "order_index": 2
         }
       ]
@@ -116,7 +140,11 @@
           "content_markdown": "O objetivo é reduzir a absorção da toxina. Medidas incluem: **Carvão Ativado** (adsorve a toxina no TGI), **Lavagem Gástrica** (remove conteúdo estomacal) e **Hemodiálise** (elimina substâncias hidrossolúveis do sangue), especialmente em insuficiência renal ou toxicidade grave.",
           "clinical_application": "O carvão ativado é a escolha principal para a maioria das ingestões tóxicas orais, mas é contraindicado para ácidos e álcalis fortes.",
           "summary": "Redução da absorção e aceleração da eliminação.",
-          "key_points": "[\"Carvão Ativado\", \"Hemodiálise\", \"Lavagem Gástrica\"]",
+          "key_points": [
+            "Carvão Ativado",
+            "Hemodiálise",
+            "Lavagem Gástrica"
+          ],
           "order_index": 0
         },
         {
@@ -129,7 +157,11 @@
           "content_markdown": "Antídotos agem por mecanismos diversos: **N-acetilcisteína** (para Paracetamol, repõe glutationa), **Atropina** (para organofosforados, bloqueia receptores muscarínicos), **Naloxona** (para opioides, antagonista competitivo) e **Flumazenil** (para benzodiazepínicos).",
           "clinical_application": "O uso rápido de Naloxona pode reverter a depressão respiratória grave em overdoses de morfina ou heroína.",
           "summary": "Substâncias que revertem ou anulam a ação da toxina.",
-          "key_points": "[\"N-acetilcisteína\", \"Atropina\", \"Naloxona\"]",
+          "key_points": [
+            "N-acetilcisteína",
+            "Atropina",
+            "Naloxona"
+          ],
           "order_index": 1
         },
         {
@@ -142,7 +174,11 @@
           "content_markdown": "O tratamento suporte é a prioridade: manutenção da via aérea, estabilidade hemodinâmica e correção de distúrbios eletrolíticos. O monitoramento inclui a dosagem plasmática da toxina e a avaliação da função renal e hepática para ajustar a terapia.",
           "clinical_application": "Em intoxicações graves, a ventilação mecânica pode ser necessária antes mesmo da administração do antídoto.",
           "summary": "Estabilização clínica e monitoramento laboratorial.",
-          "key_points": "[\"Suporte Vital\", \"Função Renal/Hepática\", \"Dosagem Plasmática\"]",
+          "key_points": [
+            "Suporte Vital",
+            "Função Renal/Hepática",
+            "Dosagem Plasmática"
+          ],
           "order_index": 2
         }
       ]

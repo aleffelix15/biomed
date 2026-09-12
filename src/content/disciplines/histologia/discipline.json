@@ -3,5 +3,6 @@
   "name": "Histologia",
   "icon": "Layers",
   "category": "Ciências Básicas",
-  "topics_count": 1
+  "topics_count": 1,
+  "description": "Exame microscópico dos tecidos biológicos e sua organização anatômica."
 }

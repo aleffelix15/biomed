@@ -3,5 +3,6 @@
   "name": "Anatomia",
   "icon": "Bone",
   "category": "Ciências Básicas",
-  "topics_count": 2
+  "topics_count": 2,
+  "description": "Exploração das estruturas do corpo humano e sua organização sistêmica."
 }

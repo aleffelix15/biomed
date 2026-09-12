@@ -3,5 +3,6 @@
   "name": "Patologia",
   "icon": "Microscope",
   "category": "Ciências Biomédicas",
-  "topics_count": 1
+  "topics_count": 1,
+  "description": "Estudo das doenças, suas causas, mecanismos e alterações estruturais nas células e tecidos."
 }

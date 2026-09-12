@@ -22,7 +22,11 @@
           "content_markdown": "O néfron é a unidade funcional do rim, composto por corpúsculo renal (glomérulo + cápsula de Bowman), túbulo contorcido proximal, alça de Henle, túbulo contorcido distal e ducto coletor. Cada rim possui cerca de 1 milhão de néfrons, responsáveis por filtrar o plasma e formar a urina.",
           "clinical_application": "A perda progressiva de néfrons funcionais é a base fisiopatológica da doença renal crônica.",
           "summary": "Néfron = glomérulo + túbulos; ~1 milhão por rim.",
-          "key_points": "[\"Glomérulo\", \"Cápsula de Bowman\", \"Túbulos renais\"]",
+          "key_points": [
+            "Glomérulo",
+            "Cápsula de Bowman",
+            "Túbulos renais"
+          ],
           "order_index": 0
         },
         {
@@ -35,7 +39,11 @@
           "content_markdown": "A TFG depende do balanço entre a pressão hidrostática glomerular (que favorece a filtração) e as pressões hidrostática capsular e oncótica capilar (que se opõem a ela). O valor normal é de aproximadamente 90-120 mL/min. A TFG é regulada por autorregulação miogênica e feedback tubuloglomerular.",
           "clinical_application": "A TFG estimada (eTFG) é o principal exame usado para estadiar a doença renal crônica.",
           "summary": "TFG normal ~90-120 mL/min; regulada por autorregulação.",
-          "key_points": "[\"Pressão hidrostática\", \"Autorregulação\", \"eTFG\"]",
+          "key_points": [
+            "Pressão hidrostática",
+            "Autorregulação",
+            "eTFG"
+          ],
           "order_index": 1
         },
         {
@@ -48,7 +56,11 @@
           "content_markdown": "A mácula densa, no túbulo distal, sensibiliza-se a variações de NaCl no filtrado. Queda no fluxo/[NaCl] estimula a liberação de renina pelas células justaglomerulares, ativando o sistema renina-angiotensina-aldosterona (SRAA).",
           "clinical_application": "Inibidores da ECA e bloqueadores de receptores de angiotensina atuam nesse eixo no tratamento da hipertensão.",
           "summary": "Mácula densa detecta NaCl e regula liberação de renina.",
-          "key_points": "[\"Mácula densa\", \"Renina\", \"SRAA\"]",
+          "key_points": [
+            "Mácula densa",
+            "Renina",
+            "SRAA"
+          ],
           "order_index": 2
         }
       ]
@@ -69,7 +81,11 @@
           "content_markdown": "O TCP reabsorve cerca de 65% do sódio e da água filtrados, além de praticamente toda a glicose e aminoácidos filtrados, via cotransportadores como o SGLT2. É o principal sítio de reabsorção isosmótica.",
           "clinical_application": "Inibidores de SGLT2 (gliflozinas) reduzem a reabsorção de glicose no TCP, sendo usados no tratamento do diabetes tipo 2.",
           "summary": "TCP reabsorve ~65% de Na+/água e quase toda glicose filtrada.",
-          "key_points": "[\"SGLT2\", \"Reabsorção isosmótica\", \"65% do Na+\"]",
+          "key_points": [
+            "SGLT2",
+            "Reabsorção isosmótica",
+            "65% do Na+"
+          ],
           "order_index": 0
         },
         {
@@ -82,7 +98,11 @@
           "content_markdown": "O ramo descendente é permeável à água mas não a solutos; o ramo ascendente espesso é impermeável à água mas transporta ativamente Na+/K+/2Cl- (via NKCC2). Esse arranjo em contracorrente gera o gradiente osmótico medular necessário para concentrar a urina.",
           "clinical_application": "Diuréticos de alça (furosemida) inibem o NKCC2, reduzindo a capacidade de concentração urinária.",
           "summary": "Contracorrente na alça de Henle gera gradiente medular.",
-          "key_points": "[\"NKCC2\", \"Gradiente medular\", \"Furosemida\"]",
+          "key_points": [
+            "NKCC2",
+            "Gradiente medular",
+            "Furosemida"
+          ],
           "order_index": 1
         },
         {
@@ -95,7 +115,11 @@
           "content_markdown": "O hormônio antidiurético (ADH/vasopressina) age em receptores V2 do ducto coletor, inserindo aquaporinas-2 na membrana luminal e aumentando a reabsorção de água, concentrando a urina conforme a necessidade do organismo.",
           "clinical_application": "O diabetes insipidus central (falta de ADH) ou nefrogênico (resistência ao ADH) causa poliúria intensa.",
           "summary": "ADH insere aquaporina-2 no ducto coletor, concentrando a urina.",
-          "key_points": "[\"ADH\", \"Aquaporina-2\", \"Diabetes insipidus\"]",
+          "key_points": [
+            "ADH",
+            "Aquaporina-2",
+            "Diabetes insipidus"
+          ],
           "order_index": 2
         }
       ]
@@ -116,7 +140,11 @@
           "content_markdown": "Os rins regulam o pH sanguíneo reabsorvendo bicarbonato filtrado (principalmente no TCP) e excretando H+ na forma de acidez titulável e amônio (NH4+), regenerando bicarbonato novo. Essa resposta é mais lenta (dias) que a respiratória, mas com maior capacidade de correção.",
           "clinical_application": "Na acidose tubular renal, há falha na acidificação urinária apesar da função glomerular preservada.",
           "summary": "Rins regulam pH via reabsorção de HCO3- e excreção de H+/NH4+.",
-          "key_points": "[\"Bicarbonato\", \"Amônio\", \"Acidose tubular renal\"]",
+          "key_points": [
+            "Bicarbonato",
+            "Amônio",
+            "Acidose tubular renal"
+          ],
           "order_index": 0
         },
         {
@@ -129,7 +157,11 @@
           "content_markdown": "O clearance de uma substância é o volume de plasma completamente depurado dela por unidade de tempo. A creatinina é usada como marcador aproximado da TFG por ser filtrada livremente e pouco secretada/reabsorvida pelos túbulos.",
           "clinical_application": "O clearance de creatinina (medido ou estimado por fórmulas como CKD-EPI) orienta o ajuste de doses de medicamentos.",
           "summary": "Clearance de creatinina estima a TFG na prática clínica.",
-          "key_points": "[\"Clearance\", \"Creatinina\", \"CKD-EPI\"]",
+          "key_points": [
+            "Clearance",
+            "Creatinina",
+            "CKD-EPI"
+          ],
           "order_index": 1
         }
       ]

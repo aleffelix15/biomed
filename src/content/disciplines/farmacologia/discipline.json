@@ -3,5 +3,6 @@
   "name": "Farmacologia",
   "icon": "Pill",
   "category": "Ciências Biomédicas",
-  "topics_count": 1
+  "topics_count": 1,
+  "description": "Estudo dos medicamentos, seus mecanismos de ação, interações e efeitos no organismo."
 }

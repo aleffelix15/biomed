@@ -3,5 +3,6 @@
   "name": "Parasitologia",
   "icon": "Bug",
   "category": "Ciências Biomédicas",
-  "topics_count": 1
+  "topics_count": 1,
+  "description": "Investigação dos parasitas, seus ciclos de vida e as doenças que causam em humanos."
 }

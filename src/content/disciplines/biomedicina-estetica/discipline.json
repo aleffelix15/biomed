@@ -3,5 +3,6 @@
   "name": "Biomedicina Estética",
   "icon": "Sparkles",
   "category": "Prática Laboratorial",
-  "topics_count": 1
+  "topics_count": 1,
+  "description": "Aplicação de procedimentos estéticos baseados em conhecimentos biomédicos."
 }

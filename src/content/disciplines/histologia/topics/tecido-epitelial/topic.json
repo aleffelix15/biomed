@@ -16,7 +16,11 @@
           "content_markdown": "O tecido epitelial é caracterizado pela justaposição de suas células (pouca matriz extracelular) e pela ausência de vasos sanguíneos (avascular). A nutrição ocorre por difusão a partir do tecido conjuntivo subjacente.",
           "clinical_application": "No pênfigo, autoanticorpos atacam desmossomos, causando separação das células epiteliais e bolhas cutâneas.",
           "summary": "Avascular, células unidas e apoiadas na lâmina basal.",
-          "key_points": "[\"Avascular\",\"Junções celulares\",\"Lâmina basal\"]",
+          "key_points": [
+            "Avascular",
+            "Junções celulares",
+            "Lâmina basal"
+          ],
           "order_index": 0,
           "estimated_minutes": 15
         },
@@ -27,7 +31,11 @@
           "content_markdown": "Classificam-se quanto ao número de camadas (simples, estratificado, pseudoestratificado) e formato das células superficiais (pavimentoso, cúbico, cilíndrico/colunar).",
           "clinical_application": "Metaplasia escamosa no trato respiratório de fumantes: troca de epitélio cilíndrico ciliado por estratificado pavimentoso.",
           "summary": "Classificação baseada em camadas e formato.",
-          "key_points": "[\"Simples\",\"Estratificado\",\"Pseudoestratificado\"]",
+          "key_points": [
+            "Simples",
+            "Estratificado",
+            "Pseudoestratificado"
+          ],
           "order_index": 1,
           "estimated_minutes": 15
         }
@@ -45,7 +53,11 @@
           "content_markdown": "Formados por células especializadas em secreção. Dividem-se em glândulas exócrinas (mantêm ducto) e endócrinas (perdem conexão, secretam no sangue).",
           "clinical_application": "No diabetes tipo 1, ocorre destruição autoimune das células beta (porção endócrina) do pâncreas.",
           "summary": "Exócrinas (com ducto) vs Endócrinas (sem ducto).",
-          "key_points": "[\"Exócrina\",\"Endócrina\",\"Secreção\"]",
+          "key_points": [
+            "Exócrina",
+            "Endócrina",
+            "Secreção"
+          ],
           "order_index": 0,
           "estimated_minutes": 15
         }

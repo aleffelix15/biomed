@@ -15,7 +15,12 @@
           "title": "Vias de Administração",
           "content_markdown": "As vias enterais (oral, sublingual) e parenterais (IV, IM, SC) afetam a velocidade e extensão da absorção. A via IV tem 100% de biodisponibilidade.",
           "order_index": 0,
-          "estimated_minutes": 15
+          "estimated_minutes": 15,
+          "clinical_application": "[DRAFT - PENDENTE DE REVISÃO MÉDICA] Aplicação clínica em elaboração.",
+          "summary": "[DRAFT - PENDENTE DE REVISÃO MÉDICA] Resumo em elaboração.",
+          "key_points": [
+            "[DRAFT - PENDENTE DE REVISÃO]"
+          ]
         },
         {
           "id": "les_farmacologia_0_1",
@@ -23,7 +28,12 @@
           "title": "Biodisponibilidade e Absorção",
           "content_markdown": "É a fração do fármaco inalterado que atinge a circulação sistêmica. Fármacos lipofílicos cruzam membranas por difusão passiva mais facilmente.",
           "order_index": 1,
-          "estimated_minutes": 15
+          "estimated_minutes": 15,
+          "clinical_application": "[DRAFT - PENDENTE DE REVISÃO MÉDICA] Aplicação clínica em elaboração.",
+          "summary": "[DRAFT - PENDENTE DE REVISÃO MÉDICA] Resumo em elaboração.",
+          "key_points": [
+            "[DRAFT - PENDENTE DE REVISÃO]"
+          ]
         },
         {
           "id": "les_farmacologia_0_2",
@@ -31,7 +41,12 @@
           "title": "Distribuição e Ligação Proteica",
           "content_markdown": "Fármacos se ligam à albumina no plasma. Apenas a fração livre é farmacologicamente ativa e capaz de cruzar barreiras tissulares.",
           "order_index": 2,
-          "estimated_minutes": 15
+          "estimated_minutes": 15,
+          "clinical_application": "[DRAFT - PENDENTE DE REVISÃO MÉDICA] Aplicação clínica em elaboração.",
+          "summary": "[DRAFT - PENDENTE DE REVISÃO MÉDICA] Resumo em elaboração.",
+          "key_points": [
+            "[DRAFT - PENDENTE DE REVISÃO]"
+          ]
         }
       ]
     },
@@ -46,7 +61,12 @@
           "title": "Biotransformação Hepática",
           "content_markdown": "Fase I (oxidação, redução, hidrólise - Citocromo P450) e Fase II (conjugação com ácido glicurônico) tornam os fármacos mais polares para excreção.",
           "order_index": 0,
-          "estimated_minutes": 15
+          "estimated_minutes": 15,
+          "clinical_application": "[DRAFT - PENDENTE DE REVISÃO MÉDICA] Aplicação clínica em elaboração.",
+          "summary": "[DRAFT - PENDENTE DE REVISÃO MÉDICA] Resumo em elaboração.",
+          "key_points": [
+            "[DRAFT - PENDENTE DE REVISÃO]"
+          ]
         },
         {
           "id": "les_farmacologia_1_1",
@@ -54,7 +74,12 @@
           "title": "Excreção Renal e Meia-vida",
           "content_markdown": "A filtração glomerular e secreção tubular eliminam fármacos. A meia-vida (T1/2) é o tempo necessário para a concentração plasmática cair pela metade.",
           "order_index": 1,
-          "estimated_minutes": 15
+          "estimated_minutes": 15,
+          "clinical_application": "[DRAFT - PENDENTE DE REVISÃO MÉDICA] Aplicação clínica em elaboração.",
+          "summary": "[DRAFT - PENDENTE DE REVISÃO MÉDICA] Resumo em elaboração.",
+          "key_points": [
+            "[DRAFT - PENDENTE DE REVISÃO]"
+          ]
         }
       ]
     }

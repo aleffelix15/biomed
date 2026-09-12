@@ -77,13 +77,21 @@ export default function LessonScreen({ lesson, topic, discipline, onBack }) {
             <Card padding={16} style={{ background: theme.surface, border: `1px solid ${theme.line}` }}>
               <div style={{ fontSize: 14, color: theme.textSecondary, lineHeight: 1.5, marginBottom: 16 }}>{lesson.summary}</div>
               
-              {lesson.key_points && Array.isArray(lesson.key_points) && (
-                <ul style={{ margin: 0, padding: "0 0 0 20px", color: theme.text, fontSize: 14 }}>
-                  {lesson.key_points.map((kp, idx) => (
-                    <li key={idx} style={{ marginBottom: 6 }}>{kp}</li>
-                  ))}
-                </ul>
-              )}
+              {(() => {
+                const keyPoints = Array.isArray(lesson.key_points)
+                  ? lesson.key_points
+                  : (typeof lesson.key_points === 'string'
+                      ? (() => { try { return JSON.parse(lesson.key_points); } catch { return []; } })()
+                      : []);
+                
+                return keyPoints.length > 0 ? (
+                  <ul style={{ margin: 0, padding: "0 0 0 20px", color: theme.text, fontSize: 14 }}>
+                    {keyPoints.map((kp, idx) => (
+                      <li key={idx} style={{ marginBottom: 6 }}>{kp}</li>
+                    ))}
+                  </ul>
+                ) : null;
+              })()}
             </Card>
           </div>
         )}
