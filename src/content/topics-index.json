@@ -1,0 +1,150 @@
+{
+  "../content/disciplines/analises-clinicas/topics/hematologia-clinica-hemograma/topic.json": {
+    "id": "analises_clinicas_hematologia_clinica_hemograma",
+    "discipline_id": "analises-clinicas",
+    "title": "Hematologia Clínica: O Hemograma",
+    "order_index": 0,
+    "has_content": true
+  },
+  "../content/disciplines/anatomia/topics/sistema-cardiovascular/topic.json": {
+    "id": "anatomia_sistema_cardiovascular",
+    "discipline_id": "anatomia",
+    "title": "Sistema Cardiovascular",
+    "order_index": 1,
+    "has_content": true
+  },
+  "../content/disciplines/anatomia/topics/sistema-esqueletico/topic.json": {
+    "id": "anatomia_sistema_esqueletico",
+    "discipline_id": "anatomia",
+    "title": "Sistema Esquelético",
+    "order_index": 0
+  },
+  "../content/disciplines/biologia-molecular/topics/dna-estrutura-replicacao/topic.json": {
+    "id": "biologia-molecular_dna_estrutura_replicacao",
+    "discipline_id": "biologia-molecular",
+    "title": "DNA: Estrutura e Replicação",
+    "order_index": 0
+  },
+  "../content/disciplines/biomedicina-estetica/topics/anatomia-facial-estetica/topic.json": {
+    "id": "biomedicina_estetica_anatomia_facial_estetica",
+    "discipline_id": "biomedicina-estetica",
+    "title": "Anatomia Facial e Estética",
+    "order_index": 0,
+    "has_content": true
+  },
+  "../content/disciplines/bioquimica/topics/glicose/topic.json": {
+    "id": "bioquimica_glicose",
+    "discipline_id": "bioquimica",
+    "title": "Glicose e Metabolismo",
+    "order_index": 0,
+    "has_content": true
+  },
+  "../content/disciplines/biosseguranca/topics/normas-biosseguranca-gerenciamento-residuos/topic.json": {
+    "id": "biosseguranca_normas_biosseguranca_gerenciamento_residuos",
+    "discipline_id": "biosseguranca",
+    "title": "Normas de Biossegurança e Gerenciamento de Resíduos",
+    "order_index": 0,
+    "has_content": true
+  },
+  "../content/disciplines/citologia/topics/organelas-citoplasmaticas-transporte/topic.json": {
+    "id": "citologia_organelas_citoplasmaticas_transporte",
+    "discipline_id": "citologia",
+    "title": "Organelas Citoplasmáticas e Transporte",
+    "order_index": 0,
+    "has_content": true
+  },
+  "../content/disciplines/embriologia/topics/desenvolvimento-embrionario-fecundacao-organogenese/topic.json": {
+    "id": "embriologia_desenvolvimento_embrionario_fecundacao_organogenese",
+    "discipline_id": "embriologia",
+    "title": "Desenvolvimento Embrionário: Da Fecundação à Organogênese",
+    "order_index": 0,
+    "has_content": true
+  },
+  "../content/disciplines/epidemiologia/topics/indicadores-saude-estudos-epidemiologicos/topic.json": {
+    "id": "epidemiologia_indicadores_saude_estudos_epidemiologicos",
+    "discipline_id": "epidemiologia",
+    "title": "Indicadores de Saúde e Estudos Epidemiológicos",
+    "order_index": 0,
+    "has_content": true
+  },
+  "../content/disciplines/farmacologia/topics/farmacocinetica/topic.json": {
+    "id": "farmacologia_farmacocinetica",
+    "discipline_id": "farmacologia",
+    "title": "Farmacocinética",
+    "order_index": 0
+  },
+  "../content/disciplines/fisiologia/topics/cardiovascular/topic.json": {
+    "id": "fisiologia_cardiovascular",
+    "discipline_id": "fisiologia",
+    "title": "Sistema Cardiovascular",
+    "order_index": 0
+  },
+  "../content/disciplines/fisiologia/topics/fisiologia-renal/topic.json": {
+    "id": "fisiologia_renal",
+    "discipline_id": "fisiologia",
+    "title": "Fisiologia Renal",
+    "order_index": 1,
+    "has_content": true
+  },
+  "../content/disciplines/genetica/topics/heranca-mendeliana/topic.json": {
+    "id": "genetica_heranca_mendeliana",
+    "discipline_id": "genetica",
+    "title": "Herança Mendeliana",
+    "order_index": 0
+  },
+  "../content/disciplines/hematologia/topics/serie-vermelha-eritropoiese-anemias/topic.json": {
+    "id": "hematologia_serie_vermelha_eritropoiese_anemias",
+    "discipline_id": "hematologia",
+    "title": "Série Vermelha: Eritropoiese e Anemias",
+    "order_index": 0,
+    "has_content": true
+  },
+  "../content/disciplines/histologia/topics/tecido-epitelial/topic.json": {
+    "id": "histologia_tecido_epitelial",
+    "discipline_id": "histologia",
+    "title": "Tecido Epitelial",
+    "order_index": 0
+  },
+  "../content/disciplines/imagenologia/topics/metodos-imagem-diagnostica/topic.json": {
+    "id": "imagenologia_metodos_imagem_diagnostica",
+    "discipline_id": "imagenologia",
+    "title": "Métodos de Imagem Diagnóstica",
+    "order_index": 0,
+    "has_content": true
+  },
+  "../content/disciplines/imunologia/topics/sistema-imune-inato-adaptativo/topic.json": {
+    "id": "imunologia_sistema_imune_inato_adaptativo",
+    "discipline_id": "imunologia",
+    "title": "Sistema Imune: Inato e Adaptativo",
+    "order_index": 0,
+    "has_content": true
+  },
+  "../content/disciplines/microbiologia/topics/bacterias-estrutura-classificacao/topic.json": {
+    "id": "microbiologia_bacterias_estrutura_classificacao",
+    "discipline_id": "microbiologia",
+    "title": "Bactérias: Estrutura e Classificação",
+    "order_index": 0,
+    "has_content": true
+  },
+  "../content/disciplines/parasitologia/topics/protozoarios-helmintos-ciclos-patogenia/topic.json": {
+    "id": "parasitologia_protozoarios_helmintos_ciclos_patogenia",
+    "discipline_id": "parasitologia",
+    "title": "Protozoários e Helmintos: Ciclos e Patogenia",
+    "order_index": 0,
+    "has_content": true
+  },
+  "../content/disciplines/patologia/topics/processos-patologicos-inflamacao-neoplasia/topic.json": {
+    "id": "patologia_processos_patologicos_inflamacao_neoplasia",
+    "discipline_id": "patologia",
+    "title": "Processos Patológicos: Inflamação e Neoplasia",
+    "order_index": 0,
+    "has_content": true
+  },
+  "../content/disciplines/toxicologia/topics/toxicocinetica-toxicodinamia-antidotos/topic.json": {
+    "id": "toxicologia_toxicocinetica_toxicodinamia_antidotos",
+    "discipline_id": "toxicologia",
+    "title": "Toxicocinética, Toxicodinâmica e Antídotos",
+    "order_index": 0,
+    "has_content": true
+  }
+}

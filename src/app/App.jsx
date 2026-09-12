@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense, lazy } from "react";
 import GlobalStyles from "../theme/GlobalStyles";
 import { theme } from "../theme/tokens";
 import { useAppNavigation } from "../state/useAppNavigation";
@@ -6,17 +6,18 @@ import { AuthProvider, useAuth } from "../state/AuthContext";
 import { ThemeProvider } from "../state/ThemeContext";
 
 import BottomTabBar from "./navigation/BottomTabBar";
-import HomeScreen from "../screens/Home/HomeScreen";
-import DisciplinesScreen from "../screens/Disciplines/DisciplinesScreen";
-import DisciplineDetailScreen from "../screens/Disciplines/DisciplineDetail/DisciplineDetailScreen";
-import StudyScreen from "../screens/Study/StudyScreen";
-import LabScreen from "../screens/Lab/LabScreen";
-import LibraryScreen from "../screens/Library/LibraryScreen";
-import BookDetailScreen from "../screens/Library/BookDetailScreen";
-import LeaderboardScreen from "../screens/Ranking/LeaderboardScreen";
-import ProfileScreen from "../screens/Profile/ProfileScreen";
-import ProgressOverlay from "../screens/Progress/ProgressOverlay";
 import LoginScreen from "../screens/Auth/LoginScreen";
+
+const HomeScreen = lazy(() => import("../screens/Home/HomeScreen"));
+const DisciplinesScreen = lazy(() => import("../screens/Disciplines/DisciplinesScreen"));
+const DisciplineDetailScreen = lazy(() => import("../screens/Disciplines/DisciplineDetail/DisciplineDetailScreen"));
+const StudyScreen = lazy(() => import("../screens/Study/StudyScreen"));
+const LabScreen = lazy(() => import("../screens/Lab/LabScreen"));
+const LibraryScreen = lazy(() => import("../screens/Library/LibraryScreen"));
+const BookDetailScreen = lazy(() => import("../screens/Library/BookDetailScreen"));
+const LeaderboardScreen = lazy(() => import("../screens/Ranking/LeaderboardScreen"));
+const ProfileScreen = lazy(() => import("../screens/Profile/ProfileScreen"));
+const ProgressOverlay = lazy(() => import("../screens/Progress/ProgressOverlay"));
 
 import { DataCacheProvider } from "../state/DataCacheContext";
 
@@ -63,50 +64,52 @@ function AppContent() {
            <div className="app-scroll"><LoginScreen /></div>
         ) : (
           <>
-            <div className="app-scroll bs-scroll">
-              {isOfflineMode && (
-                <div style={{ background: theme.surface, color: theme.textSecondary, fontSize: 11, textAlign: "center", padding: "4px 0", borderBottom: `1px solid ${theme.line}` }}>Modo offline/demo</div>
-              )}
-              
-              {/* Overlays */}
-              {nav.selectedDiscipline && <DisciplineDetailScreen discipline={nav.selectedDiscipline} onBack={nav.closeDiscipline} />}
-              {nav.selectedBook && <BookDetailScreen book={nav.selectedBook} onBack={nav.closeBook} />}
-              {nav.showLeaderboard && <LeaderboardScreen onBack={nav.closeLeaderboard} />}
+            <Suspense fallback={<div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", color: theme.textSecondary }}>Carregando...</div>}>
+              <div className="app-scroll bs-scroll">
+                {isOfflineMode && (
+                  <div style={{ background: theme.surface, color: theme.textSecondary, fontSize: 11, textAlign: "center", padding: "4px 0", borderBottom: `1px solid ${theme.line}` }}>Modo offline/demo</div>
+                )}
+                
+                {/* Overlays */}
+                {nav.selectedDiscipline && <DisciplineDetailScreen discipline={nav.selectedDiscipline} onBack={nav.closeDiscipline} />}
+                {nav.selectedBook && <BookDetailScreen book={nav.selectedBook} onBack={nav.closeBook} />}
+                {nav.showLeaderboard && <LeaderboardScreen onBack={nav.closeLeaderboard} />}
 
-              {/* Tabs with Keep-Alive (display: none when inactive) */}
-              {visitedTabs.has("home") && (
-                <div style={{ display: showHome ? "block" : "none", height: "100%" }}>
-                  <HomeScreen onOpenDiscipline={nav.openDiscipline} onOpenProgress={nav.openProgress} onGoTab={nav.goTab} />
-                </div>
-              )}
-              {visitedTabs.has("disciplines") && (
-                <div style={{ display: showDisc ? "block" : "none", height: "100%" }}>
-                  <DisciplinesScreen onOpenDiscipline={nav.openDiscipline} />
-                </div>
-              )}
-              {visitedTabs.has("study") && (
-                <div style={{ display: showStudy ? "block" : "none", height: "100%" }}>
-                  <StudyScreen />
-                </div>
-              )}
-              {visitedTabs.has("lab") && (
-                <div style={{ display: showLab ? "block" : "none", height: "100%" }}>
-                  <LabScreen />
-                </div>
-              )}
-              {visitedTabs.has("library") && (
-                <div style={{ display: showLib ? "block" : "none", height: "100%" }}>
-                  <LibraryScreen onOpenBook={nav.openBook} />
-                </div>
-              )}
-              {visitedTabs.has("profile") && (
-                <div style={{ display: showProf ? "block" : "none", height: "100%" }}>
-                  <ProfileScreen onOpenLeaderboard={nav.openLeaderboard} />
-                </div>
-              )}
-            </div>
-            {!nav.showProgress && <BottomTabBar active={nav.tab} onChange={nav.goTab} />}
-            {nav.showProgress && <ProgressOverlay onClose={nav.closeProgress} />}
+                {/* Tabs with Keep-Alive (display: none when inactive) */}
+                {visitedTabs.has("home") && (
+                  <div style={{ display: showHome ? "block" : "none", height: "100%" }}>
+                    <HomeScreen onOpenDiscipline={nav.openDiscipline} onOpenProgress={nav.openProgress} onGoTab={nav.goTab} />
+                  </div>
+                )}
+                {visitedTabs.has("disciplines") && (
+                  <div style={{ display: showDisc ? "block" : "none", height: "100%" }}>
+                    <DisciplinesScreen onOpenDiscipline={nav.openDiscipline} />
+                  </div>
+                )}
+                {visitedTabs.has("study") && (
+                  <div style={{ display: showStudy ? "block" : "none", height: "100%" }}>
+                    <StudyScreen />
+                  </div>
+                )}
+                {visitedTabs.has("lab") && (
+                  <div style={{ display: showLab ? "block" : "none", height: "100%" }}>
+                    <LabScreen />
+                  </div>
+                )}
+                {visitedTabs.has("library") && (
+                  <div style={{ display: showLib ? "block" : "none", height: "100%" }}>
+                    <LibraryScreen onOpenBook={nav.openBook} />
+                  </div>
+                )}
+                {visitedTabs.has("profile") && (
+                  <div style={{ display: showProf ? "block" : "none", height: "100%" }}>
+                    <ProfileScreen onOpenLeaderboard={nav.openLeaderboard} />
+                  </div>
+                )}
+              </div>
+              {!nav.showProgress && <BottomTabBar active={nav.tab} onChange={nav.goTab} />}
+              {nav.showProgress && <ProgressOverlay onClose={nav.closeProgress} />}
+            </Suspense>
           </>
         )}
       </div>

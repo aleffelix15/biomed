@@ -1,5 +1,7 @@
-﻿const disciplineFiles = import.meta.glob('../content/disciplines/*/discipline.json', { eager: true });
-const topicMetaFiles = import.meta.glob('../content/disciplines/*/topics/*/topic.json', { eager: true });
+const disciplineFiles = import.meta.glob('../content/disciplines/*/discipline.json', { eager: true });
+// ATENÇÃO: topicsIndex é gerado via script (scratch/generate_topics_index.cjs) para evitar inflar o bundle.
+// Se adicionar/remover tópicos ou mudar meta-dados, rode o script novamente.
+import topicsIndex from '../content/topics-index.json';
 const topicContentLoaders = import.meta.glob('../content/disciplines/*/topics/*/topic.json');
 const questionLoaders = import.meta.glob('../content/disciplines/*/topics/*/questions.json');
 
@@ -17,17 +19,10 @@ export function getDisciplineById(id) {
 
 export function getTopicsByDiscipline(disciplineId) {
   const topics = [];
-  for (const path in topicMetaFiles) {
-    const topic = topicMetaFiles[path].default || topicMetaFiles[path];
+  for (const path in topicsIndex) {
+    const topic = topicsIndex[path];
     if (topic.discipline_id === disciplineId) {
-      // Return only lightweight meta fields to avoid keeping heavy markdown in memory
-      topics.push({
-        id: topic.id,
-        discipline_id: topic.discipline_id,
-        title: topic.title,
-        order_index: topic.order_index,
-        has_content: topic.has_content
-      });
+      topics.push(topic);
     }
   }
   return topics.sort((a, b) => a.order_index - b.order_index);
@@ -35,24 +30,16 @@ export function getTopicsByDiscipline(disciplineId) {
 
 export function getAllTopics() {
   const topics = [];
-  for (const path in topicMetaFiles) {
-    const topic = topicMetaFiles[path].default || topicMetaFiles[path];
-    topics.push({
-      id: topic.id,
-      discipline_id: topic.discipline_id,
-      title: topic.title,
-      order_index: topic.order_index,
-      has_content: topic.has_content
-    });
+  for (const path in topicsIndex) {
+    topics.push(topicsIndex[path]);
   }
   return topics.sort((a, b) => a.order_index - b.order_index);
 }
 
 export async function getTopicContent(topicId) {
   for (const path in topicContentLoaders) {
-    // Quick check using meta to avoid resolving all promises
-    const meta = topicMetaFiles[path].default || topicMetaFiles[path];
-    if (meta.id === topicId) {
+    const meta = topicsIndex[path];
+    if (meta && meta.id === topicId) {
       const mod = await topicContentLoaders[path]();
       return mod.default || mod;
     }

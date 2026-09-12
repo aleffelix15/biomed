@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { theme, alpha } from "../../theme/tokens";
-import { fetchLessonQuiz, fetchTopicSimulado, saveQuestionAttempt } from "../../services/supabaseService";
+import { fetchLessonQuiz, fetchTopicSimulado, saveQuestionAttempt, addWrongQuestionToReview } from "../../services/supabaseService";
 import { useAuth } from "../../state/AuthContext";
 import Card from "../../components/ui/Card";
 import ProgressBar from "../../components/ui/ProgressBar";
@@ -46,7 +46,6 @@ export default function QuizScreen({ topicId, disciplineId, lessonId, isSimulado
         await saveQuestionAttempt(user.id, currentQ, selected);
         // Se errou, adiciona ao sistema de flashcards para revisao
         if (selected !== currentQ.correct_option) {
-          const { addWrongQuestionToReview } = await import('../../services/supabaseService');
           await addWrongQuestionToReview(disciplineId, topicId, currentQ);
         }
       } catch (err) {
