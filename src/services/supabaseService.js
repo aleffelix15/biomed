@@ -622,6 +622,84 @@ export async function fetchUserProgress(disciplineId) {
 
 
 // =============================================================
+// Integração de Laboratório
+// =============================================================
+
+export async function fetchLabProgress(userId) {
+  if (!supabase) return [];
+  const { data, error } = await supabase
+    .from('lab_progress')
+    .select('item_id, completed')
+    .eq('user_id', userId);
+  
+  if (error) {
+    console.error('Error fetching lab progress:', error);
+    return [];
+  }
+  return data;
+}
+
+export async function toggleLabItemCompletion(userId, itemId) {
+  if (!supabase) return null;
+
+  const { data: currentProgress } = await supabase
+    .from('lab_progress')
+    .select('completed')
+    .eq('user_id', userId)
+    .eq('item_id', itemId)
+    .single();
+
+  const newStatus = !currentProgress?.completed;
+
+  const { error } = await supabase
+    .from('lab_progress')
+    .upsert({
+      user_id: userId,
+      item_id: itemId,
+      completed: newStatus,
+      completed_at: newStatus ? new Date().toISOString() : null,
+      updated_at: new Date().toISOString(),
+    });
+
+  if (error) throw error;
+  return newStatus;
+}
+
+export async function fetchFavoriteItems(userId) {
+  if (!supabase) return [];
+  const { data, error } = await supabase
+    .from('favorites')
+    .select('item_id, item_type')
+    .eq('user_id', userId);
+  if (error) return [];
+  return data;
+}
+
+export async function toggleFavoriteItem(userId, itemId, itemType) {
+  if (!supabase) return false;
+
+  const { data: existing } = await supabase
+    .from('favorites')
+    .select('id')
+    .eq('user_id', userId)
+    .eq('item_id', itemId)
+    .eq('item_type', itemType)
+    .single();
+
+  if (existing) {
+    await supabase.from('favorites').delete().eq('id', existing.id);
+    return false;
+  } else {
+    await supabase.from('favorites').insert({
+      user_id: userId,
+      item_id: itemId,
+      item_type: itemType
+    });
+    return true;
+  }
+}
+
+// =============================================================
 // Integração com Biblioteca (Favoritos)
 // =============================================================
 export async function toggleFavoriteBook(userId, bookInfo) {

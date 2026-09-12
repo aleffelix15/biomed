@@ -113,3 +113,4 @@ export default function EditProfileModal({ profile, onClose, onSave, loading }) 
     </div>
   );
 }
+

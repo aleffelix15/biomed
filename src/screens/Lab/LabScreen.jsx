@@ -1,67 +1,164 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { theme } from "../../theme/tokens";
 import Card from "../../components/ui/Card";
-import { ChevronRight, ChevronLeft } from "lucide-react";
+import { ChevronRight, ChevronLeft, Search, Beaker, CheckCircle } from "lucide-react";
+import { labCategories, labItems } from "../../content/laboratory/labData";
+import LabDetailView from "./LabDetailView";
+import { useAuth } from "../../state/AuthContext";
+import { fetchLabProgress, fetchFavoriteItems } from "../../services/supabaseService";
 
 export default function LabScreen() {
-  const [selectedSection, setSelectedSection] = useState(null);
+  const { user } = useAuth();
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  
+  const [progressData, setProgressData] = useState({});
+  const [favoritesData, setFavoritesData] = useState({});
 
-  if (selectedSection) {
+  useEffect(() => {
+    if (user) {
+      loadUserData();
+    }
+  }, [user]);
+
+  const loadUserData = async () => {
+    const [prog, favs] = await Promise.all([
+      fetchLabProgress(user.id),
+      fetchFavoriteItems(user.id)
+    ]);
+    
+    const pMap = {};
+    prog.forEach(p => pMap[p.item_id] = p.completed);
+    setProgressData(pMap);
+
+    const fMap = {};
+    favs.forEach(f => fMap[f.item_id] = true);
+    setFavoritesData(fMap);
+  };
+
+  const handleUpdateStatus = (itemId, completed, favorited) => {
+    setProgressData(prev => ({ ...prev, [itemId]: completed }));
+    setFavoritesData(prev => ({ ...prev, [itemId]: favorited }));
+  };
+
+  const filteredItems = labItems.filter(item => {
+    const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                          item.tags.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()));
+    const matchesCategory = selectedCategory ? item.categoryId === selectedCategory.id : true;
+    return matchesSearch && matchesCategory;
+  });
+
+  if (selectedItem) {
     return (
-      <div style={{ padding: "20px 16px 90px", minHeight: "100%" }}>
-        <button 
-          onClick={() => setSelectedSection(null)} 
-          style={{ background: "none", border: "none", color: theme.textSecondary, display: "flex", alignItems: "center", gap: 6, fontSize: 13, cursor: "pointer", padding: 0, marginBottom: 20 }}
-        >
-          <ChevronLeft size={16} /> Voltar ao Laboratório
-        </button>
-
-        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
-          <div style={{ width: 44, height: 44, borderRadius: 12, background: theme.surface, display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <selectedSection.icon size={22} color={theme.primary} />
-          </div>
-          <div>
-            <h1 className="bs-display" style={{ fontSize: 22, fontWeight: 700, color: theme.text, margin: 0 }}>{selectedSection.title}</h1>
-          </div>
-        </div>
-
-        <Card padding={20} style={{ color: theme.text, fontSize: 14, lineHeight: 1.6, border: "none", background: theme.card }}>
-          <p style={{ margin: "0 0 16px 0", color: theme.textSecondary }}>{selectedSection.desc}</p>
-          <div style={{ padding: 16, background: theme.surface, borderRadius: 12, border: `1px solid ${theme.line}`, textAlign: "center" }}>
-            <p style={{ margin: 0, color: theme.textSecondary, fontSize: 13 }}>Conteúdo de {selectedSection.title} em desenvolvimento. Em breve você poderá acessar protocolos práticos, lista de equipamentos e simulações.</p>
-          </div>
-        </Card>
-      </div>
+      <LabDetailView 
+        item={selectedItem} 
+        onBack={() => setSelectedItem(null)} 
+        initialCompleted={!!progressData[selectedItem.id]}
+        initialFavorited={!!favoritesData[selectedItem.id]}
+        onUpdateStatus={handleUpdateStatus}
+      />
     );
   }
 
   return (
     <div style={{ padding: "20px 16px 90px" }}>
-      <h1 className="bs-display" style={{ fontSize: 22, fontWeight: 700, color: theme.text, margin: 0 }}>Laboratório</h1>
-      
-      <Card padding={16} style={{ marginTop: 16, background: theme.primary, border: "none" }}>
-        <div style={{ color: theme.bg, fontWeight: 700, fontSize: 16 }}>Central Biomédica</div>
-        <p style={{ fontSize: 13, color: theme.bg, opacity: 0.9, marginTop: 4, lineHeight: 1.5, margin: "4px 0 0" }}>
-          Conteúdo prático voltado à rotina laboratorial — técnicas, equipamentos, biossegurança e interpretação.
-        </p>
-      </Card>
-
-      <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 18 }}>
-        {[] .map((s) => (
-          <Card key={s.id} padding={14} onClick={() => setSelectedSection(s)} style={{ cursor: "pointer", transition: "transform 0.2s" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-              <div style={{ width: 38, height: 38, borderRadius: 10, background: theme.surface, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                <s.icon size={18} color={theme.primary} />
-              </div>
-              <div style={{ flex: 1 }}>
-                <div style={{ fontWeight: 600, fontSize: 14, color: theme.text }}>{s.title}</div>
-                <div style={{ fontSize: 12, color: theme.textSecondary, marginTop: 2 }}>{s.desc}</div>
-              </div>
-              <ChevronRight size={16} color={theme.textSecondary} />
+      {!selectedCategory ? (
+        <>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
+            <div style={{ width: 40, height: 40, borderRadius: 12, background: theme.primary, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Beaker size={20} color={theme.bg} />
             </div>
-          </Card>
-        ))}
-      </div>
+            <h1 className="bs-display" style={{ fontSize: 24, fontWeight: 800, color: theme.text, margin: 0 }}>Laboratório</h1>
+          </div>
+          
+          <p style={{ color: theme.textSecondary, fontSize: 14, margin: "0 0 20px" }}>
+            Técnicas, equipamentos e exames que fazem a diferença na rotina do biomédico.
+          </p>
+
+          <div style={{ position: 'relative', marginBottom: 24 }}>
+            <Search size={18} color={theme.textSecondary} style={{ position: 'absolute', left: 16, top: 14 }} />
+            <input 
+              type="text"
+              placeholder="Buscar equipamento, técnica..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              style={{
+                width: '100%', padding: '14px 16px 14px 44px',
+                background: theme.surface, border: `1px solid ${theme.line}`,
+                borderRadius: 12, color: theme.text, fontSize: 15
+              }}
+            />
+          </div>
+
+          {searchQuery ? (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <h3 style={{ color: theme.text, fontSize: 15, fontWeight: 600, margin: '0 0 8px' }}>Resultados da busca</h3>
+              {filteredItems.length === 0 ? (
+                <p style={{ color: theme.textSecondary, fontSize: 14 }}>Nenhum item encontrado.</p>
+              ) : (
+                filteredItems.map(item => (
+                  <Card key={item.id} padding={16} onClick={() => setSelectedItem(item)} style={{ cursor: "pointer" }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <div>
+                        <div style={{ fontWeight: 600, fontSize: 15, color: theme.text, display: 'flex', alignItems: 'center', gap: 8 }}>
+                          {item.title}
+                          {progressData[item.id] && <CheckCircle size={14} color={theme.primary} />}
+                        </div>
+                        <div style={{ fontSize: 12, color: theme.primary, marginTop: 4 }}>{item.tags[0]}</div>
+                      </div>
+                      <ChevronRight size={18} color={theme.textSecondary} />
+                    </div>
+                  </Card>
+                ))
+              )}
+            </div>
+          ) : (
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+              {labCategories.map((c) => (
+                <Card key={c.id} padding={16} onClick={() => setSelectedCategory(c)} style={{ cursor: "pointer", display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: 12 }}>
+                  <div style={{ fontWeight: 600, fontSize: 14, color: theme.text }}>{c.title}</div>
+                </Card>
+              ))}
+            </div>
+          )}
+        </>
+      ) : (
+        <>
+          <button 
+            onClick={() => setSelectedCategory(null)} 
+            style={{ background: "none", border: "none", color: theme.textSecondary, display: "flex", alignItems: "center", gap: 6, fontSize: 14, cursor: "pointer", padding: 0, marginBottom: 20 }}
+          >
+            <ChevronLeft size={18} /> Voltar
+          </button>
+
+          <h2 style={{ fontSize: 20, fontWeight: 800, color: theme.text, margin: '0 0 8px' }}>{selectedCategory.title}</h2>
+          <p style={{ color: theme.textSecondary, fontSize: 14, margin: '0 0 20px' }}>{selectedCategory.desc}</p>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            {filteredItems.length === 0 ? (
+              <Card padding={20} style={{ textAlign: 'center', background: 'transparent' }}>
+                <p style={{ color: theme.textSecondary, margin: 0, fontSize: 14 }}>Conteúdo em breve.</p>
+              </Card>
+            ) : (
+              filteredItems.map(item => (
+                <Card key={item.id} padding={16} onClick={() => setSelectedItem(item)} style={{ cursor: "pointer" }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div>
+                      <div style={{ fontWeight: 600, fontSize: 15, color: theme.text, display: 'flex', alignItems: 'center', gap: 8 }}>
+                        {item.title}
+                        {progressData[item.id] && <CheckCircle size={14} color={theme.primary} />}
+                      </div>
+                      <div style={{ fontSize: 13, color: theme.textSecondary, marginTop: 4 }}>{item.description.substring(0, 50)}...</div>
+                    </div>
+                    <ChevronRight size={18} color={theme.textSecondary} />
+                  </div>
+                </Card>
+              ))
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 }
