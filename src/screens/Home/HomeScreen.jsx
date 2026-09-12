@@ -3,6 +3,7 @@ import { theme, alpha } from "../../theme/tokens";
 import { fetchDisciplinesWithProgress, fetchGlobalStats } from "../../services/supabaseService";
 
 import { useAuth } from "../../state/AuthContext";
+import { useCachedQuery } from "../../state/DataCacheContext";
 import Card from "../../components/ui/Card";
 import ProgressBar from "../../components/ui/ProgressBar";
 import SectionHeader from "../../components/ui/SectionHeader";
@@ -11,25 +12,21 @@ import { TrendingUp, Flame, Calendar, BookOpenCheck } from "lucide-react";
 import { resolveIcon } from "../../utils/iconResolver";
 
 export default function HomeScreen({ onOpenDiscipline, onOpenProgress, onGoTab }) {
-  const [disciplines, setDisciplines] = useState([]);
-  const [stats, setStats] = useState(null);
   const { user, profile } = useAuth();
+  
+  const { data: discData, loading: loadingDisc } = useCachedQuery(
+    user ? 'disciplines:' + user.id : null, 
+    () => fetchDisciplinesWithProgress(user.id)
+  );
+  
+  const { data: statsData, loading: loadingStats } = useCachedQuery(
+    user ? 'stats:' + user.id : null, 
+    () => fetchGlobalStats(user.id)
+  );
 
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    if (user) {
-      setLoading(true);
-      Promise.all([
-        fetchDisciplinesWithProgress(user.id),
-        fetchGlobalStats(user.id)
-      ]).then(([discs, st]) => {
-        setDisciplines(discs);
-        setStats(st);
-        setLoading(false);
-      });
-    }
-  }, [user]);
+  const disciplines = discData || [];
+  const stats = statsData || null;
+  const loading = loadingDisc || loadingStats;
 
   const recent = [...disciplines].filter((d) => d.progress > 0).sort((a, b) => b.progress - a.progress).slice(0, 3);
   const next = disciplines.filter((d) => d.progress === 0).slice(0, 2);

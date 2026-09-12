@@ -18,11 +18,15 @@ import ProfileScreen from "../screens/Profile/ProfileScreen";
 import ProgressOverlay from "../screens/Progress/ProgressOverlay";
 import LoginScreen from "../screens/Auth/LoginScreen";
 
+import { DataCacheProvider } from "../state/DataCacheContext";
+
 export default function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
-        <AppContent />
+        <DataCacheProvider>
+          <AppContent />
+        </DataCacheProvider>
       </AuthProvider>
     </ThemeProvider>
   );

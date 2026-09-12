@@ -3,6 +3,7 @@ import { theme } from "../../theme/tokens";
 import { fetchDisciplinesWithProgress, fetchFavoriteBooks, toggleFavoriteBook } from "../../services/supabaseService";
 import { fetchAllBooks } from "../../services/bookService";
 import { useAuth } from "../../state/AuthContext";
+import { useCachedQuery, invalidateCache } from "../../state/DataCacheContext";
 import BookCard from "../../components/domain/BookCard";
 import { Search, Heart } from "lucide-react";
 
@@ -23,46 +24,24 @@ export default function LibraryScreen({ onOpenBook }) {
   const { user } = useAuth();
   const [filter, setFilter] = useState("todos");
   const [search, setSearch] = useState("");
-  const [allBooks, setAllBooks] = useState([]);
-  const [disciplines, setDisciplines] = useState([]);
-  const [favorites, setFavorites] = useState([]);
-  const [loading, setLoading] = useState(true);
 
-  const loadData = async () => {
-    setLoading(true);
-    try {
-      const [booksData, discsData, favsData] = await Promise.all([
-        fetchAllBooks(),
-        fetchDisciplinesWithProgress(user?.id),
-        user ? fetchFavoriteBooks(user.id) : Promise.resolve([])
-      ]);
-      setAllBooks(booksData || []);
-      setDisciplines(discsData || []);
-      setFavorites(favsData || []);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { data: booksData, loading: loadingBooks } = useCachedQuery('books:all', fetchAllBooks);
+  const { data: discData, loading: loadingDisc } = useCachedQuery(user ? 'disciplines:' + user.id : null, () => fetchDisciplinesWithProgress(user.id));
+  const { data: favData, loading: loadingFavs } = useCachedQuery(user ? 'favorites:' + user.id : null, () => fetchFavoriteBooks(user.id));
 
-  useEffect(() => {
-    loadData();
-  }, [user]);
+  const allBooks = booksData || [];
+  const disciplines = discData || [];
+  const favorites = favData || [];
+  const loading = loadingBooks || loadingDisc || loadingFavs;
 
   const handleToggleFavorite = async (book) => {
     if (!user) return;
-    const isFav = favorites.some(f => f.work_key === book.id);
-    
-    // update optimistic UI
-    if (isFav) {
-      setFavorites(prev => prev.filter(f => f.work_key !== book.id));
-    } else {
-      setFavorites(prev => [...prev, { work_key: book.id, title: book.title, author: book.author }]);
+    try {
+      await toggleFavoriteBook(user.id, { work_key: book.id, title: book.title, author: book.author });
+      invalidateCache(`favorites:${user.id}`);
+    } catch (err) {
+      console.error(err);
     }
-    
-    // save to backend
-    await toggleFavoriteBook(user.id, { work_key: book.id, title: book.title, author: book.author });
   };
 
   const filtered = allBooks.filter((b) => {

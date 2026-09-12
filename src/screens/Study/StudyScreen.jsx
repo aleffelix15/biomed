@@ -3,6 +3,7 @@ import { theme, alpha } from "../../theme/tokens";
 import { fetchDisciplinesWithProgress, fetchFlashcards, updateFlashcardProgress, fetchQuestions, saveQuestionAttempt, ensureFlashcardExists, saveStudySession } from "../../services/supabaseService";
 import * as content from "../../services/contentService";
 import { useAuth } from "../../state/AuthContext";
+import { useCachedQuery } from "../../state/DataCacheContext";
 import Card from "../../components/ui/Card";
 import Badge from "../../components/ui/Badge";
 import SectionHeader from "../../components/ui/SectionHeader";
@@ -15,7 +16,9 @@ export default function StudyScreen() {
   const { user } = useAuth();
   const [step, setStep] = useState("mode-selection"); // mode-selection | disc-selection | topic-selection | studying | finished
   const [mode, setMode] = useState("flashcards"); // flashcards | questions | simulado | prova
-  const [disciplines, setDisciplines] = useState([]);
+  
+  const { data: discData } = useCachedQuery(user ? 'disciplines:' + user.id : null, () => fetchDisciplinesWithProgress(user.id));
+  const disciplines = discData || [];
   const [selectedDisc, setSelectedDisc] = useState(null);
   const [items, setItems] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -29,10 +32,40 @@ export default function StudyScreen() {
   const [timeLeft, setTimeLeft] = useState(0);
   const [timerActive, setTimerActive] = useState(false);
   const [examAnswers, setExamAnswers] = useState([]);
+  const [alreadySaved, setAlreadySaved] = useState(false);
 
   useEffect(() => {
-    fetchDisciplinesWithProgress(user?.id).then(setDisciplines);
-  }, [user]);
+    if (step === "finished" && mode === "prova" && !alreadySaved && items.length > 0) {
+      const saveProva = async () => {
+        let correct = 0;
+        items.forEach((q, idx) => {
+          if (examAnswers[idx]?.selected === q.correct_option) correct++;
+        });
+        try {
+          await Promise.all(items.map((q, idx) => {
+            const opt = examAnswers[idx]?.selected;
+            if (opt) return saveQuestionAttempt(user?.id, q, opt).catch(e => console.error(e));
+            return Promise.resolve();
+          }));
+          
+          await saveStudySession({
+            user_id: user?.id,
+            discipline_id: selectedDisc?.id,
+            topic_id: selectedTopic,
+            mode: mode,
+            score_percent: Math.round((correct / items.length) * 100),
+            correct_count: correct,
+            total_count: items.length,
+            duration_seconds: 600 - timeLeft
+          });
+          setAlreadySaved(true);
+        } catch(e) {
+          console.error("Error saving exam:", e);
+        }
+      };
+      saveProva();
+    }
+  }, [step, mode, alreadySaved, items, examAnswers, timeLeft, user, selectedDisc, selectedTopic]);
 
   // Timer Logic for "Modo Prova"
   useEffect(() => {
@@ -369,32 +402,6 @@ export default function StudyScreen() {
           const answer = examAnswers[idx]?.selected;
           if (answer === q.correct_option) correct++;
         });
-        
-        useEffect(() => {
-          const saveProva = async () => {
-            try {
-              await Promise.all(items.map((q, idx) => {
-                const opt = examAnswers[idx]?.selected;
-                if (opt) return saveQuestionAttempt(user.id, q, opt).catch(e => console.error(e));
-                return Promise.resolve();
-              }));
-              
-              await saveStudySession({
-                user_id: user.id,
-                discipline_id: selectedDisc?.id,
-                topic_id: selectedTopic,
-                mode: mode,
-                score_percent: Math.round((correct / items.length) * 100),
-                correct_count: correct,
-                total_count: items.length,
-                duration_seconds: 600 - timeLeft
-              });
-            } catch(e) {
-              console.error("Error saving exam:", e);
-            }
-          };
-          saveProva();
-        }, []); 
       } else {
         correct = sessionAnswers.filter(a => a.correct).length;
       }

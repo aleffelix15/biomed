@@ -3,6 +3,7 @@ import { theme } from "../../theme/tokens";
 import { useAuth } from "../../state/AuthContext";
 import { useAppTheme } from "../../state/ThemeContext";
 import { updateUserProfile, fetchGlobalStats } from "../../services/supabaseService";
+import { useCachedQuery } from "../../state/DataCacheContext";
 import Card from "../../components/ui/Card";
 import SectionHeader from "../../components/ui/SectionHeader";
 import { Moon, Sun, User, BookOpen, GraduationCap, Save, X, Edit2, LogOut, Clock, Target, Star, TrendingUp, Trophy } from "lucide-react";
@@ -18,18 +19,12 @@ export default function ProfileScreen({ onOpenLeaderboard }) {
   });
   const [loading, setLoading] = useState(false);
   const [successMsg, setSuccessMsg] = useState(false);
-  const [stats, setStats] = useState(null);
-  const [statsLoading, setStatsLoading] = useState(true);
-
-  useEffect(() => {
-    if (user) {
-      setStatsLoading(true);
-      fetchGlobalStats(user.id).then(data => {
-        setStats(data);
-        setStatsLoading(false);
-      }).catch(() => setStatsLoading(false));
-    }
-  }, [user]);
+  
+  const { data: statsData, loading: statsLoading } = useCachedQuery(
+    user ? 'stats:' + user.id : null, 
+    () => fetchGlobalStats(user.id)
+  );
+  const stats = statsData || null;
 
   // Sync form data when profile changes
   useEffect(() => {

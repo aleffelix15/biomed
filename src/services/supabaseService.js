@@ -1,5 +1,6 @@
-import { supabase } from './supabaseClient';
-import * as content from './contentService';
+import { supabase } from "./supabaseClient";
+import { invalidateCache } from "../state/DataCacheContext";
+import * as content from "./contentService";
 
 
 export async function toggleTopicCompletion(userId, topicId, disciplineId) {
@@ -57,6 +58,7 @@ export async function toggleTopicCompletion(userId, topicId, disciplineId) {
       updated_at: new Date().toISOString(),
     });
 
+  invalidateCache(`disciplines:${userId}`);
   return { completed: newStatus, percent_complete: newPercent };
 }
 
@@ -73,7 +75,7 @@ export async function fetchTopicProgress(userId, disciplineId) {
 }
 
 export async function fetchDisciplinesWithProgress(userId) {
-  const disciplines = await content.getDisciplines();
+  const disciplines = content.getDisciplines();
   if (!supabase || !userId) return disciplines.map(d => ({ ...d, progress: 0, topicsCount: d.topics_count }));
 
   const { data: progress, error: progError } = await supabase
@@ -99,7 +101,7 @@ export async function fetchDisciplinesWithProgress(userId) {
 
 export async function fetchTopicsByDiscipline(discipline) {
   const dId = discipline.id || discipline;
-  const topics = await content.getTopicsByDiscipline(dId);
+  const topics = content.getTopicsByDiscipline(dId);
   return topics;
 }
 
@@ -198,6 +200,8 @@ export async function completeLesson(userId, lessonId, topicId) {
       .eq('user_id', userId)
       .eq('topic_id', topicId);
   }
+
+  invalidateCache(`disciplines:${userId}`);
 }
 
 export async function fetchLessonQuiz(lessonId) {
@@ -519,6 +523,7 @@ export async function saveQuestionAttempt(userId, question, selectedOption) {
       .eq('id', userId);
   }
 
+  invalidateCache(`stats:${userId}`);
   return { ...data, isCorrect };
 }
 
@@ -683,9 +688,13 @@ export async function fetchLeaderboard() {
 }
 
 export async function saveStudySession(sessionData) {
-  if (!supabase) return;
-  const { error } = await supabase.from('study_sessions').insert(sessionData);
-  if (error) {
-    console.error('Error saving study session:', error);
+    if (!supabase) return;
+    const { error } = await supabase.from('study_sessions').insert(sessionData);
+    if (error) {
+      console.error('Error saving study session:', error);
+    }
+    if (sessionData.user_id) {
+      invalidateCache(`stats:${sessionData.user_id}`);
+      invalidateCache(`disciplines:${sessionData.user_id}`);
+    }
   }
-}
