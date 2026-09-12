@@ -1,95 +1,209 @@
 import React, { useState, useEffect } from "react";
-import { useAuth } from "../../state/AuthContext";
 import Card from "../../components/ui/Card";
 import EmptyState from "../../components/ui/EmptyState";
-import { fetchLabProgress } from "../../services/supabaseService";
-import { labItems } from "../../content/laboratory/labData";
+import { ChevronRight, ChevronLeft, Search, FlaskConical, CheckCircle } from "lucide-react";
+import { labCategories, labItems } from "../../content/laboratory/labData";
 import LabDetailView from "./LabDetailView";
-import { FlaskConical, Stethoscope, ClipboardList, ChevronRight } from "lucide-react";
+import { useAuth } from "../../state/AuthContext";
+import { fetchLabProgress, fetchFavoriteItems } from "../../services/supabaseService";
 
 export default function LabScreen() {
   const { user } = useAuth();
-  const [activeTab, setActiveTab] = useState("Casos");
-  const [selectedCase, setSelectedCase] = useState(null);
-  
-  // Real cases from labData
-  const cases = labItems.filter(item => item.categoryId === "clinicalCases");
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
-  if (selectedCase) {
-    return <LabDetailView item={selectedCase} onBack={() => setSelectedCase(null)} />;
+  const [progressData, setProgressData] = useState({});
+  const [favoritesData, setFavoritesData] = useState({});
+
+  useEffect(() => {
+    if (user) {
+      loadUserData();
+    }
+  }, [user]);
+
+  const loadUserData = async () => {
+    try {
+      const [prog, favs] = await Promise.all([
+        fetchLabProgress(user.id),
+        fetchFavoriteItems(user.id)
+      ]);
+
+      const pMap = {};
+      (prog || []).forEach(p => pMap[p.item_id] = p.completed);
+      setProgressData(pMap);
+
+      const fMap = {};
+      (favs || []).forEach(f => fMap[f.item_id] = true);
+      setFavoritesData(fMap);
+    } catch (err) {
+      console.error("Erro ao carregar dados do lab:", err);
+    }
+  };
+
+  const handleUpdateStatus = (itemId, completed, favorited) => {
+    setProgressData(prev => ({ ...prev, [itemId]: completed }));
+    setFavoritesData(prev => ({ ...prev, [itemId]: favorited }));
+  };
+
+  const filteredItems = labItems.filter(item => {
+    const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                          item.tags.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()));
+    const matchesCategory = selectedCategory ? item.categoryId === selectedCategory.id : true;
+    return matchesSearch && matchesCategory;
+  });
+
+  // Item detail view
+  if (selectedItem) {
+    return (
+      <LabDetailView
+        item={selectedItem}
+        onBack={() => setSelectedItem(null)}
+        initialCompleted={!!progressData[selectedItem.id]}
+        initialFavorited={!!favoritesData[selectedItem.id]}
+        onUpdateStatus={handleUpdateStatus}
+      />
+    );
   }
 
   return (
     <div style={{ padding: "16px 16px 100px", maxWidth: 600, margin: "0 auto" }}>
-      {/* HEADER */}
-      <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-        <FlaskConical size={28} color="var(--theme-text)" />
-        <h1 style={{ fontSize: 24, fontWeight: 700, color: "var(--theme-text)", margin: 0 }}>Laboratório</h1>
-      </div>
-      <div style={{ fontSize: 14, color: "var(--theme-text-secondary)", marginBottom: 24 }}>
-        Casos reais para aplicar o que você aprendeu.
-      </div>
+      {!selectedCategory ? (
+        <>
+          {/* HEADER */}
+          <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+            <FlaskConical size={28} color="var(--theme-text)" />
+            <h1 style={{ fontSize: 24, fontWeight: 700, color: "var(--theme-text)", margin: 0 }}>Laboratório</h1>
+          </div>
+          <p style={{ color: "var(--theme-text-secondary)", fontSize: 14, margin: "0 0 20px", lineHeight: 1.4 }}>
+            Técnicas, equipamentos e exames que fazem a diferença na rotina do biomédico.
+          </p>
 
-      {/* TABS */}
-      <div style={{ display: "flex", gap: 8, marginBottom: 24, background: "var(--theme-surface)", padding: 4, borderRadius: 24, border: "1px solid var(--theme-line)" }}>
-        {["Casos", "Simulados"].map(tab => (
-          <button
-            key={tab}
-            onClick={() => setActiveTab(tab)}
-            style={{
-              flex: 1,
-              padding: "10px 0",
-              borderRadius: 20,
-              background: activeTab === tab ? "rgba(28, 230, 121, 0.15)" : "transparent",
-              color: activeTab === tab ? "var(--theme-primary)" : "var(--theme-text-secondary)",
-              fontWeight: activeTab === tab ? 600 : 500,
-              fontSize: 14,
-              border: "none",
-              transition: "all 0.2s ease"
-            }}
-          >
-            {tab}
-          </button>
-        ))}
-      </div>
+          {/* SEARCH */}
+          <div style={{ position: "relative", marginBottom: 24 }}>
+            <div style={{ position: "absolute", left: 16, top: 0, bottom: 0, display: "flex", alignItems: "center", pointerEvents: "none" }}>
+              <Search size={18} color="var(--theme-muted)" />
+            </div>
+            <input
+              type="text"
+              placeholder="Buscar equipamento, técnica..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              style={{
+                width: "100%",
+                height: 48,
+                background: "var(--theme-surface)",
+                border: "1px solid var(--theme-line)",
+                borderRadius: 16,
+                padding: "0 16px 0 44px",
+                color: "var(--theme-text)",
+                fontSize: 15,
+                outline: "none"
+              }}
+            />
+          </div>
 
-      {activeTab === "Casos" ? (
-        <div>
-          {cases.length > 0 ? (
-            cases.map((c, index) => (
-              <Card key={c.id} padding={16} onClick={() => setSelectedCase(c)} style={{ marginBottom: 12 }}>
-                <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
-                  <div style={{ width: 72, height: 72, borderRadius: 16, background: "rgba(255, 255, 255, 0.05)", border: "1px solid var(--theme-line)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                    <Stethoscope size={32} color="var(--theme-primary)" opacity={0.8} />
-                  </div>
-                  <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: 15, fontWeight: 600, color: "var(--theme-text)", marginBottom: 4 }}>
-                      Caso {index + 1} - {c.title.split(' em ')[0]}
-                    </div>
-                    <div style={{ fontSize: 13, color: "var(--theme-text-secondary)", marginBottom: 8 }}>
-                      {c.tags?.[0] || 'Geral'} • Nível: Intermediário
-                    </div>
-                    <div style={{ fontSize: 12, fontWeight: 600, color: "var(--theme-primary)" }}>
-                      Ler diagnóstico completo
-                    </div>
-                  </div>
-                  <ChevronRight size={20} color="var(--theme-muted)" />
+          {searchQuery ? (
+            /* SEARCH RESULTS */
+            <div>
+              <h3 style={{ color: "var(--theme-text)", fontSize: 15, fontWeight: 600, margin: "0 0 12px" }}>
+                Resultados da busca
+              </h3>
+              {filteredItems.length === 0 ? (
+                <EmptyState icon={Search} title="Nenhum item encontrado" desc="Tente buscar por outro termo." />
+              ) : (
+                <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                  {filteredItems.map(item => (
+                    <LabItemCard
+                      key={item.id}
+                      item={item}
+                      completed={progressData[item.id]}
+                      onClick={() => setSelectedItem(item)}
+                    />
+                  ))}
                 </div>
-              </Card>
-            ))
+              )}
+            </div>
           ) : (
-            <EmptyState icon={FlaskConical} title="Nenhum caso clínico" desc="Os casos clínicos estão sendo preparados." />
+            /* CATEGORY GRID */
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+              {labCategories.map((c) => {
+                const count = labItems.filter(i => i.categoryId === c.id).length;
+                return (
+                  <Card
+                    key={c.id}
+                    padding={20}
+                    onClick={() => setSelectedCategory(c)}
+                    style={{ display: "flex", flexDirection: "column", gap: 8 }}
+                  >
+                    <div style={{ fontSize: 15, fontWeight: 600, color: "var(--theme-text)" }}>{c.title}</div>
+                    <div style={{ fontSize: 12, color: "var(--theme-text-secondary)", lineHeight: 1.4 }}>{c.desc}</div>
+                    <div style={{ fontSize: 12, color: "var(--theme-primary)", fontWeight: 600, marginTop: 4 }}>
+                      {count} {count === 1 ? "item" : "itens"}
+                    </div>
+                  </Card>
+                );
+              })}
+            </div>
           )}
-        </div>
+        </>
       ) : (
-        <div>
-          <EmptyState 
-             icon={ClipboardList} 
-             title="Simulados em Breve" 
-             desc="Nós estamos preparando um banco de questões focado para você treinar para as principais provas e concursos." 
-          />
-        </div>
+        /* CATEGORY DETAIL */
+        <>
+          <button
+            onClick={() => { setSelectedCategory(null); setSearchQuery(""); }}
+            style={{ background: "none", border: "none", color: "var(--theme-text)", display: "flex", alignItems: "center", gap: 8, fontSize: 15, fontWeight: 600, cursor: "pointer", padding: 0, marginBottom: 20 }}
+          >
+            <ChevronLeft size={20} /> Laboratório
+          </button>
+
+          <h2 style={{ fontSize: 22, fontWeight: 700, color: "var(--theme-text)", margin: "0 0 4px" }}>
+            {selectedCategory.title}
+          </h2>
+          <p style={{ color: "var(--theme-text-secondary)", fontSize: 14, margin: "0 0 20px", lineHeight: 1.4 }}>
+            {selectedCategory.desc}
+          </p>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            {filteredItems.length === 0 ? (
+              <EmptyState icon={FlaskConical} title="Conteúdo em breve" desc="Estamos preparando os itens para esta categoria." />
+            ) : (
+              filteredItems.map(item => (
+                <LabItemCard
+                  key={item.id}
+                  item={item}
+                  completed={progressData[item.id]}
+                  onClick={() => setSelectedItem(item)}
+                />
+              ))
+            )}
+          </div>
+        </>
       )}
     </div>
+  );
+}
+
+function LabItemCard({ item, completed, onClick }) {
+  return (
+    <Card padding={16} onClick={onClick}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ fontWeight: 600, fontSize: 15, color: "var(--theme-text)", display: "flex", alignItems: "center", gap: 8 }}>
+            <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item.title}</span>
+            {completed && <CheckCircle size={14} color="var(--theme-primary)" style={{ flexShrink: 0 }} />}
+          </div>
+          <div style={{ fontSize: 13, color: "var(--theme-text-secondary)", marginTop: 4 }}>
+            {item.description.length > 60 ? item.description.substring(0, 60) + "..." : item.description}
+          </div>
+          {item.tags && item.tags.length > 0 && (
+            <div style={{ fontSize: 12, color: "var(--theme-primary)", marginTop: 6, fontWeight: 600 }}>
+              {item.tags[0]}
+            </div>
+          )}
+        </div>
+        <ChevronRight size={18} color="var(--theme-muted)" style={{ flexShrink: 0, marginLeft: 12 }} />
+      </div>
+    </Card>
   );
 }

@@ -5,17 +5,18 @@ import { fetchGlobalStats, uploadAvatar, updateUserProfile } from "../../service
 import { useCachedQuery } from "../../state/DataCacheContext";
 import Card from "../../components/ui/Card";
 import CircularProgress from "../../components/ui/CircularProgress";
-import { User, Calendar, Trophy, Settings, HelpCircle, LogOut, ChevronRight, Camera, Flame, Loader2, BookOpen } from "lucide-react";
+import { User, Trophy, LogOut, ChevronRight, Camera, Flame, Loader2, Moon, Sun } from "lucide-react";
 import EditProfileModal from "./EditProfileModal";
 
-export default function ProfileScreen({ onOpenLeaderboard }) {
+export default function ProfileScreen({ onOpenLeaderboard, onGoTab }) {
   const { user, profile, signOut, refreshProfile } = useAuth();
+  const { themeMode, toggleTheme } = useAppTheme();
   
   const [isEditingProfile, setIsEditingProfile] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
   const fileInputRef = useRef(null);
 
-  const { data: statsData, loading: statsLoading } = useCachedQuery(
+  const { data: statsData } = useCachedQuery(
     user ? 'stats:' + user.id : null, 
     () => fetchGlobalStats(user.id)
   );
@@ -32,7 +33,6 @@ export default function ProfileScreen({ onOpenLeaderboard }) {
       await refreshProfile();
     } catch (err) {
       console.error(err);
-      alert("Erro ao enviar imagem.");
     } finally {
       setUploadingImage(false);
     }
@@ -46,9 +46,9 @@ export default function ProfileScreen({ onOpenLeaderboard }) {
 
   const userName = profile?.full_name || user?.email?.split('@')[0] || 'Estudante';
   const initial = userName.substring(0, 2).toUpperCase();
-  const overallProgress = stats?.overallProgress || 42; // Real value or fallback
-  const disciplinesCount = stats?.startedDisciplines || 8;
-  const streak = stats?.streak || 12;
+  const overallProgress = stats?.overallProgress || 0;
+  const disciplinesCount = stats?.startedDisciplines || 0;
+  const streak = stats?.streak || 0;
 
   return (
     <div style={{ padding: "16px 16px 100px", maxWidth: 600, margin: "0 auto" }}>
@@ -106,11 +106,21 @@ export default function ProfileScreen({ onOpenLeaderboard }) {
 
       {/* MENU */}
       <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-        <MenuItem icon={Calendar} label="Meu plano de estudos" onClick={() => alert("Em breve!")} />
+        {/* "Meu plano de estudos" → navega para Disciplinas, que é o ponto de entrada real
+            para ver/acessar os planos de estudo de cada tópico.
+            Decisão: opção (a) — entrega rápida, sem forçar StudyPlanScreen sem contexto. */}
+        <MenuItem icon={User} label="Meu plano de estudos" onClick={() => onGoTab && onGoTab("disciplines")} />
+
+        {/* Ranking: funcionalidade real via LeaderboardScreen */}
         <MenuItem icon={Trophy} label="Ranking" onClick={() => onOpenLeaderboard && onOpenLeaderboard()} />
-        <MenuItem icon={Settings} label="Configurações" onClick={() => alert("Em breve!")} />
-        <MenuItem icon={HelpCircle} label="Ajuda e suporte" onClick={() => alert("Em breve!")} />
-        
+
+        {/* Tema dark/light toggle — funcionalidade real que já existia */}
+        <MenuItem 
+          icon={themeMode === "dark" ? Moon : Sun} 
+          label={`Tema: ${themeMode === "dark" ? "Escuro" : "Claro"}`} 
+          onClick={toggleTheme} 
+        />
+
         <div style={{ height: 1, background: "var(--theme-line)", margin: "8px 0" }} />
         
         <MenuItem icon={LogOut} label="Sair" onClick={handleLogout} color="var(--theme-danger)" />
@@ -118,6 +128,7 @@ export default function ProfileScreen({ onOpenLeaderboard }) {
 
       {isEditingProfile && (
         <EditProfileModal 
+          profile={profile}
           onClose={() => setIsEditingProfile(false)} 
           onSave={async (data) => {
             if (!user) return;
@@ -138,7 +149,8 @@ function MenuItem({ icon: Icon, label, onClick, color = "var(--theme-text)" }) {
       style={{ 
         display: "flex", alignItems: "center", justifyContent: "space-between", 
         background: "var(--theme-surface)", border: "1px solid var(--theme-line)", 
-        borderRadius: 16, padding: "16px 20px", cursor: "pointer", transition: "all 0.2s ease" 
+        borderRadius: 16, padding: "16px 20px", cursor: "pointer", transition: "all 0.2s ease",
+        width: "100%"
       }}
     >
       <div style={{ display: "flex", alignItems: "center", gap: 16 }}>

@@ -15,7 +15,8 @@ const StudyScreen = lazy(() => import("../screens/Study/StudyScreen"));
 const LabScreen = lazy(() => import("../screens/Lab/LabScreen"));
 const ProfileScreen = lazy(() => import("../screens/Profile/ProfileScreen"));
 const ProgressOverlay = lazy(() => import("../screens/Progress/ProgressOverlay"));
-const FlashcardScreen = lazy(() => import("../screens/Flashcards/FlashcardScreen")); // NEW
+const FlashcardScreen = lazy(() => import("../screens/Flashcards/FlashcardScreen"));
+const LeaderboardScreen = lazy(() => import("../screens/Ranking/LeaderboardScreen"));
 
 import { DataCacheProvider } from "../state/DataCacheContext";
 
@@ -43,7 +44,7 @@ function AppContent() {
     }
   }, [nav.tab, visitedTabs]);
 
-  const showOverlay = nav.selectedDiscipline;
+  const showOverlay = nav.selectedDiscipline || nav.showLeaderboard;
   
   const showHome = !showOverlay && nav.tab === "home";
   const showDisc = !showOverlay && nav.tab === "disciplines";
@@ -70,6 +71,7 @@ function AppContent() {
                 
                 {/* Overlays */}
                 {nav.selectedDiscipline && <DisciplineDetailScreen discipline={nav.selectedDiscipline} onBack={nav.closeDiscipline} />}
+                {nav.showLeaderboard && <LeaderboardScreen onBack={nav.closeLeaderboard} />}
 
                 {/* Tabs with Keep-Alive (display: none when inactive) */}
                 {visitedTabs.has("home") && (
@@ -99,7 +101,7 @@ function AppContent() {
                 )}
                 {visitedTabs.has("profile") && (
                   <div style={{ display: showProf ? "block" : "none", height: "100%" }}>
-                    <ProfileScreen />
+                    <ProfileScreen onOpenLeaderboard={nav.openLeaderboard} onGoTab={nav.goTab} />
                   </div>
                 )}
               </div>

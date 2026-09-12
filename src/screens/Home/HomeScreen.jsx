@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useAuth } from "../../state/AuthContext";
 import { useCachedQuery } from "../../state/DataCacheContext";
 import { fetchDisciplinesWithProgress } from "../../services/supabaseService";
-import { Bell, Search, BookOpenCheck, Layers, ClipboardList, FlaskConical, ChevronRight } from "lucide-react";
+import { Search, BookOpenCheck, Layers, ClipboardList, FlaskConical } from "lucide-react";
 import Card from "../../components/ui/Card";
 import CircularProgress from "../../components/ui/CircularProgress";
 import { resolveIcon } from "../../utils/iconResolver";
@@ -29,18 +29,13 @@ export default function HomeScreen({ onOpenDiscipline, onGoTab }) {
     <div style={{ padding: "16px 16px 100px", maxWidth: 600, margin: "0 auto" }}>
       
       {/* HEADER */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20 }}>
-        <div>
-          <h1 style={{ fontSize: 28, fontWeight: 700, color: "var(--theme-text)", margin: "0 0 4px" }}>
-            Olá, {firstName}! 👋
-          </h1>
-          <div style={{ fontSize: 14, color: "var(--theme-text-secondary)" }}>
-            Disciplina hoje, foco no seu objetivo!
-          </div>
+      <div style={{ marginBottom: 20 }}>
+        <h1 style={{ fontSize: 28, fontWeight: 700, color: "var(--theme-text)", margin: "0 0 4px" }}>
+          Olá, {firstName}! 👋
+        </h1>
+        <div style={{ fontSize: 14, color: "var(--theme-text-secondary)" }}>
+          Disciplina hoje, foco no seu objetivo!
         </div>
-        <button style={{ width: 44, height: 44, borderRadius: 22, background: "var(--theme-surface)", border: "1px solid var(--theme-line)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--theme-text)" }}>
-          <Bell size={20} />
-        </button>
       </div>
 
       {/* SEARCH */}
@@ -133,7 +128,7 @@ export default function HomeScreen({ onOpenDiscipline, onGoTab }) {
                   <div style={{ fontSize: 13, color: "var(--theme-text-secondary)", marginBottom: 8 }}>
                     {recent.progress_percent}% concluído
                   </div>
-                  <button style={{ background: "var(--theme-primary)", color: "#000", border: "none", borderRadius: 8, padding: "6px 16px", fontSize: 13, fontWeight: 600, display: "inline-block" }}>
+                  <button onClick={() => onOpenDiscipline(recent)} style={{ background: "var(--theme-primary)", color: "#000", border: "none", borderRadius: 8, padding: "6px 16px", fontSize: 13, fontWeight: 600, display: "inline-block", cursor: "pointer" }}>
                     Continuar
                   </button>
                 </div>
