@@ -63,7 +63,7 @@ export default function LessonScreen({ lesson, topic, discipline, onBack }) {
         </Card>
 
         {/* Conteúdo Principal Renderizado */}
-        <ContentRenderer blocks={lesson.content_blocks} fallbackMarkdown={lesson.content_markdown} />
+        <ContentRenderer blocks={lesson.content_blocks} fallbackMarkdown={lesson.content_markdown || lesson.content} />
 
         {/* Imagens (se existirem) */}
         {lesson.images && lesson.images.length > 0 && (

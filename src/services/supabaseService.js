@@ -77,6 +77,13 @@ export async function fetchTopicProgress(userId, disciplineId) {
 export async function fetchDisciplinesWithProgress(userId) {
   if (!supabase) return [];
 
+  // Fallback map para pegar contagem real (evitar NaN)
+  const localDisciplines = content.getDisciplines();
+  const localTopicCountMap = localDisciplines.reduce((acc, d) => {
+    acc[d.id] = d.topics_count || d.topicsCount || 0;
+    return acc;
+  }, {});
+
   // 1. Buscamos todas as disciplinas direto da fonte da verdade (Banco)
   const { data: disciplines, error: discErr } = await supabase
     .from('disciplines')
@@ -85,12 +92,12 @@ export async function fetchDisciplinesWithProgress(userId) {
 
   if (discErr) {
     console.error("Erro ao buscar disciplinas", discErr);
-    return content.getDisciplines().map(d => ({ ...d, progress_percent: 0 })); // fallback local
+    return localDisciplines.map(d => ({ ...d, progress_percent: 0, topicsCount: localTopicCountMap[d.id] || 0 })); // fallback local
   }
 
   // Se não houver usuário logado, retorna 0%
   if (!userId) {
-    return disciplines.map(d => ({ ...d, progress_percent: 0, topicsCount: 0 }));
+    return disciplines.map(d => ({ ...d, progress_percent: 0, topicsCount: localTopicCountMap[d.slug] || 0 }));
   }
 
   // 2. Buscamos a View Agregada
@@ -114,7 +121,7 @@ export async function fetchDisciplinesWithProgress(userId) {
     name: d.name,
     description: d.description,
     progress_percent: progressMap[d.id] || 0,
-    topicsCount: 0 // Will map properly when topics count logic is fully implemented, for now UI handles it.
+    topicsCount: localTopicCountMap[d.slug] || 0 // Mapeado pelo slug porque ID local pode diferir do UUID
   }));
 }
 

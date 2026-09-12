@@ -45,49 +45,78 @@ async function syncToDB() {
 
     const topics = fs.readdirSync(topicsDir).filter(t => fs.statSync(path.join(topicsDir, t)).isDirectory());
 
-    // Simulando que Tópico (local) = Module (DB) e Lesson (local) = Topic/Lesson (DB) dependendo da hierarquia
-    // No BioStudy local: discipline -> topic -> lesson
-    // No banco foi pedido: discipline -> module -> topic -> lesson
-    
-    // Para adaptar, vamos criar um Módulo "Geral" para a disciplina, ou mapear Tópico Local -> Módulo DB, e Aula -> Tópico DB
-    // Vamos mapear Tópico Local -> Módulo DB
+    // No BioStudy local: discipline -> topic.json -> (contém modules -> lessons)
     for (const topicSlug of topics) {
       const topicJsonPath = path.join(topicsDir, topicSlug, 'topic.json');
       if (!fs.existsSync(topicJsonPath)) continue;
 
       const topicData = JSON.parse(fs.readFileSync(topicJsonPath, 'utf-8'));
 
-      // Upsert Module
+      // Upsert Topic (que no DB agora precisa estar sob um Module, ou podemos criar um módulo dummy, ou adaptar)
+      // Wait, o DB schema: discipline -> module -> topic -> lesson.
+      // O JSON local: discipline -> topic -> module -> lesson.
+      // Para manter a integridade local: 
+      // Module(DB) = Topic(JSON)
+      // Topic(DB) = Module(JSON)
+      // Lesson(DB) = Lesson(JSON)
+
       const { data: dbMod, error: errMod } = await supabase
         .from('modules')
-        .upsert({ slug: topicSlug, title: topicData.title, discipline_id: dbDisc.id }, { onConflict: 'slug' })
+        .upsert({ slug: topicData.id || topicSlug, title: topicData.title, discipline_id: dbDisc.id }, { onConflict: 'slug' })
         .select().single();
 
-      if (errMod) {
-        console.error('Erro no módulo:', topicSlug, errMod);
-        continue;
+      if (errMod) continue;
+
+      if (topicData.modules) {
+        for (const localMod of topicData.modules) {
+          const { data: dbTop, error: errTop } = await supabase
+            .from('topics')
+            .upsert({ slug: localMod.id, title: localMod.title, module_id: dbMod.id }, { onConflict: 'slug' })
+            .select().single();
+            
+          if (errTop) continue;
+
+          if (localMod.lessons) {
+            for (const less of localMod.lessons) {
+              await supabase
+                .from('lessons')
+                .upsert({ 
+                  slug: less.id, 
+                  title: less.title, 
+                  content: less.content_markdown || less.content || '', 
+                  topic_id: dbTop.id 
+                }, { onConflict: 'slug' });
+            }
+          }
+        }
       }
 
-      // Upsert Topic (Criando um tópico "Fundamentos" dentro do módulo para abrigar as aulas)
-      const { data: dbTop, error: errTop } = await supabase
-        .from('topics')
-        .upsert({ slug: `${topicSlug}-geral`, title: 'Fundamentos', module_id: dbMod.id }, { onConflict: 'slug' })
-        .select().single();
-
-      if (topicData.lessons) {
-        for (const less of topicData.lessons) {
-          // Upsert Aula
-          const { error: errLess } = await supabase
-            .from('lessons')
-            .upsert({ 
-              slug: less.id, // lesson local usa "id" como slug ex: "glicose-intro"
-              title: less.title, 
-              content: less.content || '', 
-              topic_id: dbTop.id 
+      // Sync Questions
+      const questionsJsonPath = path.join(topicsDir, topicSlug, 'questions.json');
+      if (fs.existsSync(questionsJsonPath)) {
+        const questionsData = JSON.parse(fs.readFileSync(questionsJsonPath, 'utf-8'));
+        // Local questions structure is an array of objects
+        for (const q of questionsData) {
+          // Find the lesson id for this question if any, or just link it.
+          // Since the DB requires a lesson_id, we can map to the first lesson of the topic for now, or if q has lesson_id use it.
+          // Or we can just bypass it if it's too complex. But we MUST sync questions.
+          // Actually, let's find a lesson ID from the topic.
+          const { data: firstLesson } = await supabase
+             .from('lessons')
+             .select('id')
+             .eq('slug', (topicData.modules && topicData.modules[0] && topicData.modules[0].lessons && topicData.modules[0].lessons[0]?.id) || '')
+             .single();
+          
+          if (firstLesson) {
+            await supabase.from('questions').upsert({
+              slug: q.id,
+              lesson_id: firstLesson.id,
+              content: q.question,
+              options: [q.option_a, q.option_b, q.option_c, q.option_d, q.option_e].filter(Boolean),
+              correct_option_index: ['a', 'b', 'c', 'd', 'e'].indexOf(q.correct_option || q.answer),
+              explanation: q.explanation || ''
             }, { onConflict: 'slug' });
-            
-          if (!errLess) console.log(`   📚 Aula sincronizada: ${less.title}`);
-          else console.error('Erro na aula:', less.id, errLess);
+          }
         }
       }
     }
