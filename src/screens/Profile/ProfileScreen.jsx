@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { useAuth } from "../../state/AuthContext";
 import { useAppTheme } from "../../state/ThemeContext";
-import { fetchGlobalStats, uploadAvatar, updateUserProfile } from "../../services/supabaseService";
+import { fetchGlobalStats, uploadAvatar, updateUserProfile, fetchDisciplinesWithProgress } from "../../services/supabaseService";
 import { useCachedQuery } from "../../state/DataCacheContext";
 import Card from "../../components/ui/Card";
 import CircularProgress from "../../components/ui/CircularProgress";
@@ -17,8 +17,14 @@ export default function ProfileScreen({ onOpenLeaderboard, onGoTab }) {
   const fileInputRef = useRef(null);
 
   const { data: statsData } = useCachedQuery(
-    user ? 'stats:' + user.id : null, 
-    () => fetchGlobalStats(user.id)
+    user ? 'profile_stats:' + user.id : null, 
+    async () => {
+      const [gStats, discs] = await Promise.all([
+        fetchGlobalStats(user.id),
+        fetchDisciplinesWithProgress(user.id)
+      ]);
+      return { ...gStats, disciplines: discs };
+    }
   );
   const stats = statsData || null;
 
@@ -46,8 +52,14 @@ export default function ProfileScreen({ onOpenLeaderboard, onGoTab }) {
 
   const userName = profile?.full_name || user?.email?.split('@')[0] || 'Estudante';
   const initial = userName.substring(0, 2).toUpperCase();
-  const overallProgress = stats?.overallProgress || 0;
-  const disciplinesCount = stats?.startedDisciplines || 0;
+  
+  const disciplines = stats?.disciplines || [];
+  const startedDisciplines = disciplines.filter(d => (d.progress_percent || 0) > 0).length;
+  const overallProgress = disciplines.length > 0 
+    ? Math.round(disciplines.reduce((sum, d) => sum + (d.progress_percent || 0), 0) / disciplines.length)
+    : 0;
+
+  const disciplinesCount = startedDisciplines;
   const streak = stats?.streak || 0;
 
   return (

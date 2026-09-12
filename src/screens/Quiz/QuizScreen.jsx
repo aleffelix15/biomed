@@ -42,18 +42,20 @@ export default function QuizScreen({ topicId, disciplineId, lessonId, isSimulado
   const handleNext = async () => {
     if (saving) return;
     const currentQ = questions[currentIndex];
-    const isCorrect = answers[currentQ.id] === currentQ.correct_option;
+    const selected = answers[currentQ.id];
+    const isCorrect = selected === currentQ.correct_option;
 
     setSaving(true);
     try {
       if (user) {
-        await saveQuestionAttempt(user.id, currentQ.id, isCorrect);
+        await saveQuestionAttempt(user.id, currentQ, selected);
         if (!isCorrect) {
-          await addWrongQuestionToReview(user.id, currentQ.id);
+          await addWrongQuestionToReview(disciplineId, topicId, currentQ);
         }
       }
     } catch (err) {
       console.error("Erro salvando questao:", err);
+      alert("Não foi possível salvar seu progresso. Verifique sua conexão.");
     } finally {
       setSaving(false);
     }

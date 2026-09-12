@@ -62,6 +62,7 @@ export default function DisciplineDetailScreen({ discipline, onBack }) {
       }
     } catch (err) {
       console.error("Error toggling topic completion:", err);
+      alert("Não foi possível atualizar o progresso do tópico.");
     }
   };
 

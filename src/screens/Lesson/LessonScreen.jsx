@@ -22,6 +22,7 @@ export default function LessonScreen({ lesson, topic, discipline, module, onBack
       setActiveQuiz(true); // Na UI 2.0, avançar leva ao Quiz!
     } catch (err) {
       console.error(err);
+      alert("Não foi possível salvar o progresso desta aula. Verifique sua conexão.");
       // Fallback in case of error
       setActiveQuiz(true);
     } finally {

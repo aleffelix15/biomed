@@ -23,7 +23,7 @@ export default function ProgressOverlay({ onClose }) {
           fetchDisciplinesWithProgress(user.id),
           fetchGlobalStats(user.id),
         ]);
-        setDisciplines(discs.sort((a, b) => (b.progress || 0) - (a.progress || 0)));
+        setDisciplines(discs.sort((a, b) => (b.progress_percent || 0) - (a.progress_percent || 0)));
         setStats(globalStats);
       } catch (err) {
         console.error("Error loading progress:", err);
@@ -75,11 +75,11 @@ export default function ProgressOverlay({ onClose }) {
                 <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                   {disciplines.map((d) => (
                     <Card key={d.id} padding={13}>
-                      <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, marginBottom: 6 }}>
-                        <span style={{ color: theme.text, fontWeight: 500 }}>{d.name}</span>
-                        <span style={{ color: theme.textSecondary }}>{d.progress || 0}%</span>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8, fontSize: 13, fontWeight: 600 }}>
+                        <span style={{ color: theme.text }}>{d.name}</span>
+                        <span style={{ color: theme.textSecondary }}>{d.progress_percent || 0}%</span>
                       </div>
-                      <ProgressBar value={d.progress || 0} height={5} />
+                      <ProgressBar value={d.progress_percent || 0} height={5} />
                     </Card>
                   ))}
                 </div>

@@ -20,6 +20,7 @@ export default function FlashcardEngine({ items, onFinish }) {
       }
     } catch (err) {
       console.error("Error saving flashcard progress:", err);
+      alert("Não foi possível salvar sua avaliação neste card.");
     }
     
     if (currentIndex < items.length - 1) {

@@ -22,6 +22,7 @@ export default function LabDetailView({ item, onBack, initialCompleted, initialF
       onUpdateStatus(item.id, newStatus, favorited);
     } catch (e) {
       console.error(e);
+      alert("Não foi possível atualizar o progresso deste item.");
     } finally {
       setLoading(false);
     }
@@ -35,6 +36,7 @@ export default function LabDetailView({ item, onBack, initialCompleted, initialF
       onUpdateStatus(item.id, completed, newStatus);
     } catch (e) {
       console.error(e);
+      alert("Não foi possível favoritar este item.");
     }
   };
 

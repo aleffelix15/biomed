@@ -91,6 +91,7 @@ export default function StudyScreen() {
         invalidate(); // Refresh progress in home/disciplines
       } catch(e) {
         console.error("Error saving session:", e);
+        alert("Não foi possível salvar o histórico desta sessão. Verifique sua conexão.");
       }
     }
   };

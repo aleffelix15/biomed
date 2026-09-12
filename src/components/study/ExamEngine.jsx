@@ -3,7 +3,7 @@ import QuestionCard from '../domain/QuestionCard';
 import { saveQuestionAttempt, addWrongQuestionToReview } from '../../services/supabaseService';
 import { useAuth } from '../../state/AuthContext';
 import { ChevronRight, ChevronLeft, Flag, CheckCircle } from 'lucide-react';
-import { theme } from '../../theme/tokens';
+import { theme, alpha } from '../../theme/tokens';
 
 export default function ExamEngine({ items, allTopics, isExamMode, onFinish }) {
   const { user } = useAuth();
