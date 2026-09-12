@@ -96,7 +96,7 @@ export async function fetchDisciplinesWithProgress(userId) {
 
   if (discErr) {
     console.error("Erro ao buscar disciplinas", discErr);
-    return localDisciplines.map(d => ({ ...d, category: localCategoryMap[d.id] || 'Sem Categoria', progress_percent: 0, topicsCount: localTopicCountMap[d.id] || 0 })); // fallback local
+    return localDisciplines.map(d => ({ ...d, category: localCategoryMap[d.id] || 'Sem Categoria', progress_percent: 0, topics_count: localTopicCountMap[d.id] || 0 })); // fallback local
   }
 
   // Se não houver usuário logado, retorna 0%
