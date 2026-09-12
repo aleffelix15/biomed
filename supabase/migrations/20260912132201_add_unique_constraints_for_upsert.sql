@@ -16,3 +16,4 @@ BEGIN
     ALTER TABLE lab_progress ADD CONSTRAINT lab_progress_user_item_unique UNIQUE (user_id, item_id);
   END IF;
 END $$;
+

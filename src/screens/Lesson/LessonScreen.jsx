@@ -24,7 +24,7 @@ export default function LessonScreen({ lesson, topic, discipline, onBack }) {
       onBack(); // Voltar para o plano
     } catch (err) {
       console.error("Erro ao salvar conclusão da aula:", err);
-      setErrorMsg("Não foi possível salvar. Tente novamente.");
+      setErrorMsg("Não foi possível salvar: " + (err.message || JSON.stringify(err)));
     } finally {
       setSubmitting(false);
     }
