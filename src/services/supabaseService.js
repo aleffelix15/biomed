@@ -537,7 +537,6 @@ export async function fetchGlobalStats(userId) {
     .eq('user_id', userId);
 
   const totalSeconds = sessions?.reduce((acc, s) => acc + (s.duration_seconds || 0), 0) || 0;
-  const totalHours = (totalSeconds / 3600).toFixed(1);
 
   // 2. Questions Stats
   const { data: attempts } = await supabase
@@ -564,7 +563,7 @@ export async function fetchGlobalStats(userId) {
   }
 
   return {
-    totalHours,
+    totalStudySeconds: totalSeconds,
     totalQuestions,
     correctQuestions,
     accuracyRate,

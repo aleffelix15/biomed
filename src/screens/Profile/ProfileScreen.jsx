@@ -19,6 +19,7 @@ export default function ProfileScreen({ onOpenLeaderboard }) {
   });
   const [loading, setLoading] = useState(false);
   const [successMsg, setSuccessMsg] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
   
   const { data: statsData, loading: statsLoading } = useCachedQuery(
     user ? 'stats:' + user.id : null, 
@@ -37,9 +38,17 @@ export default function ProfileScreen({ onOpenLeaderboard }) {
     }
   }, [profile]);
 
+  useEffect(() => {
+    if (successMsg) {
+      const t = setTimeout(() => setSuccessMsg(false), 4000);
+      return () => clearTimeout(t);
+    }
+  }, [successMsg]);
+
   const handleSave = async () => {
     setLoading(true);
     setSuccessMsg(false);
+    setErrorMsg('');
     try {
       if (isOfflineMode) {
         updateLocalProfile(formData);
@@ -51,6 +60,7 @@ export default function ProfileScreen({ onOpenLeaderboard }) {
       setIsEditing(false);
     } catch (err) {
       console.error("Error updating profile:", err);
+      setErrorMsg("Não foi possível salvar as alterações. Tente novamente.");
     } finally {
       setLoading(false);
     }
@@ -63,6 +73,8 @@ export default function ProfileScreen({ onOpenLeaderboard }) {
       period: profile?.period || "",
     });
     setIsEditing(false);
+    setErrorMsg('');
+    setSuccessMsg(false);
   };
 
   const formatHours = (val) => {
@@ -97,7 +109,7 @@ export default function ProfileScreen({ onOpenLeaderboard }) {
 
       <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 16 }}>
         <button
-          onClick={isEditing ? handleCancel : () => setIsEditing(true)}
+          onClick={isEditing ? handleCancel : () => { setIsEditing(true); setErrorMsg(''); setSuccessMsg(false); }}
           style={{ display: "flex", alignItems: "center", gap: 6, background: "none", border: "none", color: theme.primary, cursor: "pointer", fontSize: 14, fontWeight: 600 }}
         >
           {isEditing ? <><X size={16} /> Cancelar</> : <><Edit2 size={16} /> Editar Perfil</>}
@@ -169,6 +181,12 @@ export default function ProfileScreen({ onOpenLeaderboard }) {
           >
             {loading ? "Salvando..." : <><Save size={18} /> Salvar Alterações</>}
           </button>
+        )}
+
+        {errorMsg && (
+          <div style={{ marginTop: 16, padding: 12, borderRadius: 8, background: `rgba(239, 68, 68, 0.22)`, color: theme.danger, textAlign: "center", fontSize: 13, fontWeight: 500 }}>
+            {errorMsg}
+          </div>
         )}
 
         {successMsg && (

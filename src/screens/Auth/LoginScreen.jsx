@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { theme, alpha } from '../../theme/tokens';
 import { supabase } from '../../services/supabaseClient';
 import { updateUserProfile } from '../../services/supabaseService';
@@ -29,6 +29,18 @@ export default function LoginScreen() {
   const [infoMsg, setInfoMsg] = useState('');
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+
+  useEffect(() => {
+    const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+    const searchParams = new URLSearchParams(window.location.search);
+    const errorDescription =
+      hashParams.get('error_description') || searchParams.get('error_description') ||
+      hashParams.get('error') || searchParams.get('error');
+    if (errorDescription) {
+      setErrorMsg(mapAuthError({ message: decodeURIComponent(errorDescription) }));
+      window.history.replaceState(null, '', window.location.pathname);
+    }
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -93,10 +105,11 @@ export default function LoginScreen() {
     }
     setLoading(true);
     setErrorMsg('');
+    setInfoMsg('');
     try {
       const { error } = await supabase.auth.resetPasswordForEmail(email);
       if (error) throw error;
-      setErrorMsg('E-mail de recuperação enviado (se a conta existir).');
+      setInfoMsg('E-mail de recuperação enviado (se a conta existir).');
     } catch (err) {
       setErrorMsg(mapAuthError(err));
     } finally {
