@@ -114,3 +114,4 @@ export default function LabQuizModal({ quiz, onClose, onFinish }) {
     </div>
   );
 }
+

@@ -398,7 +398,7 @@ export async function fetchFlashcards(disciplineId, topicId = null) {
       .select('*')
       .eq('discipline_id', disciplineId);
       
-    if (topicId) query = query.eq('topic_id', topicId);
+    if (topicId && topicId !== 'all') query = query.eq('topic_id', topicId);
       
     const { data, error } = await query;
       
@@ -410,7 +410,7 @@ export async function fetchFlashcards(disciplineId, topicId = null) {
   }
 
   let questions = await content.getAllQuestionsByDiscipline(disciplineId);
-  if (topicId) {
+  if (topicId && topicId !== 'all') {
     questions = questions.filter(q => q.topic_id === topicId);
   }
   
@@ -498,7 +498,7 @@ export async function fetchUserFlashcardProgress(userId) {
 
 export async function fetchQuestions(disciplineId, topicId = null, isSimulado = false, limit = null) {
   let all = await content.getAllQuestionsByDiscipline(disciplineId);
-  if (topicId) {
+  if (topicId && topicId !== 'all') {
     all = all.filter(q => q.topic_id === topicId);
   }
   if (isSimulado) {

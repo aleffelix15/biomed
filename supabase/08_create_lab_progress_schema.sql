@@ -38,3 +38,4 @@ DROP POLICY IF EXISTS "Users can update own lab progress" ON public.lab_progress
 CREATE POLICY "Users can update own lab progress"
     ON public.lab_progress FOR UPDATE
     USING (auth.uid() = user_id);
+

@@ -141,3 +141,4 @@ export default function LabDetailView({ item, onBack, initialCompleted, initialF
     </div>
   );
 }
+
