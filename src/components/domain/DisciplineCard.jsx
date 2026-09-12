@@ -21,7 +21,7 @@ export default function DisciplineCard({ discipline, onClick }) {
             <div style={{ fontWeight: 600, fontSize: 14, color: theme.text }}>{d.name}</div>
             <div style={{ fontSize: 9, fontWeight: 600, background: theme.surface, color: theme.textSecondary, padding: "2px 6px", borderRadius: 4, textTransform: "uppercase" }}>{difficulty}</div>
           </div>
-          <div style={{ fontSize: 12, color: theme.textSecondary, marginTop: 1 }}>{d.topicsCount} tópicos</div>
+          <div style={{ fontSize: 12, color: theme.textSecondary, marginTop: 1 }}>{d.topics_count || d.topicsCount || 0} tópicos</div>
         </div>
         {d.progress_percent > 0 && (
            <div style={{ display: "flex", alignItems: "center", gap: 4, background: theme.primary, color: theme.bg, padding: "4px 8px", borderRadius: 8, fontSize: 11, fontWeight: 600 }}>

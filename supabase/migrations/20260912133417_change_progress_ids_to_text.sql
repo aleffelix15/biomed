@@ -12,3 +12,4 @@ ALTER TABLE IF EXISTS study_plans ALTER COLUMN last_lesson_id TYPE text USING la
 -- 3. question_attempts (caso esteja rodando o schema.sql onde é uuid)
 ALTER TABLE IF EXISTS question_attempts DROP CONSTRAINT IF EXISTS question_attempts_question_id_fkey;
 ALTER TABLE IF EXISTS question_attempts ALTER COLUMN question_id TYPE text USING question_id::text;
+

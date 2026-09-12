@@ -38,7 +38,7 @@ export default function StudyScreen() {
   useEffect(() => {
     if (selectedDisc) {
       const loadTopics = async () => {
-        const dTopics = content.getTopicsByDiscipline(selectedDisc.id).filter(t => t.has_content);
+        const dTopics = content.getTopicsByDiscipline(selectedDisc.id);
         setTopics(dTopics);
       };
       loadTopics();
@@ -167,7 +167,7 @@ export default function StudyScreen() {
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <div>
                     <div style={{ fontWeight: 600, fontSize: 15, color: theme.text }}>{d.name}</div>
-                    <div style={{ fontSize: 13, color: theme.primary, marginTop: 4 }}>{d.topics_count} tópicos • {d.progress_percent}% concluído</div>
+                    <div style={{ fontSize: 13, color: theme.primary, marginTop: 4 }}>{d.topics_count || d.topicsCount || 0} tópicos • {d.progress_percent}% concluído</div>
                   </div>
                   <ChevronLeft size={18} style={{ transform: "rotate(180deg)", color: theme.textSecondary }} />
                 </div>

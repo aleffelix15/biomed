@@ -101,7 +101,7 @@ export async function fetchDisciplinesWithProgress(userId) {
 
   // Se não houver usuário logado, retorna 0%
   if (!userId) {
-    return disciplines.map(d => ({ ...d, category: localCategoryMap[d.slug] || 'Sem Categoria', progress_percent: 0, topicsCount: localTopicCountMap[d.slug] || 0 }));
+    return disciplines.map(d => ({ ...d, category: localCategoryMap[d.id] || 'Sem Categoria', progress_percent: 0, topics_count: localTopicCountMap[d.id] || 0 }));
   }
 
   // 2. Buscamos a View Agregada
@@ -121,12 +121,11 @@ export async function fetchDisciplinesWithProgress(userId) {
 
   return disciplines.map(d => ({
     id: d.id,
-    slug: d.slug,
     name: d.name,
     description: d.description,
-    category: localCategoryMap[d.slug] || 'Sem Categoria',
+    category: localCategoryMap[d.id] || 'Sem Categoria',
     progress_percent: progressMap[d.id] || 0,
-    topicsCount: localTopicCountMap[d.slug] || 0 // Mapeado pelo slug porque ID local pode diferir do UUID
+    topics_count: localTopicCountMap[d.id] || 0 // Mapeado pelo id porque na tabela disciplines o id já é o slug
   }));
 }
 
