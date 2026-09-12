@@ -1,6 +1,4 @@
-// Design tokens — cor, tipografia e espaçamento do BioStudy.
-// Alterado para suportar variáveis CSS (Light/Dark mode) preservando o objeto \`theme\`.
-
+// Design tokens
 export const theme = {
   bg: "var(--theme-bg)",
   surface: "var(--theme-surface)",
@@ -25,9 +23,7 @@ export const radius = {
   pill: 999,
 };
 
-// Helper para substituir concatenações hardcoded como \`\${theme.primary}22\`
-// por uma função color-mix suportada nativamente nos navegadores modernos.
 export const alpha = (colorVar, opacityHex) => {
   const percent = Math.round((parseInt(opacityHex, 16) / 255) * 100);
-  return \`color-mix(in srgb, \${colorVar} \${percent}%, transparent)\`;
+  return `color-mix(in srgb, ${colorVar} ${percent}%, transparent)`;
 };
