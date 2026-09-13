@@ -58,10 +58,18 @@ export async function getTopicModulesAndLessons(topicId) {
 
 export async function getQuizQuestions(topicId, isSimulado = false, count = 10) {
   const allQs = [];
-  for (const path in questionLoaders) {
-    const mod = await questionLoaders[path]();
-    const qs = mod.default || mod;
-    allQs.push(...qs.filter(q => q.topic_id === topicId));
+  
+  for (const tPath in topicsIndex) {
+    if (topicsIndex[tPath].id === topicId) {
+      const qPath = tPath.replace('topic.json', 'questions.json');
+      if (questionLoaders[qPath]) {
+        const mod = await questionLoaders[qPath]();
+        const qs = mod.default || mod;
+        // Just push them directly, but filter just in case
+        allQs.push(...qs.filter(q => q.topic_id === topicId));
+      }
+      break; // Found the topic, no need to keep searching
+    }
   }
 
   if (isSimulado) {
@@ -72,10 +80,16 @@ export async function getQuizQuestions(topicId, isSimulado = false, count = 10) 
 
 export async function getAllQuestionsByDiscipline(disciplineId) {
   const allQs = [];
-  for (const path in questionLoaders) {
-    const mod = await questionLoaders[path]();
-    const qs = mod.default || mod;
-    allQs.push(...qs.filter(q => q.discipline_id === disciplineId));
+  // Load ONLY the question files belonging to topics of this discipline
+  for (const tPath in topicsIndex) {
+    if (topicsIndex[tPath].discipline_id === disciplineId) {
+      const qPath = tPath.replace('topic.json', 'questions.json');
+      if (questionLoaders[qPath]) {
+        const mod = await questionLoaders[qPath]();
+        const qs = mod.default || mod;
+        allQs.push(...qs.filter(q => q.discipline_id === disciplineId));
+      }
+    }
   }
   return allQs;
 }
