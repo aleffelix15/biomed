@@ -2,6 +2,38 @@ import { supabase } from "./supabaseClient";
 import { invalidateCache } from "../state/DataCacheContext";
 import * as content from "./contentService";
 
+const cache = new Map();
+const TTL = 5 * 60 * 1000;
+
+export function invalidateCache(key) {
+  cache.delete(key);
+}
+
+const idCache = new Map();
+async function resolveId(table, slugOrId) {
+  if (!slugOrId) return null;
+  // If it's already a UUID
+  if (/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(slugOrId)) {
+    return slugOrId;
+  }
+  // Special case for disciplines which use slug as ID in the database!
+  if (table === 'disciplines') return slugOrId;
+
+  const cacheKey = `${table}:${slugOrId}`;
+  if (idCache.has(cacheKey)) return idCache.get(cacheKey);
+
+  try {
+    const { data } = await supabase.from(table).select('id').eq('slug', slugOrId).single();
+    if (data?.id) {
+      idCache.set(cacheKey, data.id);
+      return data.id;
+    }
+  } catch (e) {
+    console.error(`Failed to resolve ${table} ID for slug ${slugOrId}`, e);
+  }
+  return null;
+}
+
 // resolveId: passthrough for the Dual-Key slug→id layer.
 // The project uses slugs as direct IDs in all relevant tables (disciplines.id,
 // topic_progress.topic_id, etc.), so no translation is needed today.
@@ -693,12 +725,18 @@ export async function saveQuestionAttempt(userId, question, selectedOption) {
   // 1. Use the correct answer from the local question object
   const isCorrect = selectedOption === question.correct_option;
 
+  const real_questionId = await resolveId('questions', question.id);
+  if (!real_questionId) {
+    console.error('Could not resolve question ID for', question.id);
+    return null;
+  }
+
   // 2. Save attempt
   const { data, error } = await supabase
     .from('question_attempts')
     .insert({
       user_id: userId,
-      question_id: question.id,
+      question_id: real_questionId,
       selected_option: selectedOption,
       is_correct: isCorrect,
     })
@@ -878,8 +916,10 @@ export async function toggleFavoriteItem(userId, itemId, itemType) {
   }
 }
 
+
+
 // =============================================================
-// Integração com Biblioteca (Favoritos)
+// Progresso por Tópico e Disciplinaoteca (Favoritos)
 // =============================================================
 export async function toggleFavoriteBook(userId, bookInfo) {
   if (!supabase) return null;
@@ -924,25 +964,22 @@ export async function addWrongQuestionToReview(disciplineId, topicId, questionOb
   if (!supabase) return;
   const real_disciplineId = await resolveId('disciplines', disciplineId);
   const real_topicId = await resolveId('topics', topicId);
-  if (!real_disciplineId || !real_topicId) return;
+  const real_questionId = await resolveId('questions', questionObj.id);
 
-  
+  if (!real_disciplineId || !real_topicId || !real_questionId) return;
 
-  // Gera ID determinístico para evitar duplicatas e garantir consistência
-  const reviewId = `review_${questionObj.id}`;
-
-  // Verifica se já existe um flashcard para essa questão pelo ID
+  // Verifica se já existe um flashcard para essa questão pelo original_question_id
   const { data: existing } = await supabase
     .from('flashcards')
     .select('id')
-    .eq('id', reviewId)
+    .eq('original_question_id', real_questionId)
     .single();
 
   if (!existing) {
-    // Cria flashcard
+    // Cria flashcard (o banco gera o UUID primário)
     const answerText = questionObj['option_' + questionObj.correct_option];
     await supabase.from('flashcards').insert({
-      id: reviewId,
+      original_question_id: real_questionId,
       discipline_id: real_disciplineId,
       topic_id: real_topicId,
       question: questionObj.question,

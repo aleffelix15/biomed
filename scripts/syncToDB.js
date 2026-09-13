@@ -127,9 +127,13 @@ async function syncToDB() {
             topic_id: dbTop.id,  // Local questions map to the Topic
             module_id: null,
             lesson_id: null,     // Explicitly null, preserving semantic truth
-            content: q.question,
-            options: [q.option_a, q.option_b, q.option_c, q.option_d, q.option_e].filter(Boolean),
-            correct_option_index: correctIdx,
+            question: q.question,
+            option_a: q.option_a,
+            option_b: q.option_b,
+            option_c: q.option_c,
+            option_d: q.option_d,
+            option_e: q.option_e,
+            correct_option: q.correct_option || q.answer,
             explanation: q.explanation || ''
           }, { onConflict: 'slug' });
 
