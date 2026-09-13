@@ -19,7 +19,6 @@
           "objective": "Compreender o modelo do mosaico fluido",
           "difficulty": "Fácil",
           "estimated_minutes": 15,
-          "content_markdown": "A membrana plasmática segue o modelo do **Mosaico Fluido**. É composta por uma bicamada de fosfolipídios (com cabeças hidrofílicas e caudas hidrofóbicas), proteínas integrais e periféricas, e colesterol (em células animais), que regula a fluidez. A membrana é **seletivamente permeável**, controlando o que entra e sai da célula.",
           "clinical_application": "O colesterol é essencial para a estabilidade da membrana; níveis alterados podem afetar a função de receptores celulares.",
           "summary": "Bicamada fosfolipídica com proteínas e colesterol.",
           "key_points": [
@@ -27,7 +26,22 @@
             "Permeabilidade Seletiva",
             "Fosfolipídios"
           ],
-          "order_index": 0
+          "order_index": 0,
+          "content_blocks": [
+            {
+              "type": "markdown",
+              "value": "A membrana plasmática segue o modelo do **Mosaico Fluido**. É composta por uma bicamada de fosfolipídios (com cabeças hidrofílicas e caudas hidrofóbicas), proteínas integrais e periféricas, e colesterol (em células animais), que regula a fluidez. A membrana é **seletivamente permeável**, controlando o que entra e sai da célula."
+            },
+            {
+              "type": "scientific_image",
+              "src": "https://upload.wikimedia.org/wikipedia/commons/d/da/Cell_membrane_detailed_diagram_pt.svg",
+              "alt": "Mosaico fluido da membrana plasmática",
+              "caption": "O modelo do mosaico fluido: dupla camada fosfolipídica intercalada por proteínas integrais, periféricas e colesterol.",
+              "credit": "Mariana Ruiz (LadyofHats), Domínio Público",
+              "zoomable": true,
+              "type_img": "diagram"
+            }
+          ]
         },
         {
           "id": "les_cit_1_2",
@@ -137,7 +151,6 @@
           "objective": "Compreender a produção de ATP",
           "difficulty": "Difícil",
           "estimated_minutes": 15,
-          "content_markdown": "As mitocôndrias são as usinas energéticas da célula. Possuem DNA próprio circular e membrana dupla. Ocorrem nela o Ciclo de Krebs (matriz) e a Cadeia Respiratória (cristas), resultando na síntese de ATP via fosforilação oxidativa, utilizando oxigênio como aceptor final de elétrons.",
           "clinical_application": "Doenças mitocondriais afetam preferencialmente órgãos com alta demanda energética, como o cérebro e o coração.",
           "summary": "Produção de ATP via respiração celular.",
           "key_points": [
@@ -145,7 +158,22 @@
             "Cadeia Respiratória",
             "ATP"
           ],
-          "order_index": 0
+          "order_index": 0,
+          "content_blocks": [
+            {
+              "type": "markdown",
+              "value": "As mitocôndrias são as usinas energéticas da célula. Possuem DNA próprio circular e membrana dupla. Ocorrem nela o Ciclo de Krebs (matriz) e a Cadeia Respiratória (cristas), resultando na síntese de ATP via fosforilação oxidativa, utilizando oxigênio como aceptor final de elétrons."
+            },
+            {
+              "type": "scientific_image",
+              "src": "https://upload.wikimedia.org/wikipedia/commons/f/f2/Mitochondrion_structure_pt.svg",
+              "alt": "Ultraestrutura mitocondrial",
+              "caption": "Ultraestrutura da mitocôndria, evidenciando as membranas externa e interna, as cristas mitocondriais e a matriz onde ocorre o ciclo de Krebs.",
+              "credit": "Kelvinsong (traduzido), Domínio Público",
+              "zoomable": true,
+              "type_img": "diagram"
+            }
+          ]
         },
         {
           "id": "les_cit_3_2",

@@ -28,7 +28,6 @@
           "id": "les_histologia_0_1",
           "module_id": "mod_histologia_0",
           "title": "Epitélios de Revestimento",
-          "content_markdown": "Classificam-se quanto ao número de camadas (simples, estratificado, pseudoestratificado) e formato das células superficiais (pavimentoso, cúbico, cilíndrico/colunar).",
           "clinical_application": "Metaplasia escamosa no trato respiratório de fumantes: troca de epitélio cilíndrico ciliado por estratificado pavimentoso.",
           "summary": "Classificação baseada em camadas e formato.",
           "key_points": [
@@ -37,7 +36,22 @@
             "Pseudoestratificado"
           ],
           "order_index": 1,
-          "estimated_minutes": 15
+          "estimated_minutes": 15,
+          "content_blocks": [
+            {
+              "type": "markdown",
+              "value": "Classificam-se quanto ao número de camadas (simples, estratificado, pseudoestratificado) e formato das células superficiais (pavimentoso, cúbico, cilíndrico/colunar)."
+            },
+            {
+              "type": "scientific_image",
+              "src": "https://upload.wikimedia.org/wikipedia/commons/e/ea/Epithelial_Tissues_Stratified_Squamous_Epithelium_%2840230842160%29.jpg",
+              "alt": "Epitélio estratificado pavimentoso",
+              "caption": "Micrografia de epitélio estratificado pavimentoso (mucosa esofágica). Note as múltiplas camadas que conferem proteção contra atrito.",
+              "credit": "Berkshire Community College Bioscience Image Library, Domínio Público",
+              "zoomable": true,
+              "type_img": "microscopy"
+            }
+          ]
         }
       ]
     },
@@ -50,7 +64,6 @@
           "id": "les_histologia_1_0",
           "module_id": "mod_histologia_1",
           "title": "Epitélios Glandulares",
-          "content_markdown": "Formados por células especializadas em secreção. Dividem-se em glândulas exócrinas (mantêm ducto) e endócrinas (perdem conexão, secretam no sangue).",
           "clinical_application": "No diabetes tipo 1, ocorre destruição autoimune das células beta (porção endócrina) do pâncreas.",
           "summary": "Exócrinas (com ducto) vs Endócrinas (sem ducto).",
           "key_points": [
@@ -59,7 +72,22 @@
             "Secreção"
           ],
           "order_index": 0,
-          "estimated_minutes": 15
+          "estimated_minutes": 15,
+          "content_blocks": [
+            {
+              "type": "markdown",
+              "value": "Formados por células especializadas em secreção. Dividem-se em glândulas exócrinas (mantêm ducto) e endócrinas (perdem conexão, secretam no sangue)."
+            },
+            {
+              "type": "scientific_image",
+              "src": "https://upload.wikimedia.org/wikipedia/commons/5/52/405_Modes_of_Secretion_by_Glands.jpg",
+              "alt": "Modos de secreção glandular",
+              "caption": "Modos de secreção glandular: merócrina, apócrina e holócrina. A manutenção ou perda do ducto define glândulas exócrinas e endócrinas.",
+              "credit": "OpenStax College, CC BY 3.0",
+              "zoomable": true,
+              "type_img": "diagram"
+            }
+          ]
         }
       ]
     }

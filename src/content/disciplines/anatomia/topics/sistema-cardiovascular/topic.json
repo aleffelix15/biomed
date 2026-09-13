@@ -36,7 +36,6 @@
           "objective": "Diferenciar átrios e ventrículos, direito e esquerdo",
           "difficulty": "Médio",
           "estimated_minutes": 15,
-          "content_markdown": "O coração possui quatro câmaras: átrio direito (recebe sangue venoso das veias cavas), ventrículo direito (bombeia para o tronco pulmonar), átrio esquerdo (recebe sangue oxigenado das veias pulmonares) e ventrículo esquerdo (bombeia para a aorta). O ventrículo esquerdo tem parede muscular bem mais espessa, pois gera pressão sistêmica muito maior que a pulmonar.",
           "clinical_application": "Hipertrofia ventricular esquerda é um achado comum em pacientes hipertensos de longa data.",
           "summary": "4 câmaras: AD, VD, AE, VE — VE tem parede mais espessa.",
           "key_points": [
@@ -44,7 +43,22 @@
             "Ventrículo esquerdo",
             "Espessura da parede"
           ],
-          "order_index": 1
+          "order_index": 1,
+          "content_blocks": [
+            {
+              "type": "markdown",
+              "value": "O coração possui quatro câmaras: átrio direito (recebe sangue venoso das veias cavas), ventrículo direito (bombeia para o tronco pulmonar), átrio esquerdo (recebe sangue oxigenado das veias pulmonares) e ventrículo esquerdo (bombeia para a aorta). O ventrículo esquerdo tem parede muscular bem mais espessa, pois gera pressão sistêmica muito maior que a pulmonar."
+            },
+            {
+              "type": "scientific_image",
+              "src": "https://upload.wikimedia.org/wikipedia/commons/e/e5/2011_Heart_Anatomy.jpg",
+              "alt": "Anatomia interna do coração",
+              "caption": "Anatomia interna do coração humano, evidenciando átrios, ventrículos e septo interventricular.",
+              "credit": "OpenStax College, CC BY 3.0",
+              "zoomable": true,
+              "type_img": "diagram"
+            }
+          ]
         },
         {
           "id": "les_ac1_3",
@@ -137,7 +151,6 @@
           "objective": "Comparar artérias, veias e capilares",
           "difficulty": "Médio",
           "estimated_minutes": 15,
-          "content_markdown": "Artérias e veias possuem três camadas: túnica íntima (endotélio), túnica média (músculo liso e fibras elásticas) e túnica adventícia (tecido conjuntivo). Artérias têm túnica média mais espessa para suportar alta pressão; veias têm valvas para evitar refluxo contra a gravidade. Capilares possuem apenas endotélio, permitindo trocas gasosas e de nutrientes.",
           "clinical_application": "Varizes ocorrem por falência das valvas venosas dos membros inferiores.",
           "summary": "3 túnicas nos vasos; capilares só têm endotélio.",
           "key_points": [
@@ -145,7 +158,22 @@
             "Valvas venosas",
             "Trocas capilares"
           ],
-          "order_index": 0
+          "order_index": 0,
+          "content_blocks": [
+            {
+              "type": "markdown",
+              "value": "Artérias e veias possuem três camadas: túnica íntima (endotélio), túnica média (músculo liso e fibras elásticas) e túnica adventícia (tecido conjuntivo). Artérias têm túnica média mais espessa para suportar alta pressão; veias têm valvas para evitar refluxo contra a gravidade. Capilares possuem apenas endotélio, permitindo trocas gasosas e de nutrientes."
+            },
+            {
+              "type": "scientific_image",
+              "src": "https://upload.wikimedia.org/wikipedia/commons/4/4e/2103_Structure_of_Blood_Vessels.jpg",
+              "alt": "Estrutura dos vasos sanguíneos",
+              "caption": "Diferenciação estrutural das artérias e veias, com destaque para as túnicas íntima, média (mais espessa em artérias) e adventícia.",
+              "credit": "OpenStax College, CC BY 3.0",
+              "zoomable": true,
+              "type_img": "diagram"
+            }
+          ]
         },
         {
           "id": "les_ac3_2",

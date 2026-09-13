@@ -19,7 +19,6 @@
           "objective": "Analisar a patogenia de Entamoeba histolytica e Giardia lamblia",
           "difficulty": "Médio",
           "estimated_minutes": 15,
-          "content_markdown": "A **Entamoeba histolytica** causa a amebíase, caracterizada pela destruição tecidual (úlceras em 'botão de camisa') e possível disseminação para o fígado (abscesso hepático amebiano). A **Giardia lamblia** coloniza o duodeno e jejuno, aderindo à mucosa e causando a síndrome de má absorção (esteatorreia), pois impede a absorção de gorduras.",
           "clinical_application": "A diferenciação laboratorial entre Entamoeba histolytica e E. dispar é crucial, pois apenas a primeira é patogênica.",
           "summary": "Amebas (invasivas/abscessos) e Giardia (má absorção/esteatorreia).",
           "key_points": [
@@ -27,7 +26,22 @@
             "Giardia lamblia",
             "Abscesso Hepático"
           ],
-          "order_index": 0
+          "order_index": 0,
+          "content_blocks": [
+            {
+              "type": "markdown",
+              "value": "A **Entamoeba histolytica** causa a amebíase, caracterizada pela destruição tecidual (úlceras em 'botão de camisa') e possível disseminação para o fígado (abscesso hepático amebiano). A **Giardia lamblia** coloniza o duodeno e jejuno, aderindo à mucosa e causando a síndrome de má absorção (esteatorreia), pois impede a absorção de gorduras."
+            },
+            {
+              "type": "scientific_image",
+              "src": "https://upload.wikimedia.org/wikipedia/commons/e/e9/Giardia_lamblia_SEM_8698_lores.jpg",
+              "alt": "Giardia lamblia",
+              "caption": "Micrografia eletrônica de varredura mostrando trofozoítos de Giardia lamblia, agente etiológico da giardíase.",
+              "credit": "CDC / Janice Carr, Domínio Público",
+              "zoomable": true,
+              "type_img": "microscopy"
+            }
+          ]
         },
         {
           "id": "les_par_1_2",
@@ -78,7 +92,6 @@
           "objective": "Identificar as principais helmintoses por nematódeos",
           "difficulty": "Médio",
           "estimated_minutes": 15,
-          "content_markdown": "Nematódeos são vermes cilíndricos. Exemplos principais: **Ascaris lumbricoides** (causa a ascaridíase, com ciclo de Loeffler - migração pulmonar), **Ancylostoma duodenale** e **Necator americanus** (causam anemia profunda por sucção de sangue intestinal) e **Enterobius vermicularis** (causa prurido anal noturno).",
           "clinical_application": "A síndrome de Loeffler manifesta-se com tosse e eosinofilia periférica durante a migração pulmonar da larva de Ascaris.",
           "summary": "Ascaris (Loeffler), Ancilostomídeos (Anemia) e Enterobius (Prurido).",
           "key_points": [
@@ -86,7 +99,22 @@
             "Ciclo de Loeffler",
             "Anemia Ferropriva"
           ],
-          "order_index": 0
+          "order_index": 0,
+          "content_blocks": [
+            {
+              "type": "markdown",
+              "value": "Nematódeos são vermes cilíndricos. Exemplos principais: **Ascaris lumbricoides** (causa a ascaridíase, com ciclo de Loeffler - migração pulmonar), **Ancylostoma duodenale** e **Necator americanus** (causam anemia profunda por sucção de sangue intestinal) e **Enterobius vermicularis** (causa prurido anal noturno)."
+            },
+            {
+              "type": "scientific_image",
+              "src": "https://upload.wikimedia.org/wikipedia/commons/3/30/Ascaris_lumbricoides.jpg",
+              "alt": "Ascaris lumbricoides",
+              "caption": "Vermes adultos de Ascaris lumbricoides (lombriga). O parasitismo intenso pode causar obstrução intestinal.",
+              "credit": "CDC, Domínio Público",
+              "zoomable": true,
+              "type_img": "photo"
+            }
+          ]
         },
         {
           "id": "les_par_2_2",

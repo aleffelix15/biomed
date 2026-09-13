@@ -54,7 +54,6 @@
           "objective": "Analisar as etapas da união dos gametas",
           "difficulty": "Médio",
           "estimated_minutes": 15,
-          "content_markdown": "A fecundação ocorre geralmente na ampola da tuba uterina. Envolve: a reação acrossômica (enzimas do espermatozoide perfuram a zona pelúcida), a fusão das membranas e a **reação cortical** (evita a poliespermia). O resultado é o Zigoto, uma célula diploide (2n) única.",
           "clinical_application": "A fertilização in vitro (FIV) mimetiza esse processo, permitindo a união dos gametas em ambiente controlado.",
           "summary": "Fusão de núcleos haploides para formar o zigoto diploide.",
           "key_points": [
@@ -62,7 +61,22 @@
             "Reação Cortical",
             "Zigoto"
           ],
-          "order_index": 2
+          "order_index": 2,
+          "content_blocks": [
+            {
+              "type": "markdown",
+              "value": "A fecundação ocorre geralmente na ampola da tuba uterina. Envolve: a reação acrossômica (enzimas do espermatozoide perfuram a zona pelúcida), a fusão das membranas e a **reação cortical** (evita a poliespermia). O resultado é o Zigoto, uma célula diploide (2n) única."
+            },
+            {
+              "type": "scientific_image",
+              "src": "https://upload.wikimedia.org/wikipedia/commons/e/ec/Acrosome_reaction_diagram_en.svg",
+              "alt": "Fases da fertilização",
+              "caption": "Fases da fertilização e reação acrossômica, culminando na fusão dos pró-núcleos masculino e feminino.",
+              "credit": "Mariana Ruiz (LadyofHats), Domínio Público",
+              "zoomable": true,
+              "type_img": "diagram"
+            }
+          ]
         }
       ]
     },
@@ -96,7 +110,6 @@
           "objective": "Compreender a nidação e a formação do epiblasto e hipoblasto",
           "difficulty": "Médio",
           "estimated_minutes": 15,
-          "content_markdown": "A implantação (nidação) ocorre no final da primeira semana. O embrioblasto diferencia-se em duas camadas: **Epiblasto** e **Hipoblasto**, formando o disco bilaminar. Surgem também a cavidade amniótica e o saco vitelino primário.",
           "clinical_application": "A implantação ectópica ocorre quando o blastocisto se fixa fora do útero (ex: tubas uterinas), sendo uma emergência médica.",
           "summary": "Nidação e formação do disco bilaminar.",
           "key_points": [
@@ -104,7 +117,22 @@
             "Epiblasto",
             "Hipoblasto"
           ],
-          "order_index": 1
+          "order_index": 1,
+          "content_blocks": [
+            {
+              "type": "markdown",
+              "value": "A implantação (nidação) ocorre no final da primeira semana. O embrioblasto diferencia-se em duas camadas: **Epiblasto** e **Hipoblasto**, formando o disco bilaminar. Surgem também a cavidade amniótica e o saco vitelino primário."
+            },
+            {
+              "type": "scientific_image",
+              "src": "https://upload.wikimedia.org/wikipedia/commons/c/c9/Blastocyst_English.svg",
+              "alt": "Estrutura do Blastocisto",
+              "caption": "Estrutura do blastocisto no momento da implantação (nidação), destacando o trofoblasto e o embrioblasto (massa celular interna).",
+              "credit": "Seans Potato Business, CC BY-SA 3.0",
+              "zoomable": true,
+              "type_img": "diagram"
+            }
+          ]
         },
         {
           "id": "les_emb_2_3",

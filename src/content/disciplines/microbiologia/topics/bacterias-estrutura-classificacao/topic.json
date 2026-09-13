@@ -78,7 +78,6 @@
           "objective": "Diferenciar as formas básicas de bactérias",
           "difficulty": "Fácil",
           "estimated_minutes": 15,
-          "content_markdown": "As bactérias são classificadas morfologicamente em: **Cocos** (esféricas), **Bacilos** (bastonetes), **Espirilos** (espiraladas rígidas) e **Spirochetes** (espiraladas flexíveis). A organização dos cocos pode ser em pares (diplococos), cadeias (estreptococos) ou cachos (estafilococos).",
           "clinical_application": "A identificação morfológica inicial via Gram é crucial para a escolha da antibioticoterapia empírica.",
           "summary": "Cocos, Bacilos, Espirilos e Spirochetes.",
           "key_points": [
@@ -86,7 +85,22 @@
             "Arranjos",
             "Cocos vs Bacilos"
           ],
-          "order_index": 0
+          "order_index": 0,
+          "content_blocks": [
+            {
+              "type": "markdown",
+              "value": "As bactérias são classificadas morfologicamente em: **Cocos** (esféricas), **Bacilos** (bastonetes), **Espirilos** (espiraladas rígidas) e **Spirochetes** (espiraladas flexíveis). A organização dos cocos pode ser em pares (diplococos), cadeias (estreptococos) ou cachos (estafilococos)."
+            },
+            {
+              "type": "scientific_image",
+              "src": "https://upload.wikimedia.org/wikipedia/commons/5/52/Bacterial_morphology_diagram_pt.svg",
+              "alt": "Morfologia Bacteriana",
+              "caption": "Principais morfologias bacterianas: cocos (isolados, diplococos, estreptococos, estafilococos), bacilos e bactérias espiraladas (espirilos, espiroquetas).",
+              "credit": "Mariana Ruiz, Domínio Público",
+              "zoomable": true,
+              "type_img": "diagram"
+            }
+          ]
         },
         {
           "id": "les_mic_2_2",
@@ -95,7 +109,6 @@
           "objective": "Compreender a técnica de Gram e a distinção entre bactérias",
           "difficulty": "Médio",
           "estimated_minutes": 15,
-          "content_markdown": "A coloração de Gram diferencia bactérias com base na espessura da parede de peptideoglicano. O processo envolve cristal violeta, lugol, álcool e safranina. As **Gram-positivas** retêm o cristal violeta e ficam roxas. As **Gram-negativas** perdem o corante primário e assumem a cor rosa/vermelha da safranina devido à sua membrana externa e fina camada de peptideoglicano.",
           "clinical_application": "A distinção Gram+/- guia a escolha entre antibióticos que visam a parede (como Vancomicina para Gram+) ou que penetram melhor na membrana externa (como Aminoglicosídeos para Gram-).",
           "summary": "Roxas (Gram+) vs Rosas (Gram-).",
           "key_points": [
@@ -103,7 +116,22 @@
             "Safranina",
             "Parede Celular"
           ],
-          "order_index": 1
+          "order_index": 1,
+          "content_blocks": [
+            {
+              "type": "markdown",
+              "value": "A coloração de Gram diferencia bactérias com base na espessura da parede de peptideoglicano. O processo envolve cristal violeta, lugol, álcool e safranina. As **Gram-positivas** retêm o cristal violeta e ficam roxas. As **Gram-negativas** perdem o corante primário e assumem a cor rosa/vermelha da safranina devido à sua membrana externa e fina camada de peptideoglicano."
+            },
+            {
+              "type": "scientific_image",
+              "src": "https://upload.wikimedia.org/wikipedia/commons/9/91/Gram-Cell-wall.svg",
+              "alt": "Parede Celular Gram-Positiva vs Gram-Negativa",
+              "caption": "Bases da Coloração de Gram: bactérias Gram-positivas possuem espessa camada de peptideoglicano (retém cristal violeta); Gram-negativas têm fina camada entre duas membranas.",
+              "credit": "Julian Inmaculada, CC BY-SA 4.0",
+              "zoomable": true,
+              "type_img": "diagram"
+            }
+          ]
         },
         {
           "id": "les_mic_2_3",
