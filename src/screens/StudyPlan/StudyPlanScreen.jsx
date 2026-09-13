@@ -21,11 +21,17 @@ export default function StudyPlanScreen({ topic, discipline, onBack }) {
   const loadData = async () => {
     if (!user) return;
     setLoading(true);
-    const p = await getOrCreateStudyPlan(user.id, topic.id);
-    const m = await fetchModulesAndLessons(topic.id, user.id);
-    setPlan(p);
-    setModules(m);
-    setLoading(false);
+    try {
+      const p = await getOrCreateStudyPlan(user.id, topic.id);
+      const m = await fetchModulesAndLessons(topic.id, user.id);
+      setPlan(p);
+      setModules(m || []);
+    } catch (err) {
+      console.error("Erro ao carregar plano de estudo:", err);
+      setModules([]);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {

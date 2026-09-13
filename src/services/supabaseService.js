@@ -2,6 +2,13 @@ import { supabase } from "./supabaseClient";
 import { invalidateCache } from "../state/DataCacheContext";
 import * as content from "./contentService";
 
+// resolveId: passthrough for the Dual-Key slug→id layer.
+// The project uses slugs as direct IDs in all relevant tables (disciplines.id,
+// topic_progress.topic_id, etc.), so no translation is needed today.
+// If a future migration introduces real UUIDs, implement lookup logic here.
+async function resolveId(_table, id) {
+  return id;
+}
 
 export async function toggleTopicCompletion(userId, topicId, disciplineId) {
   if (!supabase) return;
