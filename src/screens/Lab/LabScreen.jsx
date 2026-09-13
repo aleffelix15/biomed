@@ -67,7 +67,8 @@ export default function LabScreen() {
   }
 
   return (
-    <div style={{ padding: "16px 16px 100px", maxWidth: 600, margin: "0 auto" }}>
+    <div className="theme-nocturne" style={{ minHeight: "100vh", background: "var(--theme-bg)" }}>
+      <div style={{ padding: "16px 16px 100px", maxWidth: 600, margin: "0 auto" }}>
       {!selectedCategory ? (
         <>
           {/* HEADER */}
@@ -180,6 +181,7 @@ export default function LabScreen() {
           </div>
         </>
       )}
+      </div>
     </div>
   );
 }

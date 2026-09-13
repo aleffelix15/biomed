@@ -78,8 +78,8 @@ export default function DisciplineDetailScreen({ discipline, onBack }) {
   }
 
   return (
-    <div style={{ padding: "20px 16px 90px" }}>
-      <button onClick={onBack} style={{ display: "flex", alignItems: "center", gap: 6, background: "none", border: "none", color: theme.textSecondary, fontSize: 13, cursor: "pointer", padding: 0, marginBottom: 16 }}>
+    <div className="theme-nocturne" style={{ padding: "20px 16px 90px", minHeight: "100vh", background: "var(--theme-bg)" }}>
+      <button onClick={onBack} style={{ display: "flex", alignItems: "center", gap: 6, background: "none", border: "none", color: theme.textSecondary, fontSize: 13, cursor: "pointer", padding: "8px 0", minHeight: 44, marginBottom: 8 }}>
         <ChevronLeft size={16} /> Disciplinas
       </button>
 

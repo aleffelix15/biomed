@@ -8,3 +8,4 @@ CREATE OR REPLACE VIEW public.leaderboard_view AS
 -- 2. Garantir permissões de SELECT para usuários autenticados
 GRANT SELECT ON public.leaderboard_view TO authenticated;
 GRANT SELECT ON public.leaderboard_view TO anon;
+

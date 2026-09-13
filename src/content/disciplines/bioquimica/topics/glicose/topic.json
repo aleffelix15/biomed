@@ -22,7 +22,7 @@
           "content_blocks": [
             {
               "type": "markdown",
-              "value": "> **[DRAFT - PENDENTE DE REVISÃO MÉDICA/CIENTÍFICA]** Este conteúdo está em elaboração e não foi validado clinicamente.\n\nA **glicose** é um carboidrato simples (monossacarídeo) fundamental para o metabolismo energético humano. É a principal fonte de energia para o cérebro e eritrócitos."
+              "value": "A **glicose** é um carboidrato simples (monossacarídeo) fundamental para o metabolismo energético humano. É a principal fonte de energia para o cérebro e eritrócitos."
             },
             {
               "type": "scientific_image",
@@ -53,7 +53,7 @@
           "objective": "Estrutura Química",
           "difficulty": "Médio",
           "estimated_minutes": 15,
-          "content_markdown": "> **[DRAFT - PENDENTE DE REVISÃO MÉDICA/CIENTÍFICA]** Este conteúdo está em elaboração e não foi validado clinicamente.\n\nÉ uma aldohexose, fórmula C6H12O6...",
+          "content_markdown": "É uma aldohexose, fórmula C6H12O6...",
           "clinical_application": "Mutarotação",
           "summary": "Aldohexose de 6 carbonos.",
           "key_points": [
@@ -69,7 +69,7 @@
           "objective": "Funções Biológicas",
           "difficulty": "Médio",
           "estimated_minutes": 15,
-          "content_markdown": "> **[DRAFT - PENDENTE DE REVISÃO MÉDICA/CIENTÍFICA]** Este conteúdo está em elaboração e não foi validado clinicamente.\n\nPrincipal combustível celular e precursor estrutural.",
+          "content_markdown": "Principal combustível celular e precursor estrutural.",
           "clinical_application": "Hipoglicemia",
           "summary": "Combustível celular.",
           "key_points": [
@@ -85,7 +85,7 @@
           "objective": "Como digerimos",
           "difficulty": "Médio",
           "estimated_minutes": 15,
-          "content_markdown": "> **[DRAFT - PENDENTE DE REVISÃO MÉDICA/CIENTÍFICA]** Este conteúdo está em elaboração e não foi validado clinicamente.\n\nAmilase salivar e pancreática quebram amido até glicose.",
+          "content_markdown": "Amilase salivar e pancreática quebram amido até glicose.",
           "clinical_application": "Deficiência de lactase (exemplo similar)",
           "summary": "Amilase -> maltose -> glicose.",
           "key_points": [
@@ -101,7 +101,7 @@
           "objective": "Transporte SGLT",
           "difficulty": "Médio",
           "estimated_minutes": 15,
-          "content_markdown": "> **[DRAFT - PENDENTE DE REVISÃO MÉDICA/CIENTÍFICA]** Este conteúdo está em elaboração e não foi validado clinicamente.\n\nTransporte ativo secundário no intestino via SGLT1.",
+          "content_markdown": "Transporte ativo secundário no intestino via SGLT1.",
           "clinical_application": "Terapia de Reidratação Oral",
           "summary": "Absorção via SGLT1 acoplado ao Na+.",
           "key_points": [
@@ -117,7 +117,7 @@
           "objective": "Transportadores GLUT",
           "difficulty": "Médio",
           "estimated_minutes": 15,
-          "content_markdown": "> **[DRAFT - PENDENTE DE REVISÃO MÉDICA/CIENTÍFICA]** Este conteúdo está em elaboração e não foi validado clinicamente.\n\nTransportadores facilitadores. GLUT4 é dependente de insulina (músculo/adiposo).",
+          "content_markdown": "Transportadores facilitadores. GLUT4 é dependente de insulina (músculo/adiposo).",
           "clinical_application": "Resistência à insulina",
           "summary": "GLUTs facilitam a entrada nas células.",
           "key_points": [
@@ -142,7 +142,7 @@
           "objective": "Ação da Insulina",
           "difficulty": "Médio",
           "estimated_minutes": 15,
-          "content_markdown": "> **[DRAFT - PENDENTE DE REVISÃO MÉDICA/CIENTÍFICA]** Este conteúdo está em elaboração e não foi validado clinicamente.\n\nHormônio anabólico secretado pelas células beta do pâncreas.",
+          "content_markdown": "Hormônio anabólico secretado pelas células beta do pâncreas.",
           "clinical_application": "Diabetes Tipo 1",
           "summary": "Reduz a glicemia.",
           "key_points": [
@@ -158,7 +158,7 @@
           "objective": "Ação do Glucagon",
           "difficulty": "Médio",
           "estimated_minutes": 15,
-          "content_markdown": "> **[DRAFT - PENDENTE DE REVISÃO MÉDICA/CIENTÍFICA]** Este conteúdo está em elaboração e não foi validado clinicamente.\n\nHormônio catabólico das células alfa, estimula liberação de glicose.",
+          "content_markdown": "Hormônio catabólico das células alfa, estimula liberação de glicose.",
           "clinical_application": "Hipoglicemia de jejum",
           "summary": "Aumenta a glicemia.",
           "key_points": [
@@ -174,7 +174,7 @@
           "objective": "Homeostase",
           "difficulty": "Médio",
           "estimated_minutes": 15,
-          "content_markdown": "> **[DRAFT - PENDENTE DE REVISÃO MÉDICA/CIENTÍFICA]** Este conteúdo está em elaboração e não foi validado clinicamente.\n\nEquilíbrio fino entre insulina e hormônios contrarreguladores.",
+          "content_markdown": "Equilíbrio fino entre insulina e hormônios contrarreguladores.",
           "clinical_application": "Cetoacidose",
           "summary": "Manutenção da glicemia normal.",
           "key_points": [
@@ -198,7 +198,7 @@
           "objective": "Via glicolítica",
           "difficulty": "Médio",
           "estimated_minutes": 15,
-          "content_markdown": "> **[DRAFT - PENDENTE DE REVISÃO MÉDICA/CIENTÍFICA]** Este conteúdo está em elaboração e não foi validado clinicamente.\n\nOxidação da glicose a piruvato gerando 2 ATPs e 2 NADH.",
+          "content_markdown": "Oxidação da glicose a piruvato gerando 2 ATPs e 2 NADH.",
           "clinical_application": "Efeito Warburg (câncer)",
           "summary": "Glicose -> 2 Piruvato.",
           "key_points": [
@@ -214,7 +214,7 @@
           "objective": "Síntese de glicogênio",
           "difficulty": "Médio",
           "estimated_minutes": 15,
-          "content_markdown": "> **[DRAFT - PENDENTE DE REVISÃO MÉDICA/CIENTÍFICA]** Este conteúdo está em elaboração e não foi validado clinicamente.\n\nArmazenamento da glicose no fígado e músculo sob estímulo da insulina.",
+          "content_markdown": "Armazenamento da glicose no fígado e músculo sob estímulo da insulina.",
           "clinical_application": "Glicogenoses",
           "summary": "Glicose -> Glicogênio.",
           "key_points": [
@@ -230,7 +230,7 @@
           "objective": "Quebra do glicogênio",
           "difficulty": "Médio",
           "estimated_minutes": 15,
-          "content_markdown": "> **[DRAFT - PENDENTE DE REVISÃO MÉDICA/CIENTÍFICA]** Este conteúdo está em elaboração e não foi validado clinicamente.\n\nLiberação de glicose-1-P a partir do glicogênio no jejum.",
+          "content_markdown": "Liberação de glicose-1-P a partir do glicogênio no jejum.",
           "clinical_application": "Doença de Von Gierke",
           "summary": "Glicogênio -> Glicose.",
           "key_points": [
@@ -246,7 +246,7 @@
           "objective": "Nova glicose",
           "difficulty": "Médio",
           "estimated_minutes": 15,
-          "content_markdown": "> **[DRAFT - PENDENTE DE REVISÃO MÉDICA/CIENTÍFICA]** Este conteúdo está em elaboração e não foi validado clinicamente.\n\nSíntese de glicose a partir de precursores não-glicídicos (lactato, aminoácidos).",
+          "content_markdown": "Síntese de glicose a partir de precursores não-glicídicos (lactato, aminoácidos).",
           "clinical_application": "Hipoglicemia alcoólica",
           "summary": "Lactato/AA -> Glicose.",
           "key_points": [
@@ -262,7 +262,7 @@
           "objective": "Ciclo Jejum-Alimentação",
           "difficulty": "Médio",
           "estimated_minutes": 15,
-          "content_markdown": "> **[DRAFT - PENDENTE DE REVISÃO MÉDICA/CIENTÍFICA]** Este conteúdo está em elaboração e não foi validado clinicamente.\n\nComo os órgãos cooperam para manter a energia.",
+          "content_markdown": "Como os órgãos cooperam para manter a energia.",
           "clinical_application": "Sindrome metabólica",
           "summary": "Fígado doa, músculo consome.",
           "key_points": [
@@ -286,7 +286,7 @@
           "objective": "Patologia",
           "difficulty": "Médio",
           "estimated_minutes": 15,
-          "content_markdown": "> **[DRAFT - PENDENTE DE REVISÃO MÉDICA/CIENTÍFICA]** Este conteúdo está em elaboração e não foi validado clinicamente.\n\nSíndrome metabólica caracterizada por hiperglicemia crônica.",
+          "content_markdown": "Síndrome metabólica caracterizada por hiperglicemia crônica.",
           "clinical_application": "Pé diabético",
           "summary": "Falta ou resistência à insulina.",
           "key_points": [
@@ -302,7 +302,7 @@
           "objective": "Diagnóstico",
           "difficulty": "Médio",
           "estimated_minutes": 15,
-          "content_markdown": "> **[DRAFT - PENDENTE DE REVISÃO MÉDICA/CIENTÍFICA]** Este conteúdo está em elaboração e não foi validado clinicamente.\n\nGlicemia de jejum, TOTG e Hemoglobina Glicada (HbA1c).",
+          "content_markdown": "Glicemia de jejum, TOTG e Hemoglobina Glicada (HbA1c).",
           "clinical_application": "Diagnóstico laboratorial",
           "summary": "Avaliação laboratorial.",
           "key_points": [
@@ -318,7 +318,7 @@
           "objective": "Manejo",
           "difficulty": "Médio",
           "estimated_minutes": 15,
-          "content_markdown": "> **[DRAFT - PENDENTE DE REVISÃO MÉDICA/CIENTÍFICA]** Este conteúdo está em elaboração e não foi validado clinicamente.\n\nUso de hipoglicemiantes orais, insulina e monitoramento contínuo.",
+          "content_markdown": "Uso de hipoglicemiantes orais, insulina e monitoramento contínuo.",
           "clinical_application": "Bomba de insulina",
           "summary": "Tratamento do DM.",
           "key_points": [

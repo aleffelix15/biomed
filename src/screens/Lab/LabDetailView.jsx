@@ -57,10 +57,10 @@ export default function LabDetailView({ item, onBack, initialCompleted, initialF
         padding: '16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         borderBottom: `1px solid ${theme.line}`
       }}>
-        <button onClick={onBack} style={{ background: 'none', border: 'none', color: theme.textSecondary, display: 'flex', alignItems: 'center', gap: 6, fontSize: 14, cursor: 'pointer', padding: 0 }}>
+        <button onClick={onBack} style={{ background: 'none', border: 'none', color: theme.textSecondary, display: 'flex', alignItems: 'center', gap: 6, fontSize: 14, cursor: 'pointer', padding: '8px 0', minHeight: 44 }}>
           <ChevronLeft size={20} /> Voltar
         </button>
-        <button onClick={handleToggleFavorite} style={{ background: 'none', border: 'none', color: favorited ? theme.primary : theme.textSecondary, cursor: 'pointer', padding: 0 }}>
+        <button onClick={handleToggleFavorite} style={{ background: 'none', border: 'none', color: favorited ? theme.primary : theme.textSecondary, cursor: 'pointer', padding: '8px', minHeight: 44 }}>
           <Bookmark size={22} fill={favorited ? theme.primary : 'none'} />
         </button>
       </div>
@@ -95,11 +95,15 @@ export default function LabDetailView({ item, onBack, initialCompleted, initialF
             {!quizScore && !completed ? (
               <div style={{ marginTop: 16, padding: 24, background: theme.surface, borderRadius: 16, border: `2px dashed ${theme.line}`, textAlign: 'center' }}>
                 <p style={{ fontSize: 14, color: theme.textSecondary, marginBottom: 16 }}>Raciocine sobre o caso antes de ver a resposta.</p>
+                <textarea 
+                  placeholder="Formule sua hipótese diagnóstica (opcional)..."
+                  style={{ width: '100%', minHeight: 80, background: 'var(--theme-bg)', border: '1px solid var(--theme-line)', borderRadius: 8, padding: 12, color: 'var(--theme-text)', marginBottom: 16, fontFamily: 'inherit', resize: 'vertical' }}
+                />
                 <button
                   onClick={handleToggleComplete}
                   style={{ background: theme.primary, color: theme.bg, border: 'none', padding: '12px 24px', borderRadius: 8, fontWeight: 700, fontSize: 14, cursor: 'pointer' }}
                 >
-                  Revelar Diagnóstico
+                  Verificar Raciocínio
                 </button>
               </div>
             ) : (

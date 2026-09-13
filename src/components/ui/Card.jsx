@@ -1,8 +1,9 @@
 import React from "react";
 
-export default function Card({ children, onClick, style, padding = 16 }) {
+export default function Card({ children, onClick, style, padding = 16, className = "" }) {
   return (
     <div
+      className={className}
       onClick={onClick}
       style={{
         background: "var(--theme-card)",

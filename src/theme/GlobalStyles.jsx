@@ -107,6 +107,26 @@ export default function GlobalStyles() {
       ::-webkit-scrollbar-thumb:hover {
         background: var(--theme-muted);
       }
+
+      /* TEMA SALA DE CONTROLE NOTURNA (Objetivo 2) */
+      .theme-nocturne {
+        --theme-bg: #05050A;
+        --theme-surface: #0A0A14;
+        --theme-card: #10101C;
+        --theme-primary: #3B82F6;
+        --theme-secondary: #60A5FA;
+        --theme-accent: #2563EB;
+        --theme-accent-light: #93C5FD;
+        
+        --theme-text: #F8FAFC;
+        --theme-text-secondary: #94A3B8;
+        --theme-muted: #475569;
+        --theme-line: #1E293B;
+        
+        --md-h1: #3B82F6;
+        --md-h2: #F8FAFC;
+        --md-p: #94A3B8;
+      }
     `}</style>
   );
 }

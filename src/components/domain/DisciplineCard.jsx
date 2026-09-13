@@ -22,7 +22,7 @@ export default function DisciplineCard({ discipline, onClick, index = 0 }) {
   const completedTopics = Math.round(((d.progress_percent || 0) / 100) * totalTopics);
 
   return (
-    <Card onClick={onClick} padding={16} style={{ marginBottom: 12 }}>
+    <Card onClick={onClick} padding={16} style={{ marginBottom: 12 }} className="theme-nocturne">
       <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
         {/* Colorful Box */}
         <div style={{ width: 44, height: 44, borderRadius: 12, background: color.bg, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>

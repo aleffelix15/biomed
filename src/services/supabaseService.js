@@ -4,14 +4,19 @@ import * as content from "./contentService";
 
 
 export async function toggleTopicCompletion(userId, topicId, disciplineId) {
-  if (!supabase) return null;
+  if (!supabase) return;
+  const real_topicId = await resolveId('topics', topicId);
+  const real_disciplineId = await resolveId('disciplines', disciplineId);
+  if (!real_topicId || !real_disciplineId) return;
+
+  
 
   // 1. Toggle completion status in topic_progress
   const { data: currentProgress } = await supabase
     .from('topic_progress')
     .select('completed')
     .eq('user_id', userId)
-    .eq('topic_id', topicId)
+    .eq('topic_id', real_topicId)
     .single();
 
   const newStatus = !currentProgress?.completed;
@@ -20,7 +25,7 @@ export async function toggleTopicCompletion(userId, topicId, disciplineId) {
     .from('topic_progress')
     .upsert({
       user_id: userId,
-      topic_id: topicId,
+      topic_id: real_topicId,
       completed: newStatus,
       completed_at: newStatus ? new Date().toISOString() : null,
       updated_at: new Date().toISOString(),
@@ -32,12 +37,12 @@ export async function toggleTopicCompletion(userId, topicId, disciplineId) {
   const { data: allTopics } = await supabase
     .from('topics')
     .select('id')
-    .eq('discipline_id', disciplineId);
+    .eq('discipline_id', real_disciplineId);
 
   const { count: totalCount } = await supabase
     .from('topics')
     .select('*', { count: 'exact', head: true })
-    .eq('discipline_id', disciplineId);
+    .eq('discipline_id', real_disciplineId);
 
   const { count: completedCount } = await supabase
     .from('topic_progress')
@@ -53,7 +58,7 @@ export async function toggleTopicCompletion(userId, topicId, disciplineId) {
     .from('user_progress')
     .upsert({
       user_id: userId,
-      discipline_id: disciplineId,
+      discipline_id: real_disciplineId,
       percent_complete: newPercent,
       updated_at: new Date().toISOString(),
     }, { onConflict: 'user_id,discipline_id' });
@@ -63,12 +68,16 @@ export async function toggleTopicCompletion(userId, topicId, disciplineId) {
 }
 
 export async function fetchTopicProgress(userId, disciplineId) {
-  if (!supabase) return [];
+  if (!supabase) return;
+  const real_disciplineId = await resolveId('disciplines', disciplineId);
+  if (!real_disciplineId) return;
+
+  
   const { data, error } = await supabase
     .from('topic_progress')
     .select('topic_id, completed')
     .eq('user_id', userId)
-    .in('topic_id', (await supabase.from('topics').select('id').eq('discipline_id', disciplineId)).data?.map(t => t.id) || []);
+    .in('topic_id', (await supabase.from('topics').select('id').eq('discipline_id', real_disciplineId)).data?.map(t => t.id) || []);
 
   if (error) return [];
   return data;
@@ -96,18 +105,18 @@ export async function fetchDisciplinesWithProgress(userId) {
 
   if (discErr) {
     console.error("Erro ao buscar disciplinas", discErr);
-    return localDisciplines.map(d => ({ ...d, category: localCategoryMap[d.id] || 'Sem Categoria', progress_percent: 0, topics_count: localTopicCountMap[d.id] || 0 })); // fallback local
+    return localDisciplines.map(d => ({ ...d, category: localCategoryMap[d.slug || d.id] || 'Sem Categoria', progress_percent: 0, topics_count: localTopicCountMap[d.slug || d.id] || 0 })); // fallback local
   }
 
   // Se não houver usuário logado, retorna 0%
   if (!userId) {
-    return disciplines.map(d => ({ ...d, category: localCategoryMap[d.id] || 'Sem Categoria', progress_percent: 0, topics_count: localTopicCountMap[d.id] || 0 }));
+    return disciplines.map(d => ({ ...d, category: localCategoryMap[d.slug || d.id] || 'Sem Categoria', progress_percent: 0, topics_count: localTopicCountMap[d.slug || d.id] || 0 }));
   }
 
   // 2. Buscamos a View Agregada
   const { data: progressView, error: progErr } = await supabase
     .from('user_discipline_progress')
-    .select('discipline_id, progress_percent')
+    .select('discipline_slug, progress_percent')
     .eq('user_id', userId);
 
   if (progErr) {
@@ -115,7 +124,7 @@ export async function fetchDisciplinesWithProgress(userId) {
   }
 
   const progressMap = (progressView || []).reduce((acc, curr) => {
-    acc[curr.discipline_id] = curr.progress_percent;
+    acc[curr.discipline_slug] = curr.progress_percent;
     return acc;
   }, {});
 
@@ -123,9 +132,9 @@ export async function fetchDisciplinesWithProgress(userId) {
     id: d.id,
     name: d.name,
     description: d.description,
-    category: localCategoryMap[d.id] || 'Sem Categoria',
-    progress_percent: progressMap[d.id] || 0,
-    topics_count: localTopicCountMap[d.id] || 0 // Mapeado pelo id porque na tabela disciplines o id já é o slug
+    category: localCategoryMap[d.slug || d.id] || 'Sem Categoria',
+    progress_percent: progressMap[d.slug || d.id] || 0,
+    topics_count: localTopicCountMap[d.slug || d.id] || 0 // Mapeado pelo id porque na tabela disciplines o id já é o slug
   }));
 }
 
@@ -141,14 +150,18 @@ export async function fetchTopicsByDiscipline(discipline) {
 
 // NOVO MOTOR DE CONTEÃšDO
 export async function getOrCreateStudyPlan(userId, topicId) {
-  if (!supabase) return null;
+  if (!supabase) return;
+  const real_topicId = await resolveId('topics', topicId);
+  if (!real_topicId) return;
+
+  
 
   // Tenta buscar o plano existente
   let { data: plan } = await supabase
     .from('study_plans')
     .select('*')
     .eq('user_id', userId)
-    .eq('topic_id', topicId)
+    .eq('topic_id', real_topicId)
     .single();
 
   if (!plan) {
@@ -157,7 +170,7 @@ export async function getOrCreateStudyPlan(userId, topicId) {
       .from('study_plans')
       .insert({
         user_id: userId,
-        topic_id: topicId,
+        topic_id: real_topicId,
         status: 'in_progress',
         percent_complete: 0
       })
@@ -172,7 +185,11 @@ export async function getOrCreateStudyPlan(userId, topicId) {
 }
 
 export async function fetchModulesAndLessons(topicId, userId) {
-  const modules = await content.getTopicModulesAndLessons(topicId);
+  if (!supabase) return;
+  const real_topicId = await resolveId('topics', topicId);
+  if (!real_topicId) return;
+
+  const modules = await content.getTopicModulesAndLessons(real_topicId);
   
   if (!supabase || !userId) return modules;
   
@@ -241,21 +258,26 @@ function normalizeLesson(lesson) {
 
 export async function completeLesson(userId, lessonId, topicId) {
   if (!supabase) return;
+  const real_lessonId = await resolveId('lessons', lessonId);
+  const real_topicId = await resolveId('topics', topicId);
+  if (!real_lessonId || !real_topicId) return;
+
+  
 
   // 1. Marca aula como concluída
   const { error: upsertError } = await supabase
     .from('lesson_progress')
     .upsert({
       user_id: userId,
-      lesson_id: lessonId,
+      lesson_id: real_lessonId,
       completed: true,
       completed_at: new Date().toISOString()
     }, { onConflict: 'user_id,lesson_id' });
   if (upsertError) throw upsertError;
 
   // 2. Atualiza plano de estudos (percentual)
-  // Busca todas as aulas do topicId via conteúdo local
-  const modules = await content.getTopicModulesAndLessons(topicId);
+  // Busca todas as aulas do real_topicId via conteúdo local
+  const modules = await content.getTopicModulesAndLessons(real_topicId);
   const allLessonIds = modules.flatMap(m => m.lessons.map(l => l.id));
   const totalLessons = allLessonIds.length;
 
@@ -274,29 +296,33 @@ export async function completeLesson(userId, lessonId, topicId) {
 
     await supabase
       .from('study_plans')
-      .update({ percent_complete: percent, last_lesson_id: lessonId, updated_at: new Date().toISOString() })
+      .update({ percent_complete: percent, last_lesson_id: real_lessonId, updated_at: new Date().toISOString() })
       .eq('user_id', userId)
-      .eq('topic_id', topicId);
+      .eq('topic_id', real_topicId);
   }
 
   invalidateCache(`disciplines:${userId}`);
 }
 
 export async function fetchLessonQuiz(lessonId) {
-  if (!supabase) return [];
+  if (!supabase) return;
+  const real_lessonId = await resolveId('lessons', lessonId);
+  if (!real_lessonId) return;
+
+  
   
   let lesson = null;
   const { data: lessonById, error } = await supabase
     .from('lessons')
     .select('id, topic_id, topics(module_id)')
-    .eq('id', lessonId)
+    .eq('id', real_lessonId)
     .single();
 
   if (error) {
     const { data: lessonBySlug, error: errSlug } = await supabase
       .from('lessons')
       .select('id, topic_id, topics(module_id)')
-      .eq('slug', lessonId)
+      .eq('slug', real_lessonId)
       .single();
     if (!errSlug && lessonBySlug) lesson = lessonBySlug;
   } else {
@@ -335,7 +361,11 @@ export async function fetchLessonQuiz(lessonId) {
 }
 
 export async function fetchTopicSimulado(topicId) {
-  return await fetchQuestions(null, topicId, true, 10);
+  if (!supabase) return;
+  const real_topicId = await resolveId('topics', topicId);
+  if (!real_topicId) return;
+
+  return await fetchQuestions(null, real_topicId, true, 10);
 }
 
 
@@ -456,14 +486,19 @@ export async function getLastStudiedTopic(userId, disciplineId) {
 }
 
 export async function startStudySession(userId, disciplineId, topicId) {
-  if (!supabase) return null;
+  if (!supabase) return;
+  const real_disciplineId = await resolveId('disciplines', disciplineId);
+  const real_topicId = await resolveId('topics', topicId);
+  if (!real_disciplineId || !real_topicId) return;
+
+  
 
   const { data, error } = await supabase
     .from('study_sessions')
     .insert({
       user_id: userId,
-      discipline_id: disciplineId,
-      topic_id: topicId,
+      discipline_id: real_disciplineId,
+      topic_id: real_topicId,
       started_at: new Date().toISOString(),
       session_type: 'study',
     })
@@ -492,13 +527,17 @@ export async function endStudySession(sessionId, durationSeconds) {
 }
 
 export async function fetchFlashcards(disciplineId, topicId = null) {
+  if (!supabase) return;
+  const real_disciplineId = await resolveId('disciplines', disciplineId);
+  if (!real_disciplineId) return;
+
   let realFlashcards = [];
   
   if (supabase) {
     let query = supabase
       .from('flashcards')
       .select('*')
-      .eq('discipline_id', disciplineId);
+      .eq('discipline_id', real_disciplineId);
       
     if (topicId && topicId !== 'all') query = query.eq('topic_id', topicId);
       
@@ -511,7 +550,7 @@ export async function fetchFlashcards(disciplineId, topicId = null) {
     }
   }
 
-  let questions = await fetchQuestions(disciplineId, topicId);
+  let questions = await fetchQuestions(real_disciplineId, topicId);
   const realReviewQuestionIds = new Set(
 
     realFlashcards
@@ -876,6 +915,11 @@ export async function fetchFavoriteBooks(userId) {
 // Integar questoes erradas ao sistema de revisao (Flashcards)
 export async function addWrongQuestionToReview(disciplineId, topicId, questionObj) {
   if (!supabase) return;
+  const real_disciplineId = await resolveId('disciplines', disciplineId);
+  const real_topicId = await resolveId('topics', topicId);
+  if (!real_disciplineId || !real_topicId) return;
+
+  
 
   // Gera ID determinístico para evitar duplicatas e garantir consistência
   const reviewId = `review_${questionObj.id}`;
@@ -892,8 +936,8 @@ export async function addWrongQuestionToReview(disciplineId, topicId, questionOb
     const answerText = questionObj['option_' + questionObj.correct_option];
     await supabase.from('flashcards').insert({
       id: reviewId,
-      discipline_id: disciplineId,
-      topic_id: topicId,
+      discipline_id: real_disciplineId,
+      topic_id: real_topicId,
       question: questionObj.question,
       answer: answerText,
       category: 'Revisão Automática'
