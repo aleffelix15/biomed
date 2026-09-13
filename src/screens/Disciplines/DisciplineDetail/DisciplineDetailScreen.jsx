@@ -26,23 +26,43 @@ export default function DisciplineDetailScreen({ discipline, onBack }) {
   const [topicProgress, setTopicProgress] = useState([]);
   const [disciplineProgress, setDisciplineProgress] = useState(discipline.progress_percent || 0);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [retryCount, setRetryCount] = useState(0);
   const { user } = useAuth();
 
   useEffect(() => {
-    setLoading(true);
-    Promise.all([
-      fetchTopicsByDiscipline(discipline),
-      searchBooksByDiscipline(discipline.name),
-      user ? getLastStudiedTopic(user.id, discipline.id) : Promise.resolve(null),
-      user ? fetchTopicProgress(user.id, discipline.id) : Promise.resolve([])
-    ]).then(([t, b, last, prog]) => {
-      setTopics(t);
-      setBooks(b);
-      setLastTopicId(last);
-      setTopicProgress(prog);
-      setLoading(false);
-    });
-  }, [discipline, user]);
+    const loadData = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        // Essential data — if this fails, the screen cannot render
+        const [t, last, prog] = await Promise.all([
+          fetchTopicsByDiscipline(discipline),
+          user ? getLastStudiedTopic(user.id, discipline.id) : Promise.resolve(null),
+          user ? fetchTopicProgress(user.id, discipline.id) : Promise.resolve([])
+        ]);
+        setTopics(t);
+        setLastTopicId(last);
+        setTopicProgress(prog);
+      } catch (err) {
+        console.error("Erro ao carregar tópicos da disciplina:", err);
+        setError("Não foi possível carregar os módulos. Verifique sua conexão.");
+        return;
+      } finally {
+        setLoading(false);
+      }
+
+      // Non-essential: books from OpenLibrary (can fail gracefully)
+      try {
+        const b = await searchBooksByDiscipline(discipline.name);
+        setBooks(b);
+      } catch (err) {
+        console.error("Erro ao buscar livros na OpenLibrary (degradação graciosa):", err);
+        setBooks([]);
+      }
+    };
+    loadData();
+  }, [discipline, user, retryCount]);
 
   const handleToggleCompletion = async (topicId) => {
     if (!user) return;
@@ -102,6 +122,16 @@ export default function DisciplineDetailScreen({ discipline, onBack }) {
 
       {loading ? (
         <div style={{ textAlign: "center", padding: 40, color: theme.textSecondary, fontSize: 14 }}>Carregando módulos...</div>
+      ) : error ? (
+        <div style={{ textAlign: "center", padding: 40 }}>
+          <div style={{ fontSize: 14, color: theme.danger || "#ff4757", marginBottom: 16 }}>{error}</div>
+          <button
+            onClick={() => setRetryCount(c => c + 1)}
+            style={{ background: theme.primary, color: theme.bg, border: "none", borderRadius: 10, padding: "12px 24px", fontSize: 14, fontWeight: 600, cursor: "pointer" }}
+          >
+            Tentar novamente
+          </button>
+        </div>
       ) : (
       <>
         <div style={{ marginTop: 16 }}>
