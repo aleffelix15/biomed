@@ -31,37 +31,46 @@ export default function DisciplineDetailScreen({ discipline, onBack }) {
   const { user } = useAuth();
 
   useEffect(() => {
-    const loadData = async () => {
-      setLoading(true);
-      setError(null);
+    let cancelled = false;
+    setLoading(true);
+    setError(null);
+
+    async function load() {
+      // 1. Essential: topics (local, synchronous — should never fail, but guard anyway)
+      let t;
       try {
-        // Essential data — if this fails, the screen cannot render
-        const [t, last, prog] = await Promise.all([
-          fetchTopicsByDiscipline(discipline),
-          user ? getLastStudiedTopic(user.id, discipline.id) : Promise.resolve(null),
-          user ? fetchTopicProgress(user.id, discipline.id) : Promise.resolve([])
-        ]);
-        setTopics(t);
-        setLastTopicId(last);
-        setTopicProgress(prog);
+        t = await fetchTopicsByDiscipline(discipline);
       } catch (err) {
-        console.error("Erro ao carregar tópicos da disciplina:", err);
-        setError("Não foi possível carregar os módulos. Verifique sua conexão.");
+        console.error("Erro ao carregar módulos (essencial):", err);
+        if (!cancelled) {
+          setError("Não foi possível carregar os módulos desta disciplina.");
+          setLoading(false);
+        }
         return;
-      } finally {
-        setLoading(false);
       }
 
-      // Non-essential: books from OpenLibrary (can fail gracefully)
-      try {
-        const b = await searchBooksByDiscipline(discipline.name);
-        setBooks(b);
-      } catch (err) {
-        console.error("Erro ao buscar livros na OpenLibrary (degradação graciosa):", err);
-        setBooks([]);
+      // 2. Degradable: books (external API), progress & last topic (Supabase, already self-guarded)
+      const [booksResult, lastResult, progResult] = await Promise.allSettled([
+        searchBooksByDiscipline(discipline.name),
+        user ? getLastStudiedTopic(user.id, discipline.id) : Promise.resolve(null),
+        user ? fetchTopicProgress(user.id, discipline.id) : Promise.resolve([])
+      ]);
+
+      if (booksResult.status === "rejected") {
+        console.error("Erro ao buscar livros na OpenLibrary (degradação graciosa):", booksResult.reason);
       }
-    };
-    loadData();
+
+      if (!cancelled) {
+        setTopics(t);
+        setBooks(booksResult.status === "fulfilled" ? booksResult.value : []);
+        setLastTopicId(lastResult.status === "fulfilled" ? lastResult.value : null);
+        setTopicProgress(progResult.status === "fulfilled" ? progResult.value : []);
+        setLoading(false);
+      }
+    }
+
+    load();
+    return () => { cancelled = true; };
   }, [discipline, user, retryCount]);
 
   const handleToggleCompletion = async (topicId) => {
