@@ -24,6 +24,16 @@ export default function ScientificFigure({
     );
   }
 
+  const getProxiedSrc = (url) => {
+    if (url && url.includes('upload.wikimedia.org')) {
+      const cleanUrl = url.replace(/^https?:\/\//, '');
+      return `https://wsrv.nl/?url=${cleanUrl}`;
+    }
+    return url;
+  };
+
+  const proxiedSrc = getProxiedSrc(src);
+
   const imageStyles = {
     maxWidth: '100%',
     height: 'auto',
@@ -42,7 +52,7 @@ export default function ScientificFigure({
     >
       <div style={{ position: 'relative', width: '100%', display: 'flex', justifyContent: 'center' }}>
         <img
-          src={src}
+          src={proxiedSrc}
           alt={alt}
           loading="lazy"
           decoding="async"
