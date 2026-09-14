@@ -615,10 +615,14 @@ export async function fetchFlashcards(disciplineId, topicId = null) {
       .map(f => f.original_question_id)
   );
 
-  const derivedFlashcards = questions
-    .filter(q => !realReviewQuestionIds.has(q.id))
+  const questionUUIDs = await Promise.all(
+    questions.map(async q => ({ ...q, _resolvedId: await resolveId('questions', q.id) }))
+  );
+
+  const derivedFlashcards = questionUUIDs
+    .filter(q => !realReviewQuestionIds.has(q._resolvedId))
     .map(q => ({
-      id: `derived_${q.id}`,
+      id: `derived_${q.id}`, // keep slug in derived ID (used by ensureFlashcardExists)
       discipline_id: q.discipline_id,
       topic_id: q.topic_id,
       question: q.question,
