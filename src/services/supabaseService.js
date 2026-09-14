@@ -161,6 +161,7 @@ export async function fetchDisciplinesWithProgress(userId) {
 
   return disciplines.map(d => ({
     id: d.id,
+    slug: d.slug,
     name: d.name,
     description: d.description,
     category: localCategoryMap[d.slug || d.id] || 'Sem Categoria',
