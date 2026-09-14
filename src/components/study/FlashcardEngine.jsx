@@ -12,11 +12,12 @@ export default function FlashcardEngine({ items, onFinish }) {
   const handleFlashcardEval = async (evaluation) => {
     const card = items[currentIndex];
     try {
+      let realId = card.id;
       if (card.derived) {
-        await ensureFlashcardExists(card);
+        realId = await ensureFlashcardExists(card);
       }
-      if (user) {
-        await updateFlashcardProgress(user.id, card.id, evaluation);
+      if (user && realId) {
+        await updateFlashcardProgress(user.id, realId, evaluation);
       }
     } catch (err) {
       console.error("Error saving flashcard progress:", err);

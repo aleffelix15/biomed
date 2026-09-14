@@ -610,10 +610,9 @@ export async function fetchFlashcards(disciplineId, topicId = null) {
 
   let questions = await fetchQuestions(real_disciplineId, topicId);
   const realReviewQuestionIds = new Set(
-
     realFlashcards
-      .filter(f => f.id.startsWith('review_'))
-      .map(f => f.id.replace('review_', ''))
+      .filter(f => f.original_question_id)
+      .map(f => f.original_question_id)
   );
 
   const derivedFlashcards = questions
@@ -632,23 +631,34 @@ export async function fetchFlashcards(disciplineId, topicId = null) {
 }
 
 export async function ensureFlashcardExists(flashcard) {
-  if (!supabase || !flashcard.derived) return;
+  if (!supabase || !flashcard.derived) return flashcard.id;
+  
+  const questionId = flashcard.id.replace(/^derived_/, '');
+  const real_questionId = await resolveId('questions', questionId);
+  if (!real_questionId) return null;
+
   const { data: existing } = await supabase
     .from('flashcards')
     .select('id')
-    .eq('id', flashcard.id)
+    .eq('original_question_id', real_questionId)
     .single();
     
-  if (!existing) {
-    await supabase.from('flashcards').insert({
-      id: flashcard.id,
-      discipline_id: flashcard.discipline_id,
-      topic_id: flashcard.topic_id,
-      question: flashcard.question,
-      answer: flashcard.answer,
-      category: flashcard.category || 'Conteúdo',
-    });
+  if (existing) return existing.id;
+  
+  const { data: created, error } = await supabase.from('flashcards').insert({
+    original_question_id: real_questionId,
+    discipline_id: flashcard.discipline_id,
+    topic_id: flashcard.topic_id,
+    question: flashcard.question,
+    answer: flashcard.answer,
+    category: flashcard.category || 'Conteúdo',
+  }).select('id').single();
+
+  if (error) {
+    console.error('Error creating flashcard:', error);
+    return null;
   }
+  return created?.id;
 }
 
 export async function updateFlashcardProgress(userId, flashcardId, evaluation) {
