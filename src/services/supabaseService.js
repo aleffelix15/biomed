@@ -2,12 +2,6 @@ import { supabase } from "./supabaseClient";
 import { invalidateCache } from "../state/DataCacheContext";
 import * as content from "./contentService";
 
-const cache = new Map();
-const TTL = 5 * 60 * 1000;
-
-export function invalidateCache(key) {
-  cache.delete(key);
-}
 
 const idCache = new Map();
 async function resolveId(table, slugOrId) {
@@ -38,9 +32,7 @@ async function resolveId(table, slugOrId) {
 // The project uses slugs as direct IDs in all relevant tables (disciplines.id,
 // topic_progress.topic_id, etc.), so no translation is needed today.
 // If a future migration introduces real UUIDs, implement lookup logic here.
-async function resolveId(_table, id) {
-  return id;
-}
+
 
 export async function toggleTopicCompletion(userId, topicId, disciplineId) {
   if (!supabase) return;
@@ -225,22 +217,37 @@ export async function getOrCreateStudyPlan(userId, topicId) {
 
 export async function fetchModulesAndLessons(topicId, userId) {
   if (!supabase) return;
-  const real_topicId = await resolveId('topics', topicId);
-  if (!real_topicId) return;
-
-  const modules = await content.getTopicModulesAndLessons(real_topicId);
+  // Content functions expect slugs — do NOT resolve to UUID here
+  const modules = await content.getTopicModulesAndLessons(topicId);
   
   if (!supabase || !userId) return modules;
   
+  // Build a slug->UUID map so we can match DB progress (UUID) to local lessons (slug)
+  const allSlugs = modules.flatMap(m => m.lessons.map(l => l.id));
+  const slugToUUID = {};
+  const uuidToSlug = {};
+  await Promise.all(allSlugs.map(async (slug) => {
+    const uuid = await resolveId('lessons', slug);
+    if (uuid) {
+      slugToUUID[slug] = uuid;
+      uuidToSlug[uuid] = slug;
+    }
+  }));
+
+  const uuids = Object.values(slugToUUID);
+  if (uuids.length === 0) return modules;
+
   const { data: lessonProg } = await supabase
     .from('lesson_progress')
     .select('lesson_id, completed')
-    .eq('user_id', userId);
+    .eq('user_id', userId)
+    .in('lesson_id', uuids);
     
   if (lessonProg) {
     modules.forEach(m => {
       m.lessons.forEach(l => {
-        const prog = lessonProg.find(p => p.lesson_id === l.id);
+        const uuid = slugToUUID[l.id];
+        const prog = uuid ? lessonProg.find(p => p.lesson_id === uuid) : null;
         l.completed = prog ? prog.completed : false;
       });
     });
@@ -301,7 +308,8 @@ export async function completeLesson(userId, lessonId, topicId) {
   const real_topicId = await resolveId('topics', topicId);
   if (!real_lessonId || !real_topicId) return;
 
-  
+  console.log('[completeLesson] lessonId(slug):', lessonId, '-> UUID:', real_lessonId);
+  console.log('[completeLesson] topicId(slug):', topicId, '-> UUID:', real_topicId);
 
   // 1. Marca aula como concluída
   const { error: upsertError } = await supabase
@@ -312,26 +320,40 @@ export async function completeLesson(userId, lessonId, topicId) {
       completed: true,
       completed_at: new Date().toISOString()
     }, { onConflict: 'user_id,lesson_id' });
-  if (upsertError) throw upsertError;
+  if (upsertError) {
+    console.error('[completeLesson] upsert error:', upsertError);
+    throw upsertError;
+  }
+  console.log('[completeLesson] upsert OK');
 
   // 2. Atualiza plano de estudos (percentual)
-  // Busca todas as aulas do real_topicId via conteúdo local
-  const modules = await content.getTopicModulesAndLessons(real_topicId);
-  const allLessonIds = modules.flatMap(m => m.lessons.map(l => l.id));
-  const totalLessons = allLessonIds.length;
+  // IMPORTANT: content functions expect SLUGS, not UUIDs
+  const modules = await content.getTopicModulesAndLessons(topicId);
+  const allLessonSlugs = modules.flatMap(m => m.lessons.map(l => l.id));
+  const totalLessons = allLessonSlugs.length;
+  console.log('[completeLesson] totalLessons from content:', totalLessons);
 
   if (totalLessons > 0) {
+    // Resolve all lesson slugs to UUIDs for the DB query
+    const allLessonUUIDs = (await Promise.all(
+      allLessonSlugs.map(slug => resolveId('lessons', slug))
+    )).filter(Boolean);
+
     // Buscar quais dessas o usuário completou
     const { data: progressRows, error: progressError } = await supabase
       .from('lesson_progress')
       .select('lesson_id, completed')
       .eq('user_id', userId)
-      .in('lesson_id', allLessonIds);
+      .in('lesson_id', allLessonUUIDs);
 
-    if (progressError) throw progressError;
+    if (progressError) {
+      console.error('[completeLesson] progress query error:', progressError);
+      throw progressError;
+    }
 
     const completedCount = (progressRows || []).filter(p => p.completed).length;
     const percent = Math.round((completedCount / totalLessons) * 100);
+    console.log('[completeLesson] completed:', completedCount, '/', totalLessons, '=', percent + '%');
 
     await supabase
       .from('study_plans')
@@ -344,59 +366,53 @@ export async function completeLesson(userId, lessonId, topicId) {
 }
 
 export async function fetchLessonQuiz(lessonId) {
-  if (!supabase) return;
+  if (!supabase) return [];
   const real_lessonId = await resolveId('lessons', lessonId);
-  if (!real_lessonId) return;
+  if (!real_lessonId) return [];
 
-  
-  
+  // Find the lesson's topic via the chain: lesson -> module -> topic
   let lesson = null;
   const { data: lessonById, error } = await supabase
     .from('lessons')
-    .select('id, topic_id, topics(module_id)')
+    .select('id, module_id, modules!inner(topic_id)')
     .eq('id', real_lessonId)
     .single();
 
   if (error) {
-    const { data: lessonBySlug, error: errSlug } = await supabase
+    const { data: lessonBySlug } = await supabase
       .from('lessons')
-      .select('id, topic_id, topics(module_id)')
-      .eq('slug', real_lessonId)
+      .select('id, module_id, modules!inner(topic_id)')
+      .eq('slug', lessonId)
       .single();
-    if (!errSlug && lessonBySlug) lesson = lessonBySlug;
+    if (lessonBySlug) lesson = lessonBySlug;
   } else {
     lesson = lessonById;
   }
 
-  if (!lesson || !lesson.topics) return [];
+  if (!lesson || !lesson.modules) return [];
 
-  const moduleId = lesson.topics.module_id;
+  const topicId = lesson.modules.topic_id;
 
   const { data: questions, error: qErr } = await supabase
     .from('questions')
     .select('*')
-    .eq('module_id', moduleId)
+    .eq('topic_id', topicId)
     .limit(5);
     
   if (qErr || !questions) return [];
 
-  const letters = ['a', 'b', 'c', 'd', 'e'];
-  return questions.map(q => {
-    const mapped = {
-      id: q.slug, 
-      discipline_id: q.discipline_id || '', // can be populated if needed
-      topic_id: q.module_id,
-      question: q.content,
-      correct_option: letters[q.correct_option_index],
-      explanation: q.explanation
-    };
-    if (q.options && Array.isArray(q.options)) {
-      q.options.forEach((opt, idx) => {
-        mapped[`option_${letters[idx]}`] = opt;
-      });
-    }
-    return mapped;
-  });
+  return questions.map(q => ({
+    id: q.slug,
+    topic_id: topicId,
+    question: q.question,
+    option_a: q.option_a,
+    option_b: q.option_b,
+    option_c: q.option_c,
+    option_d: q.option_d,
+    option_e: q.option_e,
+    correct_option: q.correct_option,
+    explanation: q.explanation
+  }));
 }
 
 export async function fetchTopicSimulado(topicId) {
@@ -578,7 +594,10 @@ export async function fetchFlashcards(disciplineId, topicId = null) {
       .select('*')
       .eq('discipline_id', real_disciplineId);
       
-    if (topicId && topicId !== 'all') query = query.eq('topic_id', topicId);
+    if (topicId && topicId !== 'all') {
+      const real_topicId = await resolveId('topics', topicId);
+      if (real_topicId) query = query.eq('topic_id', real_topicId);
+    }
       
     const { data, error } = await query;
       
@@ -676,40 +695,45 @@ export async function fetchUserFlashcardProgress(userId) {
 export async function fetchQuestions(disciplineId, topicId = null, isSimulado = false, limit = null) {
   if (!supabase) return [];
   
-  // No Supabase, questions estão vinculadas ao module_id (topic_id do frontend).
-  // Se não temos topicId, precisamos buscar todos os modules da disciplina
-  let query = supabase.from('questions').select('*, modules!inner(discipline_id)');
+  // Questions are linked to topics (questions.topic_id -> topics.id)
+  // To filter by discipline: questions -> topics(discipline_id)
+  let query = supabase.from('questions').select('*');
   
   if (topicId && topicId !== 'all') {
-    query = query.eq('module_id', topicId);
-  } else {
-    // Buscar id da disciplina para poder filtrar modules
-    const { data: dbDisc } = await supabase.from('disciplines').select('id').eq('slug', disciplineId).single();
-    if (dbDisc) {
-      query = query.eq('modules.discipline_id', dbDisc.id);
+    // topicId here might be a UUID (from fetchTopicSimulado) or slug
+    const real_topicId = await resolveId('topics', topicId);
+    if (real_topicId) {
+      query = query.eq('topic_id', real_topicId);
+    }
+  } else if (disciplineId) {
+    // Get all topic UUIDs for this discipline, then filter questions
+    const { data: discTopics } = await supabase
+      .from('topics')
+      .select('id')
+      .eq('discipline_id', disciplineId);
+    if (discTopics && discTopics.length > 0) {
+      query = query.in('topic_id', discTopics.map(t => t.id));
+    } else {
+      return [];
     }
   }
 
   const { data: questions, error } = await query;
   if (error || !questions) return [];
 
-  const letters = ['a', 'b', 'c', 'd', 'e'];
-  let mapped = questions.map(q => {
-    const obj = {
-      id: q.slug,
-      discipline_id: disciplineId,
-      topic_id: q.module_id,
-      question: q.content,
-      correct_option: letters[q.correct_option_index],
-      explanation: q.explanation
-    };
-    if (q.options && Array.isArray(q.options)) {
-      q.options.forEach((opt, idx) => {
-        obj[`option_${letters[idx]}`] = opt;
-      });
-    }
-    return obj;
-  });
+  let mapped = questions.map(q => ({
+    id: q.slug,
+    discipline_id: disciplineId,
+    topic_id: q.topic_id,
+    question: q.question,
+    option_a: q.option_a,
+    option_b: q.option_b,
+    option_c: q.option_c,
+    option_d: q.option_d,
+    option_e: q.option_e,
+    correct_option: q.correct_option,
+    explanation: q.explanation
+  }));
 
   if (isSimulado) {
     mapped = mapped.sort(() => Math.random() - 0.5);
