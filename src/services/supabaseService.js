@@ -127,6 +127,10 @@ export async function fetchDisciplinesWithProgress(userId) {
     acc[d.id] = d.category || 'Sem Categoria';
     return acc;
   }, {});
+  const localIconMap = localDisciplines.reduce((acc, d) => {
+    acc[d.id] = d.icon || 'HelpCircle';
+    return acc;
+  }, {});
 
   // 1. Buscamos todas as disciplinas direto da fonte da verdade (Banco)
   const { data: disciplines, error: discErr } = await supabase
@@ -136,12 +140,12 @@ export async function fetchDisciplinesWithProgress(userId) {
 
   if (discErr) {
     console.error("Erro ao buscar disciplinas", discErr);
-    return localDisciplines.map(d => ({ ...d, category: localCategoryMap[d.slug || d.id] || 'Sem Categoria', progress_percent: 0, topics_count: localTopicCountMap[d.slug || d.id] || 0 })); // fallback local
+    return localDisciplines.map(d => ({ ...d, category: localCategoryMap[d.slug || d.id] || 'Sem Categoria', icon: localIconMap[d.slug || d.id] || 'HelpCircle', progress_percent: 0, topics_count: localTopicCountMap[d.slug || d.id] || 0 })); // fallback local
   }
 
   // Se não houver usuário logado, retorna 0%
   if (!userId) {
-    return disciplines.map(d => ({ ...d, category: localCategoryMap[d.slug || d.id] || 'Sem Categoria', progress_percent: 0, topics_count: localTopicCountMap[d.slug || d.id] || 0 }));
+    return disciplines.map(d => ({ ...d, category: localCategoryMap[d.slug || d.id] || 'Sem Categoria', icon: localIconMap[d.slug || d.id] || 'HelpCircle', progress_percent: 0, topics_count: localTopicCountMap[d.slug || d.id] || 0 }));
   }
 
   // 2. Buscamos a View Agregada
@@ -165,6 +169,7 @@ export async function fetchDisciplinesWithProgress(userId) {
     name: d.name,
     description: d.description,
     category: localCategoryMap[d.slug || d.id] || 'Sem Categoria',
+    icon: localIconMap[d.slug || d.id] || 'HelpCircle',
     progress_percent: progressMap[d.slug || d.id] || 0,
     topics_count: localTopicCountMap[d.slug || d.id] || 0 // Mapeado pelo id porque na tabela disciplines o id já é o slug
   }));

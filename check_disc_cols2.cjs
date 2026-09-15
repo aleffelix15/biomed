@@ -1,0 +1,1 @@
+require('dotenv').config(); const { createClient } = require('@supabase/supabase-js'); const sb = createClient(process.env.VITE_SUPABASE_URL, process.env.VITE_SUPABASE_ANON_KEY); (async () => { const { data, error } = await sb.from('disciplines').select('icon'); console.log('Icons:', data, error); })();

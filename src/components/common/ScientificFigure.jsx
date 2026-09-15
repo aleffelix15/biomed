@@ -73,6 +73,7 @@ export default function ScientificFigure({
     >
       <div style={{ position: 'relative', width: '100%', display: 'flex', justifyContent: 'center' }}>
         <img
+          key={currentSrc}
           src={currentSrc}
           alt={alt}
           loading="lazy"
