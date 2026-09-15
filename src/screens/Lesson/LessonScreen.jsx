@@ -13,6 +13,7 @@ export default function LessonScreen({ lesson, topic, discipline, module, onBack
   const [activeQuiz, setActiveQuiz] = useState(false);
   const { user } = useAuth();
   const IconComponent = resolveIcon(discipline?.icon);
+  console.log("LESSON BLOCKS DEBUG:", !!lesson?.content_blocks, lesson?.content_blocks);
 
   const handleComplete = async () => {
     if (!user || submitting) return;
@@ -98,6 +99,11 @@ export default function LessonScreen({ lesson, topic, discipline, module, onBack
 
         {/* CONTEÚDO PRINCIPAL */}
         <div style={{ color: "var(--theme-text)", fontSize: 15, lineHeight: 1.6, marginBottom: 32 }}>
+          {lesson.content_blocks && (
+            <div style={{ background: "rgba(255,0,0,0.1)", border: "1px solid red", color: "red", padding: 12, marginBottom: 16, borderRadius: 8 }}>
+              <strong>DEBUG:</strong> {lesson.content_blocks.length} blocos detectados no JSON local.
+            </div>
+          )}
           <ContentRenderer blocks={lesson.content_blocks} fallbackMarkdown={lesson.content_markdown || lesson.content} />
         </div>
 
