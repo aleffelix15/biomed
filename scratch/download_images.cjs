@@ -1,99 +1,97 @@
 const fs = require('fs');
 const path = require('path');
-const https = require('https');
+const { execSync } = require('child_process');
 
-const walkSync = (dir, filelist = []) => {
-  fs.readdirSync(dir).forEach(file => {
-    const filepath = path.join(dir, file);
-    if (fs.statSync(filepath).isDirectory()) {
-      filelist = walkSync(filepath, filelist);
-    } else {
-      filelist.push(filepath);
-    }
-  });
-  return filelist;
+const contentDir = path.join(__dirname, '../src/content/disciplines');
+const imagesDir = path.join(__dirname, '../public/images/content');
+if (!fs.existsSync(imagesDir)) fs.mkdirSync(imagesDir, { recursive: true });
+
+// Map of broken URLs to their new Wikimedia File page titles
+const fixes = {
+  '802_Types_of_Bones.jpg': '601 Bone Classification.jpg',
+  '400px-D-glucose_color_coded.png': 'D-glucose color coded.png',
+  'Mitochondrion_structure_pt.svg': 'Mitochondrion structure.svg',
+  'Coagulative_necrosis_in_kidney_-_low_mag.jpg': 'Coagulative necrosis in kidney tissue.jpg',
+  'Cancer_cells_diagram.svg': 'Normal and cancer cells illustration.jpg'
 };
 
-const publicImgDir = path.join('public', 'images', 'content');
-if (!fs.existsSync(publicImgDir)) {
-  fs.mkdirSync(publicImgDir, { recursive: true });
-}
-
-function downloadImage(url, filename) {
-  return new Promise((resolve, reject) => {
-    const dest = path.join(publicImgDir, filename);
-    const file = fs.createWriteStream(dest);
+async function downloadImages() {
+  const dirs = fs.readdirSync(contentDir);
+  for (const discSlug of dirs) {
+    if (discSlug === 'template') continue;
+    const topicsDir = path.join(contentDir, discSlug, 'topics');
+    if (!fs.existsSync(topicsDir)) continue;
     
-    // We use a custom User-Agent to avoid 403/429
-    const options = {
-      headers: {
-        'User-Agent': 'BioStudy-Educ-Bot/1.0 (https://biostudy.app)'
-      }
-    };
-
-    https.get(url, options, (response) => {
-      if (response.statusCode === 301 || response.statusCode === 302) {
-        return downloadImage(response.headers.location, filename).then(resolve).catch(reject);
-      }
-      if (response.statusCode !== 200) {
-        return reject(new Error(`Failed to get '${url}' (${response.statusCode})`));
-      }
-
-      response.pipe(file);
-      file.on('finish', () => {
-        file.close(resolve);
-      });
-    }).on('error', (err) => {
-      fs.unlink(dest, () => {});
-      reject(err);
-    });
-  });
-}
-
-async function migrateImagesToLocal() {
-  const allFiles = walkSync('src/content/disciplines').filter(f => f.endsWith('topic.json'));
-  let fixed = 0;
-
-  for (const file of allFiles) {
-    let fileChanged = false;
-    const data = JSON.parse(fs.readFileSync(file, 'utf-8'));
-    
-    for (const m of data.modules) {
-      for (const l of m.lessons) {
-        if (l.content_blocks) {
-          for (const block of l.content_blocks) {
-            if (block.type === 'scientific_image' && block.src.includes('http')) {
-              try {
-                // Generate safe local filename
-                const urlParts = block.src.split('/');
-                let rawFilename = decodeURIComponent(urlParts[urlParts.length - 1]);
-                // clean up querystrings
-                rawFilename = rawFilename.split('?')[0];
-                const localFilename = `${l.id}_${rawFilename.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
+    for (const topSlug of fs.readdirSync(topicsDir)) {
+      const topicPath = path.join(topicsDir, topSlug, 'topic.json');
+      if (!fs.existsSync(topicPath)) continue;
+      
+      let topicData = JSON.parse(fs.readFileSync(topicPath, 'utf8'));
+      let modified = false;
+      
+      if (!topicData.modules) continue;
+      for (const mod of topicData.modules) {
+        if (!mod.lessons) continue;
+        for (const lesson of mod.lessons) {
+          if (!lesson.content_blocks) continue;
+          
+          for (const block of lesson.content_blocks) {
+            if (block.type === 'scientific_image' && block.src && block.src.includes('upload.wikimedia.org')) {
+              let filename = block.src.split('/').pop();
+              
+              // Apply manual fixes for 404s
+              let title = filename;
+              for (const [bad, good] of Object.entries(fixes)) {
+                if (filename.includes(bad)) {
+                  title = good;
+                  break;
+                }
+              }
+              
+              // Special:FilePath URL
+              let cleanTitle = decodeURIComponent(title);
+              let dlUrl = `https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(cleanTitle)}`;
+              let localName = `${lesson.id || lesson.title.replace(/[^a-zA-Z0-9]/g, '_')}_${cleanTitle.replace(/[^a-zA-Z0-9\.]/g, '_')}`;
+              let localPath = path.join(imagesDir, localName);
+              
+              if (!fs.existsSync(localPath) || fs.statSync(localPath).size === 0) {
+                console.log(`Downloading ${title} to ${localName}...`);
+                try {
+                  const res = await fetch(dlUrl, { 
+                    redirect: 'follow',
+                    headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' }
+                  });
+                  if (res.ok) {
+                    const buffer = await res.arrayBuffer();
+                    fs.writeFileSync(localPath, Buffer.from(buffer));
+                    console.log(`Success: ${localName}`);
+                    block.src = `/images/content/${localName}`;
+                    modified = true;
+                  } else {
+                    console.error(`Failed to download ${title}: ${res.status}`);
+                  }
+                } catch (e) {
+                  console.error(`Error downloading ${title}: ${e.message}`);
+                }
                 
-                console.log(`Downloading: ${block.src}`);
-                await downloadImage(block.src, localFilename);
-                console.log(`✅ Saved as ${localFilename}`);
-                
-                block.src = `/images/content/${localFilename}`;
-                fileChanged = true;
-                fixed++;
-              } catch (e) {
-                console.error(`❌ Error downloading ${block.src}: ${e.message}`);
+                // wait 1000ms to avoid rate limits
+                await new Promise(r => setTimeout(r, 1000));
+              } else {
+                // If it already exists locally, update JSON
+                block.src = `/images/content/${localName}`;
+                modified = true;
               }
             }
           }
         }
       }
-    }
-
-    if (fileChanged) {
-      fs.writeFileSync(file, JSON.stringify(data, null, 2), 'utf-8');
+      
+      if (modified) {
+        fs.writeFileSync(topicPath, JSON.stringify(topicData, null, 2));
+        console.log(`Updated ${topicPath}`);
+      }
     }
   }
-
-  console.log(`\n🎉 Total local images migrated: ${fixed}`);
 }
 
-migrateImagesToLocal();
-
+downloadImages();

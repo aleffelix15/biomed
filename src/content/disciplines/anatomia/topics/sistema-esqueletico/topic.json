@@ -40,7 +40,7 @@
             },
             {
               "type": "scientific_image",
-              "src": "https://upload.wikimedia.org/wikipedia/commons/e/e9/802_Types_of_Bones.jpg",
+              "src": "/images/content/les_anatomia_0_1_601_Bone_Classification.jpg",
               "alt": "Tipos morfológicos de ossos",
               "caption": "Principais classificações morfológicas dos ossos: longos, curtos, planos, irregulares e sesamoides.",
               "credit": "OpenStax Anatomy and Physiology, CC BY 4.0",
@@ -87,7 +87,7 @@
             },
             {
               "type": "scientific_image",
-              "src": "https://upload.wikimedia.org/wikipedia/commons/8/89/704_Skull-01.jpg",
+              "src": "/images/content/les_anatomia_1_0_704_Skull_01.jpg",
               "alt": "Vista lateral do crânio humano",
               "caption": "Anatomia do crânio humano em vista lateral, destacando as suturas e os principais ossos do neurocrânio e viscerocrânio.",
               "credit": "OpenStax College, CC BY 3.0",

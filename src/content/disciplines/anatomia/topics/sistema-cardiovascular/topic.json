@@ -51,7 +51,7 @@
             },
             {
               "type": "scientific_image",
-              "src": "https://upload.wikimedia.org/wikipedia/commons/2/20/Diagram_of_the_human_heart_%28cropped%29.svg",
+              "src": "/images/content/les_ac1_2_Diagram_of_the_human_heart__cropped_.svg",
               "alt": "Anatomia interna do coração",
               "caption": "Anatomia interna do coração humano, evidenciando átrios, ventrículos e septo interventricular.",
               "credit": "OpenStax College, CC BY 3.0",
@@ -166,7 +166,7 @@
             },
             {
               "type": "scientific_image",
-              "src": "https://upload.wikimedia.org/wikipedia/commons/d/d4/Blood_vessels-en.svg",
+              "src": "/images/content/les_ac3_1_Blood_vessels_en.svg",
               "alt": "Estrutura dos vasos sanguíneos",
               "caption": "Diferenciação estrutural das artérias e veias, com destaque para as túnicas íntima, média (mais espessa em artérias) e adventícia.",
               "credit": "OpenStax College, CC BY 3.0",

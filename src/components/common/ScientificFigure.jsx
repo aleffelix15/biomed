@@ -46,9 +46,9 @@ export default function ScientificFigure({
 
   if (hasError) {
     return (
-      <figure style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: theme.surface, border: `1px dashed ${theme.line}`, borderRadius: 12, padding: 32, margin: '24px 0' }}>
+      <figure style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: theme.surface, border: `1px dashed ${theme.line}`, borderRadius: 12, padding: '32px 16px', margin: '24px 0', width: '100%', boxSizing: 'border-box', overflow: 'hidden' }}>
         <ImageOff size={32} color={theme.textSecondary} />
-        <figcaption style={{ color: theme.textSecondary, fontSize: 13, marginTop: 12, textAlign: 'center' }}>
+        <figcaption style={{ color: theme.textSecondary, fontSize: 13, marginTop: 12, textAlign: 'center', wordBreak: 'break-word' }}>
           Imagem indisponível<br />({alt})
         </figcaption>
       </figure>

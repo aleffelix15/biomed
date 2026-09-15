@@ -69,7 +69,7 @@
             },
             {
               "type": "scientific_image",
-              "src": "https://upload.wikimedia.org/wikipedia/commons/e/ec/Acrosome_reaction_diagram_en.svg",
+              "src": "/images/content/les_emb_1_3_Acrosome_reaction_diagram_en.svg",
               "alt": "Fases da fertilização",
               "caption": "Fases da fertilização e reação acrossômica, culminando na fusão dos pró-núcleos masculino e feminino.",
               "credit": "Mariana Ruiz (LadyofHats), Domínio Público",
@@ -125,7 +125,7 @@
             },
             {
               "type": "scientific_image",
-              "src": "https://upload.wikimedia.org/wikipedia/commons/c/c9/Blastocyst_English.svg",
+              "src": "/images/content/les_emb_2_2_Blastocyst_English.svg",
               "alt": "Estrutura do Blastocisto",
               "caption": "Estrutura do blastocisto no momento da implantação (nidação), destacando o trofoblasto e o embrioblasto (massa celular interna).",
               "credit": "Seans Potato Business, CC BY-SA 3.0",

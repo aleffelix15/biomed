@@ -93,7 +93,7 @@
             },
             {
               "type": "scientific_image",
-              "src": "https://upload.wikimedia.org/wikipedia/commons/5/52/Bacterial_morphology_diagram_pt.svg",
+              "src": "/images/content/les_mic_2_1_Bacterial_morphology_diagram_pt.svg",
               "alt": "Morfologia Bacteriana",
               "caption": "Principais morfologias bacterianas: cocos (isolados, diplococos, estreptococos, estafilococos), bacilos e bactérias espiraladas (espirilos, espiroquetas).",
               "credit": "Mariana Ruiz, Domínio Público",
@@ -124,7 +124,7 @@
             },
             {
               "type": "scientific_image",
-              "src": "https://upload.wikimedia.org/wikipedia/commons/9/91/Gram-Cell-wall.svg",
+              "src": "/images/content/les_mic_2_2_Gram_Cell_wall.svg",
               "alt": "Parede Celular Gram-Positiva vs Gram-Negativa",
               "caption": "Bases da Coloração de Gram: bactérias Gram-positivas possuem espessa camada de peptideoglicano (retém cristal violeta); Gram-negativas têm fina camada entre duas membranas.",
               "credit": "Julian Inmaculada, CC BY-SA 4.0",
