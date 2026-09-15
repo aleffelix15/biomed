@@ -13,17 +13,6 @@ export default function ScientificFigure({
   const [hasError, setHasError] = useState(false);
   const [isZoomed, setIsZoomed] = useState(false);
 
-  if (hasError) {
-    return (
-      <figure style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: theme.surface, border: `1px dashed ${theme.line}`, borderRadius: 12, padding: 32, margin: '24px 0' }}>
-        <ImageOff size={32} color={theme.textSecondary} />
-        <figcaption style={{ color: theme.textSecondary, fontSize: 13, marginTop: 12 }}>
-          Mídia indisponível ({alt})
-        </figcaption>
-      </figure>
-    );
-  }
-
   const getProxiedSrc = (url) => {
     if (url && url.includes('upload.wikimedia.org')) {
       const cleanUrl = url.replace(/^https?:\/\//, '');
@@ -54,6 +43,17 @@ export default function ScientificFigure({
       setHasError(true);
     }
   };
+
+  if (hasError) {
+    return (
+      <figure style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: theme.surface, border: `1px dashed ${theme.line}`, borderRadius: 12, padding: 32, margin: '24px 0' }}>
+        <ImageOff size={32} color={theme.textSecondary} />
+        <figcaption style={{ color: theme.textSecondary, fontSize: 13, marginTop: 12, textAlign: 'center' }}>
+          Imagem indisponível<br />({alt})
+        </figcaption>
+      </figure>
+    );
+  }
 
   const imageStyles = {
     maxWidth: '100%',
