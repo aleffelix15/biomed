@@ -32,7 +32,28 @@ export default function ScientificFigure({
     return url;
   };
 
+  const getDirectWikiSrc = (url) => {
+    if (url && url.includes('upload.wikimedia.org')) {
+      // Wikimedia frequently changes image hashes, breaking hardcoded URLs (404).
+      // Special:FilePath always redirects to the latest active hash.
+      const filename = url.split('/').pop();
+      return `https://commons.wikimedia.org/wiki/Special:FilePath/${filename}`;
+    }
+    return url;
+  };
+
   const proxiedSrc = getProxiedSrc(src);
+  const directSrc = getDirectWikiSrc(src);
+
+  const [currentSrc, setCurrentSrc] = useState(proxiedSrc);
+
+  const handleError = () => {
+    if (currentSrc === proxiedSrc && directSrc && currentSrc !== directSrc) {
+      setCurrentSrc(directSrc); // Tenta a URL direta (via Special:FilePath) se o proxy falhar
+    } else {
+      setHasError(true);
+    }
+  };
 
   const imageStyles = {
     maxWidth: '100%',
@@ -52,11 +73,11 @@ export default function ScientificFigure({
     >
       <div style={{ position: 'relative', width: '100%', display: 'flex', justifyContent: 'center' }}>
         <img
-          src={proxiedSrc}
+          src={currentSrc}
           alt={alt}
           loading="lazy"
           decoding="async"
-          onError={() => setHasError(true)}
+          onError={handleError}
           style={imageStyles}
         />
         {zoomable && (

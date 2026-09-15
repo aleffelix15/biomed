@@ -28,3 +28,4 @@ INSERT INTO public.flashcards (id, discipline_id, topic_id, question, answer, ca
 
 INSERT INTO public.questions (id, discipline_id, topic_id, question, option_a, option_b, option_c, option_d, option_e, correct_option, explanation, difficulty) VALUES
 (gen_random_uuid(), 'd5', null, 'O meio de cultura Ágar MacConkey é classificado como:', 'Apenas diferencial', 'Apenas seletivo', 'Seletivo e diferencial', 'Enriquecido', 'Meio de transporte', 'c', 'O Ágar MacConkey é seletivo para Gram-negativas (sais biliares inibem Gram-positivas) e diferencial para fermentadores de lactose (ficam rosa).', 'hard');
+
